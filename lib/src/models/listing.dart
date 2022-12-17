@@ -1,6 +1,8 @@
 import 'Bid.dart';
+import 'User.dart';
 
 class Listing {
+  User user;
   String id;
   String title;
   String description;
@@ -10,6 +12,7 @@ class Listing {
   DateTime creationDate;
   double initialPrice;
   Listing({
+    required this.user,
     required this.title,
     required this.id,
     required this.description,
