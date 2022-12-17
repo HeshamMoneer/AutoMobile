@@ -6,8 +6,8 @@ class Listing {
   String description;
   List<String> imageUrls;
   List<Bid> bids;
-  DateTime endBidTime;
-  DateTime creationTime;
+  DateTime endBidDate;
+  DateTime creationDate;
   double initialPrice;
   Listing({
     required this.title,
@@ -15,8 +15,8 @@ class Listing {
     required this.description,
     required this.imageUrls,
     required this.bids,
-    required this.endBidTime,
+    required this.endBidDate,
     required this.initialPrice,
-    required this.creationTime,
+    required this.creationDate,
   });
 }
