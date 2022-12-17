@@ -10,6 +10,7 @@ class FireBaseHandler {
   }
 
   String getToken() {
+    //TODO: to be implemented
     return " ";
   }
 
