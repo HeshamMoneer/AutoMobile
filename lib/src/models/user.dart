@@ -1,5 +1,5 @@
 import 'Bid.dart';
-import 'inbox/inbox.dart';
+import 'inbox/chat.dart';
 import 'listing.dart';
 
 class User {
@@ -15,7 +15,7 @@ class User {
   DateTime joiningDate;
   List<Bid> bids;
   List<Listing> listings;
-  Inbox inbox;
+  List<Chat> chats;
 
   User(
       {required this.id,
@@ -30,5 +30,5 @@ class User {
       required this.joiningDate,
       required this.bids,
       required this.listings,
-      required this.inbox});
+      required this.chats});
 }
