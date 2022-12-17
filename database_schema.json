@@ -1,0 +1,47 @@
+{
+    "user": {
+        "id": "",
+        "firstName": "",
+        "lastName":"",
+        "email":"",
+        "birthDate":"",
+        "balance":"",
+        "phoneNumber":"",
+        "profilePicPath":"",
+        "isMale": true,
+        "joiningDate":"",
+        "bids": ["bid_id1"],
+        "listings":["listing_id1"],
+        "chats":["chat_id1"]
+    },    
+    "bid": {
+        "id": "",
+        "price": 1.0,
+        "listing":"listing_id",
+        "user":"user_id",
+        "creationDate":""
+    },
+    "listing": {
+        "user":"user_id",
+        "id": "",
+        "title": "",
+        "description": "",
+        "imageUrls":["img_url1"],
+        "bids": ["bid_id1"],
+        "initialPrice": 1.0,
+        "creationDate":"",
+        "endBidDate":""
+    },
+    "chat": {
+        "id": "",
+        "user1_id":"user_id",
+        "user2_id":"user_id",
+        "messages": [{
+            "content": "",
+            "sentDate": "",
+            "seen": false,
+            "senderId": "user_id"
+        }]
+    }
+
+}
