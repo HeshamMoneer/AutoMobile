@@ -1,8 +1,8 @@
 import 'chat.dart';
 
 class Inbox {
-  String ownerId;
+  String userId;
   List<Chat> chats;
 
-  Inbox({required this.ownerId, required this.chats});
+  Inbox({required this.userId, required this.chats});
 }

@@ -1,7 +1,17 @@
-import 'package:AutoMobile/src/models/Product.dart';
+import 'package:AutoMobile/src/models/listing.dart';
+
+import 'User.dart';
 
 class Bid {
+  String id;
   double price;
-  Product product;
-  Bid({required this.price, required this.product});
+  Listing listing;
+  User user;
+  DateTime creationDate;
+  Bid(
+      {required this.id,
+      required this.price,
+      required this.listing,
+      required this.user,
+      required this.creationDate});
 }
