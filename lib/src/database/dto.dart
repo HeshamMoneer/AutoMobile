@@ -1,8 +1,6 @@
 // Data transfer object
-import '../models/model.dart';
-
 abstract class DTO {
-  Map<String, dynamic> ModelToJson(Model m) {
+  Map<String, dynamic> ModelToJson(Object model) {
     return Map();
   }
 }
