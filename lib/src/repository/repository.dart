@@ -1,15 +1,13 @@
 import 'package:AutoMobile/src/database/dto.dart';
 import 'package:AutoMobile/src/database/firebasehandler.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 class Repository {
   late String baseUrl;
   late String documentName;
   late FireBaseHandler fireBaseHandler;
   late DTO dto;
-  Repository(String baseUrl, String documentName) {
+  Repository(String baseUrl, String documentName, DTO dto) {
+    this.dto = dto;
     this.baseUrl = baseUrl;
     this.documentName = documentName;
     this.fireBaseHandler = FireBaseHandler(baseUrl: baseUrl);
