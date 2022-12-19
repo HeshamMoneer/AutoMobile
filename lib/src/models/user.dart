@@ -1,5 +1,5 @@
 import 'Bid.dart';
-import 'inbox/chat.dart';
+import 'chat.dart';
 import 'listing.dart';
 
 class User {
