@@ -1,5 +1,5 @@
 import 'Bid.dart';
-import 'User.dart';
+import 'user.dart';
 
 class Listing {
   User user;

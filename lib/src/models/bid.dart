@@ -1,6 +1,6 @@
 import 'package:AutoMobile/src/models/listing.dart';
 
-import 'User.dart';
+import 'user.dart';
 
 class Bid {
   String id;

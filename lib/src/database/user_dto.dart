@@ -1,4 +1,4 @@
-import '../models/User.dart';
+import '../models/user.dart';
 import 'dto.dart';
 
 class UserDTO implements DTO {
