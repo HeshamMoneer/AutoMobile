@@ -1,4 +1,4 @@
-import 'Bid.dart';
+import 'bid.dart';
 import 'chat.dart';
 import 'listing.dart';
 

@@ -1,4 +1,4 @@
-import 'Bid.dart';
+import 'bid.dart';
 import 'user.dart';
 
 class Listing {
