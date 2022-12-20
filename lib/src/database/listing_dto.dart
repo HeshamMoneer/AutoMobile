@@ -19,4 +19,9 @@ class ListingDTO implements DTO {
       "endBidDate": listing.endBidDate
     };
   }
+
+  @override
+  Listing? JsonToModel(Map<String, dynamic> json) {
+    return null;
+  }
 }
