@@ -1,6 +1,7 @@
 import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FireBaseHandler {
   FireBaseHandler();
@@ -78,6 +79,39 @@ class FireBaseHandler {
           .collection(collectionName)
           .doc(documentId)
           .update(body);
+    } catch (e) {
+      ErrorHandler(e.toString());
+    }
+  }
+
+  Future<void> signup(String email, String password, String username) async {
+    try {
+      //This will need to be extended to include user general info
+      var authResult = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(authResult.user!.uid)
+          .set({'email': email});
+    } catch (e) {
+      ErrorHandler(e.toString());
+    }
+  }
+
+  Future<String> login(String email, String password) async {
+    try {
+      var authResult = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      return authResult.user!.uid;
+    } catch (e) {
+      ErrorHandler(e.toString());
+      return '';
+    }
+  }
+
+  Future<void> signout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       ErrorHandler(e.toString());
     }
