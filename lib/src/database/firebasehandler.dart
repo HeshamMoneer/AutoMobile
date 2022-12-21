@@ -84,7 +84,7 @@ class FireBaseHandler {
     }
   }
 
-  Future<void> signup(String email, String password, String username) async {
+  Future<void> signup(String email, String password) async {
     try {
       //This will need to be extended to include user general info
       var authResult = await FirebaseAuth.instance
