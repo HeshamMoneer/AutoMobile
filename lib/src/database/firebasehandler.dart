@@ -11,6 +11,7 @@ class FireBaseHandler {
       await Firebase.initializeApp();
     } catch (e) {
       ErrorHandler(e.toString());
+      rethrow;
     }
   }
 
@@ -25,7 +26,7 @@ class FireBaseHandler {
       return result;
     } catch (e) {
       ErrorHandler(e.toString());
-      return [];
+      rethrow;
     }
   }
 
@@ -40,11 +41,11 @@ class FireBaseHandler {
         return receivedData.data() ?? {};
       } else {
         ErrorHandler("$documentId does not exist in the DB");
-        return {};
+        throw Exception("$documentId does not exist in the DB");
       }
     } catch (e) {
       ErrorHandler(e.toString());
-      return {};
+      rethrow;
     }
   }
 
@@ -56,7 +57,7 @@ class FireBaseHandler {
       return receivedData.id;
     } catch (e) {
       ErrorHandler(e.toString());
-      return "";
+      rethrow;
     }
   }
 
@@ -69,6 +70,7 @@ class FireBaseHandler {
           .delete();
     } catch (e) {
       ErrorHandler(e.toString());
+      rethrow;
     }
   }
 
@@ -81,6 +83,7 @@ class FireBaseHandler {
           .update(body);
     } catch (e) {
       ErrorHandler(e.toString());
+      rethrow;
     }
   }
 
@@ -95,6 +98,7 @@ class FireBaseHandler {
           .set({'email': email});
     } catch (e) {
       ErrorHandler(e.toString());
+      rethrow;
     }
   }
 
@@ -105,7 +109,7 @@ class FireBaseHandler {
       return authResult.user!.uid;
     } catch (e) {
       ErrorHandler(e.toString());
-      return '';
+      rethrow;
     }
   }
 
@@ -114,6 +118,7 @@ class FireBaseHandler {
       await FirebaseAuth.instance.signOut();
     } catch (e) {
       ErrorHandler(e.toString());
+      rethrow;
     }
   }
 }
