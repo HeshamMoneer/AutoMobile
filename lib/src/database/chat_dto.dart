@@ -20,4 +20,9 @@ class ListingDTO implements DTO {
       "messages": messages
     };
   }
+
+  @override
+  Chat? JsonToModel(Map<String, dynamic> json) {
+    return null;
+  }
 }

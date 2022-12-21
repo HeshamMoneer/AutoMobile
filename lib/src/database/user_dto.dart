@@ -28,4 +28,9 @@ class UserDTO implements DTO {
       "chats": chatsIDs
     };
   }
+
+  @override
+  User? JsonToModel(Map<String, dynamic> json) {
+    return null;
+  }
 }

@@ -14,4 +14,9 @@ class BidDTO implements DTO {
       "creationDate": bid.creationDate
     };
   }
+
+  @override
+  Bid? JsonToModel(Map<String, dynamic> json) {
+    return null;
+  }
 }

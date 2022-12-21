@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "642663358522",
+    "project_id": "automobile-338dc",
+    "storage_bucket": "automobile-338dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642663358522:android:6971c160a03694d4fa1503",
+        "android_client_info": {
+          "package_name": "com.example.automobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642663358522-pkqd7msatb2j549ei9fltcukti7vapa7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGBDtgn8HzO22Lp9EzCJJgzM68tqnjK4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642663358522-pkqd7msatb2j549ei9fltcukti7vapa7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
