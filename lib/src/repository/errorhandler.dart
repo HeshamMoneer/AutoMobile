@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ErrorHandler {
+class ErrorHandler extends Error {
   ErrorHandler(String msg) {
     Fluttertoast.showToast(
         msg: msg,
