@@ -15,8 +15,8 @@ class ChatDTO implements DTO {
         }));
     return {
       "id": chat.id,
-      "user1_id": chat.user1.id,
-      "user2_id": chat.user2.id,
+      "user1_id": chat.user1Id,
+      "user2_id": chat.user2Id,
       "messages": messages
     };
   }

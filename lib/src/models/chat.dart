@@ -2,14 +2,14 @@ import 'user.dart';
 import 'message.dart';
 
 class Chat {
-  User user1;
-  User user2;
+  String user1Id;
+  String user2Id;
   String id;
   List<Message> messages;
 
   Chat(
-      {required this.user1,
-      required this.user2,
+      {required this.user1Id,
+      required this.user2Id,
       required this.id,
       required this.messages});
 }

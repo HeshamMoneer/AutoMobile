@@ -9,8 +9,8 @@ class BidDTO implements DTO {
     return {
       "id": bid.id,
       "price": bid.price,
-      "listing": bid.listing.id,
-      "user": bid.user.id,
+      "listing": bid.listingId,
+      "user": bid.userId,
       "creationDate": bid.creationDate
     };
   }

@@ -8,7 +8,7 @@ class ListingDTO implements DTO {
     listing.bids.forEach((bid) => bidIDs.add(bid.id));
 
     return {
-      "user": listing.user.id,
+      "user": listing.userId,
       "id": listing.id,
       "title": listing.title,
       "description": listing.description,

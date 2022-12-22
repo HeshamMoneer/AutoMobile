@@ -16,29 +16,29 @@ import '../models/user.dart';
 class AllProvider with ChangeNotifier {
   Repository repository = Repository();
 
-  List<Listing> listings = [];
+  Map<String, Listing> listings = Map();
   DTO listing_dto = ListingDTO();
-  List<User> users = [];
+  Map<String, User> users = Map();
   DTO user_dto = UserDTO();
-  List<Chat> chats = [];
+  Map<String, Chat> chats = Map();
   DTO chat_dto = ChatDTO();
-  List<Bid> bids = [];
+  Map<String, Bid> bids = Map();
   DTO bid_dto = BidDTO();
 
   Future<String> addUser(User user) async {
-    users.add(user);
+    users[user.id] = user;
     notifyListeners();
     return repository.post("user", user, user_dto);
   }
 
   Future<String> addListing(Listing listing) async {
-    listings.add(listing);
+    listings[listing.id] = listing;
     notifyListeners();
     return repository.post("listing", listing, listing_dto);
   }
 
   Future<String> addChat(Chat chat) async {
-    chats.add(chat);
+    chats[chat.id] = chat;
     notifyListeners();
     return repository.post("chat", chat, chat_dto);
   }
@@ -47,20 +47,25 @@ class AllProvider with ChangeNotifier {
     return repository.post("bid", bid, bid_dto);
   }
 
-  List<User> get getAllUsers {
+  Map<String, User> get getAllUsers {
     return this.users;
   }
 
-  List<Listing> get getAllListings {
+  Map<String, Listing> get getAllListings {
     return this.listings;
   }
 
-  List<Bid> get getAllBids {
+  Map<String, Bid> get getAllBids {
     return this.bids;
   }
 
-  List<Chat> get getAllChats {
+  Map<String, Chat> get getAllChats {
     return this.chats;
   }
   // TODO:Define here whatever methods you need to implement for any model
+}
+
+class userprovider {
+  Repository repository;
+  userprovider({required this.repository});
 }

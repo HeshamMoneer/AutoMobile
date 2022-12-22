@@ -2,7 +2,7 @@ import 'bid.dart';
 import 'user.dart';
 
 class Listing {
-  User user;
+  String userId;
   String id;
   String title;
   String description;
@@ -12,7 +12,7 @@ class Listing {
   DateTime creationDate;
   double initialPrice;
   Listing({
-    required this.user,
+    required this.userId,
     required this.title,
     required this.id,
     required this.description,
