@@ -17,6 +17,7 @@ class ChatDTO implements DTO {
       "id": chat.id,
       "user1_id": chat.user1Id,
       "user2_id": chat.user2Id,
+      "lastUpdated": chat.lastUpdated,
       "messages": messages
     };
   }
