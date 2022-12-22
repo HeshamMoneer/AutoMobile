@@ -2,6 +2,7 @@ import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class FireBaseHandler {
   FireBaseHandler();
@@ -120,5 +121,28 @@ class FireBaseHandler {
       ErrorHandler(e.toString());
       rethrow;
     }
+  }
+
+  StreamBuilder<QuerySnapshot> customStreamBuilder(
+      Widget function(List<QueryDocumentSnapshot<Object?>> documents),
+      String collectionName,
+      String orderBy,
+      bool descending) {
+    var myStream = FirebaseFirestore.instance
+        .collection(collectionName)
+        .orderBy(orderBy, descending: descending)
+        .snapshots();
+    return StreamBuilder<QuerySnapshot>(
+        stream: myStream,
+        builder: (ctx, strSnapshot) {
+          if (strSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          var documents = strSnapshot.data!.docs;
+          //The function uses the retrieved documents to build a widget
+          return function(documents);
+        });
   }
 }
