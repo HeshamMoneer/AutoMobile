@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FireBaseHandler {
-  FireBaseHandler();
-
+  FireBaseHandler() {
+    init();
+  }
   Future<void> init() async {
     try {
       await Firebase.initializeApp();
@@ -14,6 +15,10 @@ class FireBaseHandler {
       ErrorHandler(e.toString());
       rethrow;
     }
+  }
+
+  String getCurrentUser() {
+    return FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<List<Map<String, dynamic>>> getAll(String collectionName) async {

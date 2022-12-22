@@ -16,8 +16,9 @@ import '../models/chat.dart';
 import '../models/user.dart';
 
 class AllProvider with ChangeNotifier {
-  Repository repository = Repository();
+  // ============================================ instance variables
 
+  Repository repository = Repository();
   Map<String, Listing> listings = Map();
   DTO listing_dto = ListingDTO();
   Map<String, User> users = Map();
@@ -27,30 +28,46 @@ class AllProvider with ChangeNotifier {
   Map<String, Bid> bids = Map();
   DTO bid_dto = BidDTO();
 
-  //===================================================
+  //================================================== current user getter
+
+  String getCurrentUser() {
+    return repository.fireBaseHandler.getCurrentUser();
+  }
+
+  //=================================================== adding new model
 
   Future<String> addUser(User user) async {
-    users[user.id] = user;
+    String userId = await repository.post("user", user, user_dto);
+    user.id = userId;
+    users[userId] = user;
     notifyListeners();
-    return repository.post("user", user, user_dto);
+    return userId;
   }
 
   Future<String> addListing(Listing listing) async {
-    listings[listing.id] = listing;
+    String listingId = await repository.post("listing", listing, listing_dto);
+    listing.id = listingId;
+    listings[listingId] = listing;
     notifyListeners();
-    return repository.post("listing", listing, listing_dto);
+    return listingId;
   }
 
   Future<String> addChat(Chat chat) async {
-    chats[chat.id] = chat;
+    String chatId = await repository.post("chat", chat, chat_dto);
+    chat.id = chatId;
+    chats[chatId] = chat;
     notifyListeners();
-    return repository.post("chat", chat, chat_dto);
+    return chatId;
   }
 
   Future<String> addBid(Bid bid) async {
-    return repository.post("bid", bid, bid_dto);
+    String bidId = await repository.post("bid", bid, bid_dto);
+    bid.id = bidId;
+    bids[bidId] = bid;
+    notifyListeners();
+    return bidId;
   }
-  //=========================================================
+  //========================================================= converting json to model
 
   User JsonToUser(Map<String, dynamic> user) {
     List<Listing> listings = [];
@@ -214,8 +231,6 @@ class AllProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  //=================================================
-
   //================================================= getters
 
   Map<String, User> get getAllUsers {
@@ -234,5 +249,9 @@ class AllProvider with ChangeNotifier {
     return this.chats;
   }
 
+  // TODO: Deletions and updates are still missing
+
   // TODO:Define here whatever methods you need to implement for any model
+
+  // try to separate methods related to all models in one section as above
 }
