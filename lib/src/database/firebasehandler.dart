@@ -94,7 +94,7 @@ class FireBaseHandler {
       var authResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await FirebaseFirestore.instance
-          .collection('users')
+          .collection('user')
           .doc(authResult.user!.uid)
           .set({'email': email});
     } catch (e) {
