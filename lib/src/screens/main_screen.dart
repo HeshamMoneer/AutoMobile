@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                allProvider.db.signout();
+                allProvider.repository.fireBaseHandler.signout();
                 Navigator.of(context).pushReplacementNamed('/');
               },
               icon: Icon(Icons.logout_rounded))

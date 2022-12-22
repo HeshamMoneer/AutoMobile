@@ -3,7 +3,7 @@ import 'package:AutoMobile/src/models/message.dart';
 import '../models/chat.dart';
 import 'dto.dart';
 
-class ListingDTO implements DTO {
+class ChatDTO implements DTO {
   Map<String, dynamic> ModelToJson(Object model) {
     Chat chat = model as Chat;
     List<Map<String, dynamic>> messages = [];
