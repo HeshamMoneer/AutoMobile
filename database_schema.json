@@ -34,8 +34,7 @@
     },
     "chat": {
         "id": "",
-        "user1_id":"user_id",
-        "user2_id":"user_id",
+        "users" : ["user1_id", "user2_id"],
         "lastUpdated":"",
         "messages": [{
             "content": "",
