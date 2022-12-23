@@ -18,10 +18,10 @@ class _MakeBiddingState extends State<MakeBidding> {
   int _bidAmount = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     setState(() {
-       _bidAmount = widget.listing.newBidPrice;
+      _bidAmount = widget.listing.newBidPrice;
     });
   }
 
@@ -46,29 +46,30 @@ class _MakeBiddingState extends State<MakeBidding> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(bottom: 20),
                     child: NumberPicker(
                       value: _bidAmount,
                       minValue: minBidAmount,
                       maxValue: maxBidAmount,
                       step: bidAmountStep,
                       itemHeight: 100,
-                      haptics: true,                      
+                      haptics: true,
                       axis: Axis.horizontal,
-                      onChanged: (value) =>
-                          setState(() => _bidAmount = value),
+                      onChanged: (value) => setState(() => _bidAmount = value),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        border:
-                            Border.all(color: Colors.blue, width: 2),
+                        border: Border.all(color: Colors.blue, width: 2),
                       ),
                     )),
-                TextButton(
-                    onPressed: onMakeBidding,
-                    child: Text(
-                      "Bid",
-                      style: AppTheme.titleStyle,
-                    )),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 2, // <-- match_parent
+                  height: 50,
+                  child: ElevatedButton(
+                      onPressed: onMakeBidding,
+                      child: Text(
+                        "Bid",
+                      )),
+                )
               ],
             )));
   }
