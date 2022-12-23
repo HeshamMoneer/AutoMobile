@@ -36,6 +36,7 @@
         "id": "",
         "user1_id":"user_id",
         "user2_id":"user_id",
+        "lastUpdated":"",
         "messages": [{
             "content": "",
             "sentDate": "",

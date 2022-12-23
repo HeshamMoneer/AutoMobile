@@ -1,8 +1,11 @@
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
+import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:provider/provider.dart';
 import 'package:AutoMobile/src/database/firebasehandler.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +19,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  FireBaseHandler fh = FireBaseHandler();
+  // we just need to initialize here the firebase only on time
+
+  Future<void> init() async {
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      ErrorHandler(e.toString());
+      rethrow;
+    }
+  }
 
   void initState() {
-    fh.init();
+    init();
     super.initState();
   }
 
