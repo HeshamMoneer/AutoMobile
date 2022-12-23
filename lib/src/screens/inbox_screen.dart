@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/provider.dart';
 
-class Inbox extends StatelessWidget {
+class InboxScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var allProvider = Provider.of<AllProvider>(context, listen: false);
