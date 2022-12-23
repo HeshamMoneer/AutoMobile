@@ -1,5 +1,5 @@
 import 'package:AutoMobile/src/repository/errorhandler.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:AutoMobile/src/widgets/inbox_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -130,14 +130,40 @@ class FireBaseHandler {
     return StreamBuilder<QuerySnapshot>(
         stream: myStream,
         builder: (ctx, strSnapshot) {
-          if (strSnapshot.connectionState == ConnectionState.waiting) {
+          if (strSnapshot.hasData) {
+            var documents = strSnapshot.data!.docs;
+            //The function uses the retrieved documents to build a widget
+            return function(documents);
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          var documents = strSnapshot.data!.docs;
-          //The function uses the retrieved documents to build a widget
-          return function(documents);
+        });
+  }
+
+  StreamBuilder<QuerySnapshot> chatStreamBuilder() {
+    var myStream = FirebaseFirestore.instance
+        .collection("chat")
+        .where("users", arrayContains: getCurrentUserId())
+        .orderBy("lastUpdated", descending: false)
+        .snapshots();
+    return StreamBuilder<QuerySnapshot>(
+        stream: myStream,
+        builder: (ctx, strSnapshot) {
+          if (strSnapshot.hasData) {
+            return InboxBody(
+              strSnapshot: strSnapshot,
+            );
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         });
   }
 }
