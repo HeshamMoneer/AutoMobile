@@ -1,5 +1,6 @@
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
+import 'package:AutoMobile/src/widgets/make_bidding.dart';
 import 'package:flutter/material.dart';
 
 import '../models/listing.dart';
@@ -9,15 +10,16 @@ class ListingCard extends StatelessWidget {
 
   ListingCard(this.listing);
 
-  void onBidClicked() {
-    if (!listing.biddingEnded) {
-      // TODO: go to bid screen
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     bool biddingEnded = listing.biddingEnded;
+
+    void onBidClicked() {
+      if (!listing.biddingEnded) {
+        // TODO: go to bid screen
+        showBidBottomSheet(context, listing);
+      }
+    }
 
     final imageOverlay =
         Column(mainAxisAlignment: MainAxisAlignment.end, children: [

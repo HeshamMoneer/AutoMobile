@@ -44,6 +44,12 @@ class Listing {
   double get finalPrice {
     return bids.length > 0 ? bids[bids.length - 1].price : initialPrice;
   }
+
+  int get newBidPrice{
+    int lastPrice = finalPrice.floor() + 1;
+    int diffToHundredMultiple =  100 - (lastPrice % 100);
+    return lastPrice + diffToHundredMultiple;
+  }
 }
 
 var dummyListings = [
