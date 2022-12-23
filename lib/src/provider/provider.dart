@@ -34,6 +34,10 @@ class AllProvider with ChangeNotifier {
     return getUserById(repository.fireBaseHandler.getCurrentUserId());
   }
 
+  String getCurrentUserId() {
+    return repository.fireBaseHandler.getCurrentUserId();
+  }
+
   //=================================================== adding new model
 
   Future<String> addUser(User user) async {
