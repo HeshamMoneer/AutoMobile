@@ -32,7 +32,9 @@ class FireBaseHandler {
           .doc(documentId)
           .get();
       if (receivedData.exists) {
-        return receivedData.data() ?? {};
+        var returned = receivedData.data() ?? {};
+        returned["id"] = receivedData.reference.id;
+        return returned;
       } else {
         ErrorHandler("$documentId does not exist in the DB");
         throw Exception("$documentId does not exist in the DB");
