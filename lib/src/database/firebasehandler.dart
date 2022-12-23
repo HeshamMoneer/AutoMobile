@@ -5,19 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FireBaseHandler {
-  FireBaseHandler() {
-    init();
-  }
-  Future<void> init() async {
-    try {
-      await Firebase.initializeApp();
-    } catch (e) {
-      ErrorHandler(e.toString());
-      rethrow;
-    }
-  }
-
-  String getCurrentUser() {
+  String getCurrentUserId() {
     return FirebaseAuth.instance.currentUser!.uid;
   }
 

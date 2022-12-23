@@ -30,8 +30,8 @@ class AllProvider with ChangeNotifier {
 
   //================================================== current user getter
 
-  String getCurrentUser() {
-    return repository.fireBaseHandler.getCurrentUser();
+  Future<User> getCurrentUser() async {
+    return getUserById(repository.fireBaseHandler.getCurrentUserId());
   }
 
   //=================================================== adding new model
@@ -127,7 +127,6 @@ class AllProvider with ChangeNotifier {
         user1Id: chat["user1_id"],
         user2Id: chat["user2_id"],
         id: chat["id"],
-        lastUpdated: chat["lastUpdated"],
         messages: messages);
 
     return chatModel;
