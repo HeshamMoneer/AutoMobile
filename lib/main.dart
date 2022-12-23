@@ -1,6 +1,8 @@
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
 import 'package:AutoMobile/src/repository/errorhandler.dart';
+import 'package:AutoMobile/src/themes/theme.dart';
+import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
