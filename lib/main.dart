@@ -2,10 +2,8 @@ import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
 import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:provider/provider.dart';
-import 'package:AutoMobile/src/database/firebasehandler.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(const MyApp());
