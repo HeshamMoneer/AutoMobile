@@ -13,7 +13,7 @@ class ListingDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Listing>;
-    final listing = routeArgs['recipe'];
+    final listing = routeArgs['listing'];
     return Scaffold(
         appBar: AppBar(title: Text("Listings")),
         body: SingleChildScrollView(
@@ -25,7 +25,7 @@ class ListingDetailScreen extends StatelessWidget {
                 child: Swiper(
                   itemBuilder: (BuildContext context, int index) {
                     return Image.network(
-                      listing!.imageUrls[index],
+                      listing.imageUrls[index],
                       fit: BoxFit.fill,
                     );
                   },
