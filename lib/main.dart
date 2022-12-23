@@ -1,8 +1,7 @@
 import 'package:AutoMobile/src/provider/provider.dart';
+import 'package:AutoMobile/src/routes/route.dart';
 import 'package:provider/provider.dart';
 import 'package:AutoMobile/src/database/firebasehandler.dart';
-import 'package:AutoMobile/src/screens/login_screen.dart';
-import 'package:AutoMobile/src/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -34,10 +33,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         initialRoute: '/',
-        routes: {
-          '/': (ctx) => LoginScreen(),
-          '/mainscreen': (ctx) => MainScreen(),
-        },
+        routes: Routes.getRoutes(),
       ),
     );
   }

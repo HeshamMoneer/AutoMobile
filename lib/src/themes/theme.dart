@@ -15,11 +15,16 @@ class AppTheme {
       primaryTextTheme:
           TextTheme(bodyText1: TextStyle(color: ThemeColor.titleTextColor)));
 
-  static TextStyle titleStyle =
-      const TextStyle(color: ThemeColor.titleTextColor, fontSize: 16);
+  static TextStyle titleStyle = const TextStyle(
+      color: ThemeColor.titleTextColor,
+      fontSize: 16,
+      fontWeight: FontWeight.bold);
   static TextStyle subTitleStyle =
       const TextStyle(color: ThemeColor.subTitleTextColor, fontSize: 12);
-
+  static TextStyle bidButtonTextStyle = const TextStyle(
+      color: ThemeColor.mainBlue, fontSize: 16, fontWeight: FontWeight.bold);
+  static TextStyle bidButtonInactiveTextStyle = const TextStyle(
+      color: ThemeColor.darkgrey, fontSize: 16, fontWeight: FontWeight.bold);
   static TextStyle h1Style =
       const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
   static TextStyle h2Style = const TextStyle(fontSize: 22);

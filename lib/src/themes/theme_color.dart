@@ -7,7 +7,8 @@ class ThemeColor {
   static const Color subTitleTextColor = const Color(0xff797878);
 
   static const Color skyBlue = Color(0xff2890c8);
-  static const Color lightBlue = Color(0xff5c3dff);
+  static const Color lightBlue = Color.fromARGB(255, 205, 227, 240);
+  static const Color mainBlue = Color.fromARGB(255, 3, 118, 175);
   
 
   static const Color orange = Color(0xffE65829);
