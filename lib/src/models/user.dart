@@ -7,12 +7,12 @@ class User {
   String firstName;
   String lastName;
   String email;
-  DateTime birthDate;
+  String birthDate;
   double balance;
   String phoneNumber;
   String profilePicPath;
   bool isMale;
-  DateTime joiningDate;
+  String joiningDate;
   List<Bid> bids;
   List<Listing> listings;
   List<Chat> chats;

@@ -5,7 +5,7 @@
         "lastName":"",
         "email":"",
         "birthDate":"",
-        "balance":"",
+        "balance":12.5,
         "phoneNumber":"",
         "profilePicPath":"",
         "isMale": true,
