@@ -23,7 +23,7 @@ class ChatScreen extends StatelessWidget {
       body: Column(children: [
         Expanded(
             child: allProvider.repository.fireBaseHandler
-                .SingleChatStreamBuilder(otherUser)),
+                .singleChatStreamBuilder(otherUser)),
         Container(
           color: Colors.blueGrey,
           padding: EdgeInsets.all(5),

@@ -169,7 +169,7 @@ class FireBaseHandler {
         });
   }
 
-  StreamBuilder<QuerySnapshot> SingleChatStreamBuilder(ourUser.User otherUser) {
+  StreamBuilder<QuerySnapshot> singleChatStreamBuilder(ourUser.User otherUser) {
     var myStream = FirebaseFirestore.instance
         .collection("message")
         .where("users", whereIn: [
