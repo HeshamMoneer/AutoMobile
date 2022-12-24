@@ -2,7 +2,6 @@ import 'dart:core';
 import 'package:AutoMobile/src/database/dto.dart';
 import 'package:AutoMobile/src/database/user_dto.dart';
 import 'package:AutoMobile/src/models/listing.dart';
-import 'package:AutoMobile/src/models/message.dart';
 import 'package:AutoMobile/src/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

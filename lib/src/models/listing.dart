@@ -1,5 +1,4 @@
 import 'bid.dart';
-import 'user.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Listing {
@@ -37,8 +36,9 @@ class Listing {
   }
 
   String get biddingDurationInWords {
-    String duration = timeago.format(endBidDate, allowFromNow: true, locale: "en_short");
-    return biddingEnded? '$duration ago':'in $duration';
+    String duration =
+        timeago.format(endBidDate, allowFromNow: true, locale: "en_short");
+    return biddingEnded ? '$duration ago' : 'in $duration';
   }
 
   double get finalPrice {
