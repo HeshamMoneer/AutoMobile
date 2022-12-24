@@ -8,23 +8,26 @@ class ChatUserSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const ShimmerCircle(
-          size: 120,
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Shimmer(),
-              const SizedBox(height: 8),
-              const Shimmer(),
-            ],
+    return Padding(
+      padding: EdgeInsets.all(7),
+      child: Row(
+        children: [
+          const ShimmerCircle(
+            size: 80,
           ),
-        )
-      ],
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Shimmer(),
+                const SizedBox(height: 8),
+                const Shimmer(),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -27,6 +27,7 @@ class InboxBody extends StatelessWidget {
             from_userId: messageMap["users"][0],
             to_userId: messageMap["users"][1],
             lastMessage: Message(
+                id: message.reference.id,
                 content: messageMap["content"],
                 seen: messageMap["seen"],
                 senderId: messageMap["users"][0],

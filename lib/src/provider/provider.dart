@@ -66,6 +66,11 @@ class AllProvider with ChangeNotifier {
       "users": [getCurrentUserId(), to_userId]
     });
   }
+
+  Future<void> markAsSeen(String messageId) async {
+    await repository.fireBaseHandler
+        .patch("message", messageId, {"seen": true});
+  }
   //========================================================= converting json to model
 
   User JsonToUser(Map<String, dynamic> user) {
