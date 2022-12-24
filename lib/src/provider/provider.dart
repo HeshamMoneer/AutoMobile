@@ -1,18 +1,14 @@
 import 'dart:core';
 import 'package:AutoMobile/src/database/dto.dart';
-import 'package:AutoMobile/src/database/firebasehandler.dart';
 import 'package:AutoMobile/src/database/user_dto.dart';
 import 'package:AutoMobile/src/models/listing.dart';
-import 'package:AutoMobile/src/models/message.dart';
 import 'package:AutoMobile/src/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 import '../database/bid_dto.dart';
-import '../database/chat_dto.dart';
 import '../database/listing_dto.dart';
 import '../models/bid.dart';
-import '../models/chat.dart';
 import '../models/user.dart';
 
 class AllProvider with ChangeNotifier {
@@ -23,8 +19,6 @@ class AllProvider with ChangeNotifier {
   DTO listing_dto = ListingDTO();
   Map<String, User> users = Map();
   DTO user_dto = UserDTO();
-  Map<String, Chat> chats = Map();
-  DTO chat_dto = ChatDTO();
   Map<String, Bid> bids = Map();
   DTO bid_dto = BidDTO();
 
@@ -32,6 +26,10 @@ class AllProvider with ChangeNotifier {
 
   Future<User> getCurrentUser() async {
     return getUserById(repository.fireBaseHandler.getCurrentUserId());
+  }
+
+  String getCurrentUserId() {
+    return repository.fireBaseHandler.getCurrentUserId();
   }
 
   //=================================================== adding new model
@@ -52,14 +50,6 @@ class AllProvider with ChangeNotifier {
     return listingId;
   }
 
-  Future<String> addChat(Chat chat) async {
-    String chatId = await repository.post("chat", chat, chat_dto);
-    chat.id = chatId;
-    chats[chatId] = chat;
-    notifyListeners();
-    return chatId;
-  }
-
   Future<String> addBid(Bid bid) async {
     String bidId = await repository.post("bid", bid, bid_dto);
     bid.id = bidId;
@@ -67,11 +57,24 @@ class AllProvider with ChangeNotifier {
     notifyListeners();
     return bidId;
   }
+
+  Future<void> sendMessage(String messageContent, String to_userId) async {
+    await repository.fireBaseHandler.post("message", {
+      "content": messageContent,
+      "seen": false,
+      "sentDate": DateTime.now(),
+      "users": [getCurrentUserId(), to_userId]
+    });
+  }
+
+  Future<void> markAsSeen(String messageId) async {
+    await repository.fireBaseHandler
+        .patch("message", messageId, {"seen": true});
+  }
   //========================================================= converting json to model
 
   User JsonToUser(Map<String, dynamic> user) {
     List<Listing> listings = [];
-    List<Chat> chats = [];
     List<Bid> bids = [];
     user["listings"].forEach((Element) async {
       Listing listing = await getListingById(Element);
@@ -80,10 +83,6 @@ class AllProvider with ChangeNotifier {
     user["bids"].forEach((Element) async {
       Bid bid = await getBidById(Element);
       bids.add(bid);
-    });
-    user["chats"].forEach((Element) async {
-      Chat chat = await getChatById(Element);
-      chats.add(chat);
     });
     var userModel = User(
         id: user["id"],
@@ -97,8 +96,7 @@ class AllProvider with ChangeNotifier {
         isMale: user["isMale"],
         joiningDate: user["joiningDate"],
         bids: bids,
-        listings: listings,
-        chats: chats);
+        listings: listings);
     return userModel;
   }
 
@@ -110,26 +108,6 @@ class AllProvider with ChangeNotifier {
         userId: bid["user"],
         creationDate: bid["creationDate"]);
     return bidModel;
-  }
-
-  Chat JsonToChat(Map<String, dynamic> chat) {
-    List<Message> messages = [];
-
-    chat["messages"].forEach((Element) {
-      Message message = Message(
-          content: Element["content"],
-          sentDate: Element["sentDate"],
-          seen: Element["seen"],
-          senderId: Element["senderId"]);
-      messages.add(message);
-    });
-    var chatModel = Chat(
-        user1Id: chat["user1_id"],
-        user2Id: chat["user2_id"],
-        id: chat["id"],
-        messages: messages);
-
-    return chatModel;
   }
 
   Listing JsonToListing(Map<String, dynamic> listing) {
@@ -186,30 +164,11 @@ class AllProvider with ChangeNotifier {
     return user;
   }
 
-  Future<Chat> getChatById(String id) async {
-    if (chats.containsKey(id)) {
-      return chats[id]!;
-    }
-    var jsonData = await repository.get("chat", id);
-    Chat chat = JsonToChat(jsonData);
-    chats[chat.id] = chat;
-    notifyListeners();
-    return chat;
-  }
-
   //================================================= Fetch data
   Future<void> fetchUsers() async {
     var data = await repository.getAll("user");
     data.forEach((element) {
       users[element["id"]] = JsonToUser(element);
-    });
-    notifyListeners();
-  }
-
-  Future<void> fetchChats() async {
-    var data = await repository.getAll("chat");
-    data.forEach((element) {
-      chats[element["id"]] = JsonToChat(element);
     });
     notifyListeners();
   }
@@ -242,10 +201,6 @@ class AllProvider with ChangeNotifier {
 
   Map<String, Bid> get getAllBids {
     return this.bids;
-  }
-
-  Map<String, Chat> get getAllChats {
-    return this.chats;
   }
 
   // TODO: Deletions and updates are still missing

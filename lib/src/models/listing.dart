@@ -1,5 +1,4 @@
 import 'bid.dart';
-import 'user.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Listing {
