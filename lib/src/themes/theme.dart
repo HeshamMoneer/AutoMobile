@@ -7,6 +7,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
       backgroundColor: ThemeColor.background,
       primaryColor: ThemeColor.background,
+      primarySwatch: Colors.cyan,
       cardTheme: CardTheme(color: ThemeColor.background),
       textTheme: TextTheme(bodyText1: TextStyle(color: ThemeColor.black)),
       iconTheme: IconThemeData(color: ThemeColor.iconColor),

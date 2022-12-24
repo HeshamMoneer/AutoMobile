@@ -13,9 +13,9 @@ class User {
   String profilePicPath;
   bool isMale;
   String joiningDate;
-  List<Bid> bids;
-  List<Listing> listings;
-  List<Chat> chats;
+  List<Bid>? bids;
+  List<Listing>? listings;
+  List<Chat>? chats;
 
   User(
       {required this.id,
@@ -28,7 +28,7 @@ class User {
       required this.profilePicPath,
       required this.isMale,
       required this.joiningDate,
-      required this.bids,
-      required this.listings,
-      required this.chats});
+      this.bids,
+      this.listings,
+      this.chats});
 }
