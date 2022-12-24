@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:AutoMobile/src/models/listing.dart';
 import 'package:AutoMobile/src/provider/provider.dart';
-import 'package:AutoMobile/src/repository/errorhandler.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateListingScreen extends StatefulWidget {
   @override
@@ -21,7 +25,8 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   var initialPriceController = TextEditingController();
   bool newUserMode = false;
   DateTime endBidDateController = DateTime.now();
-
+  List<String> imagesUrl = [];
+  var imagesFile = [];
   void toggleMode() {
     setState(() {
       newUserMode = !newUserMode;
@@ -34,35 +39,53 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
     });
   }
 
+  void uploadImage() async {
+    final _imagePicker = ImagePicker();
+    XFile? image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = await _imagePicker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        var file = File(image.path);
+        imagesFile.add(file);
+        //Upload to Firebase
+        var downloadUrl = await AllProvider()
+            .repository
+            .fireBaseHandler
+            .uploadImage(
+                AllProvider().repository.fireBaseHandler.getCurrentUserId(),
+                file);
+        setState(() {
+          imagesUrl.add(downloadUrl);
+        });
+      } else {
+        print('No Image Path Received');
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
+  }
+
   void createListing() async {
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     try {
       Listing listing = new Listing(
-          userId: "",
+          userId: allProvider.getCurrentUserId(),
           title: titleController.text,
           id: "",
           description: descriptionController.text,
-          imageUrls: List.empty(),
+          imageUrls: imagesUrl,
           bids: List.empty(),
           endBidDate: endBidDateController,
           initialPrice: double.parse(initialPriceController.text),
           creationDate: DateTime.now());
-      var result = await allProvider.addListing(listing);
-      if (newUserMode) {
-        if (passwordController.text == confirmPasswordController.text) {
-          try {
-            var result = await allProvider.repository.fireBaseHandler
-                .signup(emailController.text, passwordController.text);
-          } catch (e) {
-            throw ErrorHandler(e.toString());
-          }
-        } else {
-          throw ErrorHandler("The passwords do not match");
-        }
-      } else {
-        var result = await allProvider.repository.fireBaseHandler
-            .login(emailController.text, passwordController.text);
-      }
+      await allProvider.addListing(listing);
       //TODO: this code executes even if an error is thrown
       Navigator.of(context).pushReplacementNamed('/mainscreen');
     } catch (e) {
@@ -75,7 +98,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        height: 400,
+        height: 600,
         margin: EdgeInsets.only(top: 100, left: 10, right: 10),
         child: Card(
           elevation: 5,
@@ -118,6 +141,27 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                     FilteringTextInputFormatter.allow(
                         RegExp(r'^[0-9]+.?[0-9]*'))
                   ],
+                ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                      height: 150.0, enableInfiniteScroll: false),
+                  items: imagesFile.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(color: Colors.blueGrey),
+                            child: Image.file(i));
+                      },
+                    );
+                  }).toList(),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    uploadImage();
+                  },
+                  child: Text("Upload image"),
                 ),
                 ElevatedButton(
                   onPressed: () {

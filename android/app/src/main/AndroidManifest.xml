@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.automobile">
+    package="com.example.automobile" android:requestLegacyExternalStorage="true">
    <application
         android:label="automobile"
         android:name="${applicationName}"
@@ -31,4 +31,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="28" />
+<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 </manifest>
+
+

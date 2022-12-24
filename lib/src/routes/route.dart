@@ -1,3 +1,4 @@
+import 'package:AutoMobile/src/screens/create_listing_screen.dart';
 import 'package:AutoMobile/src/screens/listings_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,8 @@ class Routes {
       '/': (ctx) => LoginScreen(),
       '/mainscreen': (ctx) => MainScreen(),
       '/listings': (ctx) => ListingsScreen(),
-      '/listingDetail': (ctx) => ListingDetailScreen()
+      '/listingDetail': (ctx) => ListingDetailScreen(),
+      '/createListing': (ctx) => CreateListingScreen()
     };
   }
 }
