@@ -14,8 +14,9 @@ class ChatUser extends StatelessWidget {
   Widget build(BuildContext context) {
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     String curUserId = allProvider.getCurrentUserId();
-    String otherUserId =
-        curChat.user1Id == curUserId ? curChat.user2Id : curChat.user1Id;
+    String otherUserId = curChat.from_userId == curUserId
+        ? curChat.to_userId
+        : curChat.from_userId;
     Future<User> otherUser = allProvider.getUserById(otherUserId);
     return FutureBuilder<User>(
       future: otherUser,
@@ -28,9 +29,10 @@ class ChatUser extends StatelessWidget {
             radius: 120,
             backgroundColor: Colors.transparent,
           );
-          String lastMessage = curChat.messages[0].content;
+          String lastMessage = curChat.lastMessage.content;
           return InkWell(
-              onTap: () => null,
+              onTap: () => Navigator.of(context)
+                  .pushNamed('/inbox/chat', arguments: snapshot.data),
               child: Row(children: [
                 userImage,
                 Column(
@@ -41,7 +43,8 @@ class ChatUser extends StatelessWidget {
                 )
               ]));
         } else if (snapshot.hasError) {
-          return ErrorWidget("The other user data could not be found!!");
+          return ErrorWidget(
+              "The other user data could not be found!! + ${snapshot.error}");
         } else {
           return ChatUserSkeleton();
         }

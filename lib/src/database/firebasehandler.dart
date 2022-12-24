@@ -1,8 +1,10 @@
 import 'package:AutoMobile/src/repository/errorhandler.dart';
+import 'package:AutoMobile/src/widgets/chat_body.dart';
 import 'package:AutoMobile/src/widgets/inbox_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:AutoMobile/src/models/user.dart' as ourUser;
 
 class FireBaseHandler {
   String getCurrentUserId() {
@@ -146,15 +148,41 @@ class FireBaseHandler {
 
   StreamBuilder<QuerySnapshot> chatStreamBuilder() {
     var myStream = FirebaseFirestore.instance
-        .collection("chat")
+        .collection("message")
         .where("users", arrayContains: getCurrentUserId())
-        .orderBy("lastUpdated", descending: false)
+        .orderBy("sentDate", descending: true)
         .snapshots();
     return StreamBuilder<QuerySnapshot>(
         stream: myStream,
         builder: (ctx, strSnapshot) {
           if (strSnapshot.hasData) {
             return InboxBody(
+              msgsSnapshot: strSnapshot,
+            );
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+
+  StreamBuilder<QuerySnapshot> SingleChatStreamBuilder(ourUser.User otherUser) {
+    var myStream = FirebaseFirestore.instance
+        .collection("message")
+        .where("users", whereIn: [
+          [getCurrentUserId(), otherUser.id],
+          [otherUser.id, getCurrentUserId()]
+        ])
+        .orderBy("sentDate", descending: true)
+        .snapshots();
+    return StreamBuilder<QuerySnapshot>(
+        stream: myStream,
+        builder: (ctx, strSnapshot) {
+          if (strSnapshot.hasData) {
+            return ChatBody(
               strSnapshot: strSnapshot,
             );
           } else if (strSnapshot.hasError) {

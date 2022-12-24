@@ -11,8 +11,7 @@
         "isMale": true,
         "joiningDate":"",
         "bids": ["bid_id1"],
-        "listings":["listing_id1"],
-        "chats":["chat_id1"]
+        "listings":["listing_id1"]
     },    
     "bid": {
         "id": "",
@@ -32,16 +31,12 @@
         "creationDate":"",
         "endBidDate":""
     },
-    "chat": {
+    "message": {
         "id": "",
-        "users" : ["user1_id", "user2_id"],
-        "lastUpdated":"",
-        "messages": [{
-            "content": "",
-            "sentDate": "",
-            "seen": false,
-            "senderId": "user_id"
-        }]
+        "users": ["from_userId", "to_userId"],
+        "sentDate":"",
+        "content":"",
+        "seen": true
     }
 
 }
