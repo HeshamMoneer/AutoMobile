@@ -7,12 +7,12 @@ class User {
   String firstName;
   String lastName;
   String email;
-  String birthDate;
+  DateTime? birthDate;
   double balance;
   String phoneNumber;
   String profilePicPath;
   bool isMale;
-  String joiningDate;
+  DateTime joiningDate;
   List<Bid>? bids;
   List<Listing>? listings;
   List<Chat>? chats;
@@ -22,12 +22,13 @@ class User {
       required this.firstName,
       required this.lastName,
       required this.email,
-      required this.birthDate,
-      required this.balance,
+      this.birthDate,
+      this.balance = 0.0,
       required this.phoneNumber,
-      required this.profilePicPath,
-      required this.isMale,
       required this.joiningDate,
+      this.profilePicPath =
+          "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+      required this.isMale,
       this.bids,
       this.listings,
       this.chats});

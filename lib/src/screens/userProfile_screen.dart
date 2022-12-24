@@ -2,10 +2,12 @@ import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:AutoMobile/src/models/user.dart';
+import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class UserProfileScreen extends StatefulWidget {
   UserProfileScreen();
@@ -16,18 +18,23 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreen extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    User user = User(
-      id: "1",
-      firstName: "Mohamed",
-      lastName: "Eshiba",
-      email: "Mohamedeshiba08@gmail.com",
-      birthDate: "30/06/2000",
-      balance: 30.5,
-      phoneNumber: "01200291121",
-      profilePicPath: "profilePicPath",
-      isMale: true,
-      joiningDate: "30/06/2022",
-    );
+    // User user1 = User(
+    //   id: "1",
+    //   firstName: "Mohamed",
+    //   lastName: "Eshiba",
+    //   email: "Mohamedeshiba08@gmail.com",
+    //   birthDate: "30/06/2000",
+    //   balance: 30.5,
+    //   phoneNumber: "01200291121",
+    //   profilePicPath: "profilePicPath",
+    //   isMale: true,
+    //   joiningDate: "30/06/2022",
+    // );
+    var myProvider = Provider.of<AllProvider>(context);
+    User? user;
+    myProvider.getCurrentUser().then((Element) => user = Element);
+    user!.firstName = "Mohjamed";
+    print("line 36" + user!.firstName);
 
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final appBar = AppBar(
@@ -108,14 +115,14 @@ class _UserProfileScreen extends State<UserProfileScreen> {
               height: 10,
             ),
             Text(
-              "${user.firstName} ${user.lastName}",
+              "${user!.firstName} ${user!.lastName}",
               style: AppTheme.subTitleStyle,
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              '${user.email}',
+              '${user!.email}',
               style: AppTheme.subTitleStyle,
             ),
             SizedBox(

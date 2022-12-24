@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'AutoMobile',
         theme: AppTheme.lightTheme,
-        initialRoute: '/editprofilescreen',
+        initialRoute: '/',
         routes: Routes.getRoutes(),
       ),
     );
