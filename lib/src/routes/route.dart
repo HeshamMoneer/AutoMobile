@@ -1,4 +1,6 @@
 import 'package:AutoMobile/src/screens/create_listing_screen.dart';
+import 'package:AutoMobile/src/screens/chat_screen.dart';
+import 'package:AutoMobile/src/screens/inbox_screen.dart';
 import 'package:AutoMobile/src/screens/listings_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,9 @@ class Routes {
       '/mainscreen': (ctx) => MainScreen(),
       '/listings': (ctx) => ListingsScreen(),
       '/listingDetail': (ctx) => ListingDetailScreen(),
-      '/createListing': (ctx) => CreateListingScreen()
+      '/createListing': (ctx) => CreateListingScreen(),
+      '/inbox': (ctx) => InboxScreen(),
+      '/inbox/chat': (ctx) => ChatScreen()
     };
   }
 }

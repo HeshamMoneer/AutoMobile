@@ -9,8 +9,6 @@ class UserDTO implements DTO {
     user.bids.forEach((bid) => bidIDs.add(bid.id));
     List<String> listingIDs = [];
     user.listings.forEach((listing) => bidIDs.add(listing.id));
-    List<String> chatsIDs = [];
-    user.chats.forEach((chat) => bidIDs.add(chat.id));
 
     return {
       "id": user.id,
@@ -24,8 +22,7 @@ class UserDTO implements DTO {
       "isMale": user.isMale,
       "joiningDate": user.joiningDate.toString(),
       "bids": bidIDs,
-      "listings": listingIDs,
-      "chats": chatsIDs
+      "listings": listingIDs
     };
   }
 
