@@ -1,8 +1,8 @@
 import 'dart:core';
 import 'package:AutoMobile/src/database/dto.dart';
-import 'package:AutoMobile/src/database/firebasehandler.dart';
 import 'package:AutoMobile/src/database/user_dto.dart';
 import 'package:AutoMobile/src/models/listing.dart';
+import 'package:AutoMobile/src/models/message.dart';
 import 'package:AutoMobile/src/repository/repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -57,6 +57,15 @@ class AllProvider with ChangeNotifier {
     bids[bidId] = bid;
     notifyListeners();
     return bidId;
+  }
+
+  Future<void> sendMessage(String messageContent, String to_userId) async {
+    await repository.fireBaseHandler.post("message", {
+      "content": messageContent,
+      "seen": false,
+      "sentDate": DateTime.now(),
+      "users": [getCurrentUserId(), to_userId]
+    });
   }
   //========================================================= converting json to model
 
