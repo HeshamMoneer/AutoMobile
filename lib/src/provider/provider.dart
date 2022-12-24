@@ -34,6 +34,10 @@ class AllProvider with ChangeNotifier {
     return getUserById(repository.fireBaseHandler.getCurrentUserId());
   }
 
+  String getCurrentUserId() {
+    return repository.fireBaseHandler.getCurrentUserId();
+  }
+
   //=================================================== adding new model
 
   Future<String> addUser(User user) async {
@@ -48,6 +52,7 @@ class AllProvider with ChangeNotifier {
     String listingId = await repository.post("listing", listing, listing_dto);
     listing.id = listingId;
     listings[listingId] = listing;
+    print(listingId);
     notifyListeners();
     return listingId;
   }

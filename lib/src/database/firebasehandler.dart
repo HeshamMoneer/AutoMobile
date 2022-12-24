@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class FireBaseHandler {
   String getCurrentUserId() {
@@ -139,5 +143,15 @@ class FireBaseHandler {
           //The function uses the retrieved documents to build a widget
           return function(documents);
         });
+  }
+
+  Future<String> uploadImage(String userId, File file) async {
+    // random hash
+    String filename = Uuid().v4();
+    var snapshot = await FirebaseStorage.instance
+        .ref()
+        .child('images/$userId/$filename')
+        .putFile(file);
+    return snapshot.ref.getDownloadURL();
   }
 }
