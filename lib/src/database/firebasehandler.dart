@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:AutoMobile/src/repository/errorhandler.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:AutoMobile/src/widgets/chat_body.dart';
+import 'package:AutoMobile/src/widgets/inbox_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:AutoMobile/src/models/user.dart' as ourUser;
 
 class FireBaseHandler {
   String getCurrentUserId() {
@@ -134,14 +136,66 @@ class FireBaseHandler {
     return StreamBuilder<QuerySnapshot>(
         stream: myStream,
         builder: (ctx, strSnapshot) {
-          if (strSnapshot.connectionState == ConnectionState.waiting) {
+          if (strSnapshot.hasData) {
+            var documents = strSnapshot.data!.docs;
+            //The function uses the retrieved documents to build a widget
+            return function(documents);
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          var documents = strSnapshot.data!.docs;
-          //The function uses the retrieved documents to build a widget
-          return function(documents);
+        });
+  }
+
+  StreamBuilder<QuerySnapshot> chatStreamBuilder() {
+    var myStream = FirebaseFirestore.instance
+        .collection("message")
+        .where("users", arrayContains: getCurrentUserId())
+        .orderBy("sentDate", descending: true)
+        .snapshots();
+    return StreamBuilder<QuerySnapshot>(
+        stream: myStream,
+        builder: (ctx, strSnapshot) {
+          if (strSnapshot.hasData) {
+            return InboxBody(
+              msgsSnapshot: strSnapshot,
+            );
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+
+  StreamBuilder<QuerySnapshot> singleChatStreamBuilder(ourUser.User otherUser) {
+    var myStream = FirebaseFirestore.instance
+        .collection("message")
+        .where("users", whereIn: [
+          [getCurrentUserId(), otherUser.id],
+          [otherUser.id, getCurrentUserId()]
+        ])
+        .orderBy("sentDate", descending: true)
+        .snapshots();
+    return StreamBuilder<QuerySnapshot>(
+        stream: myStream,
+        builder: (ctx, strSnapshot) {
+          if (strSnapshot.hasData) {
+            return ChatBody(
+              strSnapshot: strSnapshot,
+            );
+          } else if (strSnapshot.hasError) {
+            return ErrorWidget(strSnapshot.error.toString());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         });
   }
 

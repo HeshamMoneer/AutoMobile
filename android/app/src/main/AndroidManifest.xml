@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     package="com.example.automobile" android:requestLegacyExternalStorage="true" >
+=======
+    package="com.example.automobile" android:requestLegacyExternalStorage="true">
+>>>>>>> d9ac9c549e1d2e9b8a1bfa66036de7767215613a
    <application
         android:label="automobile"
         android:name="${applicationName}"

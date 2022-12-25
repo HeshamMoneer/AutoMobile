@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (newUserMode) {
         if (passwordController.text == confirmPasswordController.text) {
           try {
-            var result = await allProvider.repository.fireBaseHandler
+            await allProvider.repository.fireBaseHandler
                 .signup(emailController.text, passwordController.text);
           } catch (e) {
             throw ErrorHandler(e.toString());
@@ -35,10 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
           throw ErrorHandler("The passwords do not match");
         }
       } else {
-        var result = await allProvider.repository.fireBaseHandler
+        await allProvider.repository.fireBaseHandler
             .login(emailController.text, passwordController.text);
       }
-      //TODO: this code executes even if an error is thrown
       Navigator.of(context).pushReplacementNamed('/mainscreen');
     } catch (e) {
       print(e);
