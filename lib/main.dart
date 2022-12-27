@@ -1,6 +1,7 @@
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
 import 'package:AutoMobile/src/repository/errorhandler.dart';
+import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,9 +40,7 @@ class _MyAppState extends State<MyApp> {
       create: (ctx) => AllProvider(),
       child: MaterialApp(
         title: 'AutoMobile',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: AppTheme.lightTheme,
         initialRoute: '/',
         routes: Routes.getRoutes(),
       ),
