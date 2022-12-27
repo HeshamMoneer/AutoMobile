@@ -1,7 +1,3 @@
-import 'package:AutoMobile/src/models/listing.dart';
-
-import 'user.dart';
-
 class Bid {
   String id;
   double price;

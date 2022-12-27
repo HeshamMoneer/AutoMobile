@@ -23,7 +23,16 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(Icons.logout_rounded))
         ],
       ),
-      body: Text("Hello World!!"),
+      body: Column(
+        children: [
+          Text("Hello World!!"),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacementNamed('/createListing');
+              },
+              child: Text("Create Listing"))
+        ],
+      ),
     );
   }
 }

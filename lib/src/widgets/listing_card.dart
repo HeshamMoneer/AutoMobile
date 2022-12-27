@@ -1,5 +1,6 @@
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
+import 'package:AutoMobile/src/widgets/make_bidding.dart';
 import 'package:flutter/material.dart';
 
 import '../models/listing.dart';
@@ -9,15 +10,21 @@ class ListingCard extends StatelessWidget {
 
   ListingCard(this.listing);
 
-  void onBidClicked() {
-    if (!listing.biddingEnded) {
-      // TODO: go to bid screen
-    }
+  void goToListingDetailsPage(BuildContext myContext) {
+    Navigator.of(myContext)
+        .pushNamed('/listingDetail', arguments: {'listing': listing});
   }
 
   @override
   Widget build(BuildContext context) {
     bool biddingEnded = listing.biddingEnded;
+
+    void onBidClicked() {
+      if (!listing.biddingEnded) {
+        // TODO: go to bid screen
+        showBidBottomSheet(context, listing);
+      }
+    }
 
     final imageOverlay =
         Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -73,7 +80,7 @@ class ListingCard extends StatelessWidget {
               color: biddingEnded ? ThemeColor.lightGrey : ThemeColor.lightBlue,
             ),
             child: Text(
-              '${biddingEnded ? "Sold" : "Bid now"}\n${listing.finalPrice.toInt().toString()}',
+              '${biddingEnded ? "Sold" : "Bid now"}\n${listing.newBidPrice.toString()}',
               style: biddingEnded
                   ? AppTheme.bidButtonInactiveTextStyle
                   : AppTheme.bidButtonTextStyle,
@@ -97,7 +104,7 @@ class ListingCard extends StatelessWidget {
     ));
 
     return InkWell(
-        onTap: () => print("listing clicked"),
+        onTap: () => goToListingDetailsPage(context),
         child: Container(
           margin: EdgeInsets.all(10),
           child: Row(
