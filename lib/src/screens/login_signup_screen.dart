@@ -54,7 +54,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
   }
 
   void loginORsignup() async {
-    final myprovider = Provider.of<AllProvider>(context, listen: false);
+    final myprovider = Provider.of<AllProvider>(context, listen: true);
     try {
       if (!login) {
         if (passwordController.text == confirmPasswordController.text) {
