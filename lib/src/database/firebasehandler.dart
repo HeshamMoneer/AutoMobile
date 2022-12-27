@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:AutoMobile/src/repository/errorhandler.dart';
 import 'package:AutoMobile/src/widgets/chat_body.dart';
 import 'package:AutoMobile/src/widgets/inbox_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:AutoMobile/src/models/user.dart' as ourUser;
 
 class FireBaseHandler {
@@ -193,5 +197,15 @@ class FireBaseHandler {
             );
           }
         });
+  }
+
+  Future<String> uploadImage(String userId, File file) async {
+    // random hash
+    String filename = Uuid().v4();
+    var snapshot = await FirebaseStorage.instance
+        .ref()
+        .child('images/$userId/$filename')
+        .putFile(file);
+    return snapshot.ref.getDownloadURL();
   }
 }

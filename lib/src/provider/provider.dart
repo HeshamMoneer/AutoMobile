@@ -46,6 +46,7 @@ class AllProvider with ChangeNotifier {
     String listingId = await repository.post("listing", listing, listing_dto);
     listing.id = listingId;
     listings[listingId] = listing;
+    print(listingId);
     notifyListeners();
     return listingId;
   }
