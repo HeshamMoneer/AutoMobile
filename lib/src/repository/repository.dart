@@ -1,5 +1,6 @@
 import 'package:AutoMobile/src/database/dto.dart';
 import 'package:AutoMobile/src/database/firebasehandler.dart';
+import 'package:AutoMobile/src/models/user.dart';
 
 class Repository {
   late FireBaseHandler fireBaseHandler;
@@ -16,6 +17,7 @@ class Repository {
   }
 
   Future<String> post(String collectionName, Object model, DTO dto) async {
+    var user = model as User;
     var body = dto.ModelToJson(model);
     return fireBaseHandler.post(collectionName, body);
   }
