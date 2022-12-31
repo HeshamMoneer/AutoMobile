@@ -50,6 +50,10 @@ class Listing {
     int diffToHundredMultiple =  100 - (lastPrice % 100);
     return lastPrice + diffToHundredMultiple;
   }
+    @override
+    String toString() {
+        return 'title:$title, desc:$description, by:$userId';
+    }
 }
 
 var dummyListings = [

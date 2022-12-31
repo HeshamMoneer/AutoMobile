@@ -46,7 +46,12 @@ class AllProvider with ChangeNotifier {
     String listingId = await repository.post("listing", listing, listing_dto);
     listing.id = listingId;
     listings[listingId] = listing;
-    print(listingId);
+    User user = await getUserById(listing.userId);
+    user.listings.add(listing);
+    await Future.wait([
+      repository.patch("listing", listing.id, listing, listing_dto),
+      repository.patch("user", user.id, user, user_dto)
+    ]);
     notifyListeners();
     return listingId;
   }
@@ -55,6 +60,15 @@ class AllProvider with ChangeNotifier {
     String bidId = await repository.post("bid", bid, bid_dto);
     bid.id = bidId;
     bids[bidId] = bid;
+    Listing listing = await getListingById(bid.listingId);
+    listing.bids.add(bid);
+    User user = await getCurrentUser();
+    user.bids.add(bid);
+    await Future.wait([
+      repository.patch("bid", bid.id, bid, bid_dto),
+      repository.patch("listing", listing.id, listing, listing_dto),
+      repository.patch("user", user.id, user, user_dto)
+    ]);
     notifyListeners();
     return bidId;
   }
@@ -72,6 +86,7 @@ class AllProvider with ChangeNotifier {
     await repository.fireBaseHandler
         .patch("message", messageId, {"seen": true});
   }
+
   //========================================================= converting json to model
 
   User JsonToUser(Map<String, dynamic> user) {
@@ -107,7 +122,7 @@ class AllProvider with ChangeNotifier {
         price: bid["price"],
         listingId: bid["listing"],
         userId: bid["user"],
-        creationDate: bid["creationDate"]);
+        creationDate: bid["creationDate"].toDate());
     return bidModel;
   }
 
@@ -117,16 +132,20 @@ class AllProvider with ChangeNotifier {
       Bid bid = await getBidById(Element);
       bids.add(bid);
     });
+    List<String> imageUrls = [];
+    listing["imageUrls"].forEach((Element) async {
+      imageUrls.add(Element);
+    });
     var listingModel = Listing(
         userId: listing["user"],
         title: listing["title"],
         id: listing["id"],
         description: listing["description"],
-        imageUrls: listing["imageUrls"],
+        imageUrls: imageUrls,
         bids: bids,
-        endBidDate: listing["endBidDate"],
+        endBidDate: listing["endBidDate"].toDate(),
         initialPrice: listing["initialPrice"],
-        creationDate: listing["creationDate"]);
+        creationDate: listing["creationDate"].toDate());
     return listingModel;
   }
 
@@ -168,14 +187,16 @@ class AllProvider with ChangeNotifier {
   //================================================= Fetch data
   Future<void> fetchUsers() async {
     var data = await repository.getAll("user");
+    users.clear();
     data.forEach((element) {
       users[element["id"]] = JsonToUser(element);
     });
     notifyListeners();
   }
 
-  Future<void> fetchListing() async {
+  Future<void> fetchListings() async {
     var data = await repository.getAll("listing");
+    listings.clear();
     data.forEach((element) {
       listings[element["id"]] = JsonToListing(element);
     });
@@ -184,6 +205,7 @@ class AllProvider with ChangeNotifier {
 
   Future<void> fetchBids() async {
     var data = await repository.getAll("bid");
+    bids.clear();
     data.forEach((element) {
       bids[element["id"]] = JsonToBid(element);
     });
@@ -202,6 +224,12 @@ class AllProvider with ChangeNotifier {
 
   Map<String, Bid> get getAllBids {
     return this.bids;
+  }
+
+  //================================================= getters with fetch
+  List<Listing> getAllListingsAsList({bool fetch = false}) {
+    if (fetch) fetchListings();
+    return getAllListings.values.toList();
   }
 
   // TODO: Deletions and updates are still missing
