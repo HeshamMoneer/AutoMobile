@@ -29,21 +29,20 @@ class _LoginSignUpState extends State<LoginSignUp> {
   var userGender = true;
   bool login = true;
 
-  void registerUser() {
-    // print("we are not here");
+  Future<void> registerUser() async {
+    print("we are not here");
 
     // problem here that the listen not true and when i make it false it's not inserting user into the db only register it
-    var allProvider = Provider.of<AllProvider>(context, listen: true);
+    var allProvider = Provider.of<AllProvider>(context, listen: false);
     var user = User(
         id: "",
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
         phoneNumber: phoneNumberController.text,
-        joiningDate: DateTime.now(),
+        joiningDate: DateTime.now().toString(),
         isMale: userGender);
-    // print(user.firstName);
-    allProvider.addUser(user);
+    await allProvider.addUser(user);
   }
 
   void toggleMode() {
@@ -53,15 +52,16 @@ class _LoginSignUpState extends State<LoginSignUp> {
     });
   }
 
-  void loginORsignup() async {
-    final myprovider = Provider.of<AllProvider>(context, listen: true);
+  Future<void> loginORsignup() async {
+    final myprovider = Provider.of<AllProvider>(context, listen: false);
     try {
       if (!login) {
         if (passwordController.text == confirmPasswordController.text) {
           try {
+            print("we are not here");
             var result = await myprovider.repository.fireBaseHandler
                 .signup(emailController.text, passwordController.text);
-            registerUser();
+            await registerUser();
           } catch (e) {
             throw ErrorHandler(e.toString());
           }
@@ -385,17 +385,14 @@ class _LoginSignUpState extends State<LoginSignUp> {
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 0, 0, 0),
                         borderRadius: BorderRadius.circular(12)),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Center(
-                          child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    ),
+                    child: Center(
+                        child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
                   ),
                 ),
               ),
