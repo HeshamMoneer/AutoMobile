@@ -16,7 +16,6 @@ class ListingCard extends StatelessWidget {
 
     void onBidClicked() {
       if (!listing.biddingEnded) {
-        // TODO: go to bid screen
         showBidBottomSheet(context, listing);
       }
     }
