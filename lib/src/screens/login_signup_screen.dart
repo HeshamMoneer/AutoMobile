@@ -40,7 +40,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
         lastName: lastNameController.text,
         email: emailController.text,
         phoneNumber: phoneNumberController.text,
-        joiningDate: DateTime.now(),
+        joiningDate: DateTime.now().toString(),
         isMale: userGender);
     // print(user.firstName);
     allProvider.addUser(user);
