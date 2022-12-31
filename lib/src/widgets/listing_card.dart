@@ -10,11 +10,6 @@ class ListingCard extends StatelessWidget {
 
   ListingCard(this.listing);
 
-  void goToListingDetailsPage(BuildContext myContext) {
-    Navigator.of(myContext)
-        .pushNamed('/listingDetail', arguments: {'listing': listing});
-  }
-
   @override
   Widget build(BuildContext context) {
     bool biddingEnded = listing.biddingEnded;
@@ -104,7 +99,7 @@ class ListingCard extends StatelessWidget {
     ));
 
     return InkWell(
-        onTap: () => goToListingDetailsPage(context),
+        onTap: () => goToListingDetailsPage(context, listing),
         child: Container(
           margin: EdgeInsets.all(10),
           child: Row(
@@ -113,3 +108,8 @@ class ListingCard extends StatelessWidget {
         ));
   }
 }
+
+void goToListingDetailsPage(BuildContext myContext, Listing listing) {
+    Navigator.of(myContext)
+        .pushNamed('/listingDetail', arguments: {'listing': listing});
+  }
