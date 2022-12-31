@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 import '../screens/listingDetail_screen.dart';
 import '../screens/login_screen.dart';
 import '../screens/main_screen.dart';
+import '../screens/navBarScreeen.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
-      '/': (ctx) => LoginScreen(),
+      '/': (ctx) => NavBarScreen(),
       '/mainscreen': (ctx) => MainScreen(),
       '/listings': (ctx) => ListingsScreen(),
       '/listingDetail': (ctx) => ListingDetailScreen(),
