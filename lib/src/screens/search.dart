@@ -54,7 +54,7 @@ class MySearchDelegate extends SearchDelegate {
       }).toList();
 
     Widget seeAll = ListTile(
-        title: Text('See All Results', style: AppTheme.titleStyle),
+        title: Text('See all results', style: AppTheme.titleStyle),
         trailing: Icon(Icons.read_more),
         onTap: () {
           buildResults(context);

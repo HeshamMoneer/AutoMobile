@@ -8,7 +8,7 @@ class UserDTO implements DTO {
     List<String> bidIDs = [];
     user.bids.forEach((bid) => bidIDs.add(bid.id));
     List<String> listingIDs = [];
-    user.listings.forEach((listing) => bidIDs.add(listing.id));
+    user.listings.forEach((listing) => listingIDs.add(listing.id));
 
     return {
       //  "id": user.id,

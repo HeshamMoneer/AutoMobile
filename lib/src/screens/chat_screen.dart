@@ -1,3 +1,4 @@
+import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class ChatScreen extends StatelessWidget {
             child: allProvider.repository.fireBaseHandler
                 .singleChatStreamBuilder(otherUser)),
         Container(
-          color: Colors.blueGrey,
+          color: ThemeColor.lightblack,
           padding: EdgeInsets.all(5),
           child: Row(children: [
             Expanded(
@@ -35,11 +36,13 @@ class ChatScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     hintText: "Enter your message",
-                    hintStyle: TextStyle(color: Colors.white)),
+                    hintStyle: TextStyle(
+                        color: Colors.white, fontStyle: FontStyle.italic)),
                 controller: messageController,
               ),
             )),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: ThemeColor.grey),
                 onPressed: () {
                   sendMessage(allProvider, otherUser.id);
                 },

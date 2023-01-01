@@ -30,8 +30,6 @@ class _LoginSignUpState extends State<LoginSignUp> {
   bool login = true;
 
   Future<void> registerUser() async {
-    print("we are not here");
-
     // problem here that the listen not true and when i make it false it's not inserting user into the db only register it
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     var user = User(
@@ -47,7 +45,6 @@ class _LoginSignUpState extends State<LoginSignUp> {
 
   void toggleMode() {
     setState(() {
-      //   print("heeeeeeeeeer${login}");
       login = !login;
     });
   }
@@ -424,7 +421,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
       ),
     );
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Color.fromARGB(255, 224, 224, 224),
         body: login ? loginWidget : signUpWidget);
   }
 }
