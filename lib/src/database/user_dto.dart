@@ -6,13 +6,9 @@ class UserDTO implements DTO {
   Map<String, dynamic> ModelToJson(Object model) {
     User user = model as User;
     List<String> bidIDs = [];
-    user.bids!.forEach((bid) => bidIDs.add(bid.id));
+    user.bids.forEach((bid) => bidIDs.add(bid.id));
     List<String> listingIDs = [];
-<<<<<<< HEAD
     user.listings.forEach((listing) => listingIDs.add(listing.id));
-=======
-    user.listings!.forEach((listing) => bidIDs.add(listing.id));
->>>>>>> UserProfile
 
     return {
       //  "id": user.id,
