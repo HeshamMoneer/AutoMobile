@@ -7,12 +7,11 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
       backgroundColor: ThemeColor.background,
       primaryColor: ThemeColor.background,
-      primarySwatch: Colors.cyan,
       cardTheme: CardTheme(color: ThemeColor.background),
       textTheme: TextTheme(bodyText1: TextStyle(color: ThemeColor.black)),
       iconTheme: IconThemeData(color: ThemeColor.iconColor),
       bottomAppBarColor: ThemeColor.background,
-      dividerColor: ThemeColor.lightGrey,
+      dividerColor: ThemeColor.background,
       primaryTextTheme:
           TextTheme(bodyText1: TextStyle(color: ThemeColor.titleTextColor)));
 
@@ -23,7 +22,7 @@ class AppTheme {
   static TextStyle subTitleStyle =
       const TextStyle(color: ThemeColor.subTitleTextColor, fontSize: 12);
   static TextStyle bidButtonTextStyle = const TextStyle(
-      color: ThemeColor.mainBlue, fontSize: 16, fontWeight: FontWeight.bold);
+      color: ThemeColor.white, fontSize: 16, fontWeight: FontWeight.bold);
   static TextStyle bidButtonInactiveTextStyle = const TextStyle(
       color: ThemeColor.darkgrey, fontSize: 16, fontWeight: FontWeight.bold);
   static TextStyle h1Style =

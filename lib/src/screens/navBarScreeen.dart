@@ -1,12 +1,11 @@
 import 'package:AutoMobile/src/screens/userProfile_screen.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:flutter/material.dart';
 
-import 'create_listing_screen.dart';
 import 'inbox_screen.dart';
 
 import 'main_screen.dart';
+import 'my_listings_screen.dart';
 
 class NavBarScreen extends StatefulWidget {
   @override
@@ -19,7 +18,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
     MainScreen(),
     InboxScreen(),
     UserProfileScreen(),
-    CreateListingScreen()
+    MyListingsScreen()
   ];
 
   @override
@@ -31,6 +30,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
         onPressed: () {
           Navigator.of(context).pushNamed('/createListing');
         },
+        backgroundColor: ThemeColor.lightblack,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -55,14 +55,15 @@ class _NavBarScreenState extends State<NavBarScreen> {
                       children: [
                         Icon(
                           Icons.home,
-                          color:
-                              selectedTabIndex == 0 ? Colors.blue : Colors.grey,
+                          color: selectedTabIndex == 0
+                              ? ThemeColor.lightblack
+                              : Colors.grey,
                         ),
                         Text(
                           "Home",
                           style: TextStyle(
                               color: selectedTabIndex == 0
-                                  ? Colors.blue
+                                  ? ThemeColor.lightblack
                                   : Colors.grey),
                         )
                       ],
@@ -80,14 +81,15 @@ class _NavBarScreenState extends State<NavBarScreen> {
                       children: [
                         Icon(
                           Icons.inbox,
-                          color:
-                              selectedTabIndex == 1 ? Colors.blue : Colors.grey,
+                          color: selectedTabIndex == 1
+                              ? ThemeColor.lightblack
+                              : Colors.grey,
                         ),
                         Text(
                           "Inbox",
                           style: TextStyle(
                               color: selectedTabIndex == 1
-                                  ? Colors.blue
+                                  ? ThemeColor.lightblack
                                   : Colors.grey),
                         )
                       ],
@@ -110,14 +112,15 @@ class _NavBarScreenState extends State<NavBarScreen> {
                       children: [
                         Icon(
                           Icons.person,
-                          color:
-                              selectedTabIndex == 2 ? Colors.blue : Colors.grey,
+                          color: selectedTabIndex == 2
+                              ? ThemeColor.lightblack
+                              : Colors.grey,
                         ),
                         Text(
                           "Profile",
                           style: TextStyle(
                               color: selectedTabIndex == 2
-                                  ? Colors.blue
+                                  ? ThemeColor.lightblack
                                   : Colors.grey),
                         )
                       ],
@@ -134,15 +137,16 @@ class _NavBarScreenState extends State<NavBarScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.home,
-                          color:
-                              selectedTabIndex == 3 ? Colors.blue : Colors.grey,
+                          Icons.directions_car_rounded,
+                          color: selectedTabIndex == 3
+                              ? ThemeColor.lightblack
+                              : Colors.grey,
                         ),
                         Text(
-                          "Addd",
+                          "My listings",
                           style: TextStyle(
                               color: selectedTabIndex == 3
-                                  ? Colors.blue
+                                  ? ThemeColor.lightblack
                                   : Colors.grey),
                         )
                       ],
