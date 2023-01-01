@@ -1,160 +1,111 @@
 import 'dart:ffi';
-import 'dart:ui';
 
-import 'package:AutoMobile/src/models/user.dart';
-import 'package:AutoMobile/src/provider/provider.dart';
-import 'package:AutoMobile/src/themes/theme.dart';
-import 'package:AutoMobile/src/themes/theme_color.dart';
+import 'package:AutoMobile/src/widgets/textField.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-class UserProfileScreen extends StatefulWidget {
-  UserProfileScreen();
+class UpdateProfileScreen extends StatefulWidget {
+  const UpdateProfileScreen({super.key});
+
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreen();
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
-class _UserProfileScreen extends State<UserProfileScreen> {
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<AllProvider>(context);
-    String? anotherUserId =
-        ModalRoute.of(context)!.settings.arguments as String?;
-    bool isMe = anotherUserId == null;
-    Future<User> user = isMe
-        ? myProvider.getCurrentUser()
-        : myProvider.getUserById(anotherUserId);
-
-    final appBar = AppBar(
-      title: Text("Profile",
-          style: AppTheme
-              .titleStyle), //TextStyle(color: ThemeColor.titleTextColor)),
-    );
-
-    final editProfile = SizedBox(
-      width: 150,
-      child: ElevatedButton(
-        onPressed: () {
-          //TODO: go to the edit profile route
+    final body = Container(
+      padding: EdgeInsets.only(left: 15, top: 20, right: 15),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
         },
-        child: Text(
-          "Edit profile",
-          style: AppTheme.subTitleStyle,
-        ),
-        style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColor.yellowColor,
-            side: BorderSide.none,
-            shape: StadiumBorder()),
-      ),
-    ); // container
-
-    final profileImage = FutureBuilder<User>(
-      future: user,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          User? curUser = snapshot.data;
-          return Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
+        child: ListView(
+          children: [
+            Center(
+              child: Stack(
                 children: [
-                  Stack(children: [
-                    SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            curUser!.profilePicPath,
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                    if (isMe)
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.yellow),
-                            child: IconButton(
-                              icon: Icon(LineAwesomeIcons.alternate_pencil,
-                                  color: Colors.black, size: 20),
-                              onPressed: () {
-                                //TODO: upload new profile picture
-                              },
+                  Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 4, color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1))
+                        ],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              "https://img.freepik.com/premium-vector/young-man-avatar-cartoon-character-profile-picture_18591-55055.jpg?w=740",
                             ),
-                          ))
-                  ]),
-                  SizedBox(
-                    height: 10,
+                            fit: BoxFit.cover)),
                   ),
-                  Text(
-                    "${curUser.firstName} ${curUser.lastName}",
-                    style: AppTheme.titleStyle,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '${curUser.email}',
-                    style: AppTheme.titleStyle,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  if (isMe) editProfile,
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Birth Date: ${curUser.birthDate}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Gender: ${curUser.isMale ? "Male" : "Female"}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Phone Number: ${curUser.phoneNumber}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Joining Date: ${curUser.joiningDate}',
-                        style: AppTheme.h6Style,
-                      ),
-                    ],
-                  )
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 4, color: Colors.white),
+                            color: Colors.blue),
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                      ))
                 ],
-              ));
-        } else if (snapshot.hasError) {
-          return ErrorWidget(
-              "The user data could not be found!! + ${snapshot.error}");
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CustomTextField(
+                labelText: "Mohamed", placeHolder: "Eshiba", isPassword: false),
+            CustomTextField(
+                labelText: "Mohamed", placeHolder: "Eshiba", isPassword: false),
+            CustomTextField(
+                labelText: "Mohamed", placeHolder: "Eshiba", isPassword: false),
+            CustomTextField(
+                labelText: "Mohamed", placeHolder: "Eshiba", isPassword: false),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                OutlinedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        fontSize: 15, letterSpacing: 2, color: Colors.black),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                        fontSize: 15, letterSpacing: 2, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
-
-    return Scaffold(
-      appBar: appBar,
-      body: Center(child: profileImage),
-    );
+    return Scaffold(body: body);
   }
 }

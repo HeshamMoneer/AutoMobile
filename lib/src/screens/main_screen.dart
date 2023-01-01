@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/listing.dart';
+import '../themes/theme_color.dart';
 import '../widgets/listing_card.dart';
 
 class MainScreen extends StatefulWidget {
@@ -46,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding: const EdgeInsets.all(8.0), child: Text('Automobile'))
             ],
           ),
+          backgroundColor: ThemeColor.lightblack,
           actions: [
             IconButton(
                 onPressed: () {

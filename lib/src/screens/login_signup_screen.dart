@@ -420,7 +420,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
       ),
     );
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Color.fromARGB(255, 224, 224, 224),
         body: login ? loginWidget : signUpWidget);
   }
 }
