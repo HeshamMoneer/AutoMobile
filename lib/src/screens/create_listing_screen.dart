@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -96,84 +97,230 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: 600,
-        margin: EdgeInsets.only(top: 100, left: 10, right: 10),
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Center(
-                  child: Text(
-                    "Create Listing",
-                    style: TextStyle(fontSize: 30),
+        body: SingleChildScrollView(
+      child: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Create Listing",
+                style: GoogleFonts.bebasNeue(fontSize: 50),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none, hintText: "Title "),
+                    ),
                   ),
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Title"),
-                  controller: titleController,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: descriptionController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none, hintText: "Description"),
+                        keyboardType: TextInputType.multiline,
+                        minLines: 3,
+                        maxLines: null,
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: DateTimeField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: "End bid date"),
+                        firstDate: DateTime.now(),
+                        selectedDate: endBidDateController,
+                        mode: DateTimeFieldPickerMode.dateAndTime,
+                        onDateSelected: selectEndBidDate,
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: initialPriceController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none, hintText: "Intial price"),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^[0-9]+.?[0-9]*'))
+                        ],
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                            height: 150.0, enableInfiniteScroll: false),
+                        items: imagesFile.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration:
+                                      BoxDecoration(color: Colors.blueGrey),
+                                  child: Image.file(i));
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              GestureDetector(
+                onTap: (() {
+                  uploadImage();
+                }),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: GestureDetector(
+                      child: Center(
+                          child: Text(
+                        imagesUrl.isEmpty
+                            ? "Upload image"
+                            : "Upload one more image",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                  ),
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: descriptionController,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 3,
-                  maxLines: null,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                GestureDetector(
+                  onTap: (() {
+                    Navigator.of(context).pushReplacementNamed('/mainscreen');
+                  }),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      padding: EdgeInsets.all(30),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: GestureDetector(
+                        child: Center(
+                            child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                  ),
                 ),
-                DateTimeField(
-                  decoration: InputDecoration(labelText: "End bid date"),
-                  firstDate: DateTime.now(),
-                  selectedDate: endBidDateController,
-                  mode: DateTimeFieldPickerMode.dateAndTime,
-                  onDateSelected: selectEndBidDate,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Intial price"),
-                  controller: initialPriceController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^[0-9]+.?[0-9]*'))
-                  ],
-                ),
-                CarouselSlider(
-                  options: CarouselOptions(
-                      height: 150.0, enableInfiniteScroll: false),
-                  items: imagesFile.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(color: Colors.blueGrey),
-                            child: Image.file(i));
-                      },
-                    );
-                  }).toList(),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    uploadImage();
-                  },
-                  child: Text("Upload image"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
+                GestureDetector(
+                  onTap: (() {
                     createListing();
-                  },
-                  child: Text("Done"),
-                ),
-              ],
-            ),
+                  }),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      padding: EdgeInsets.all(30),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: GestureDetector(
+                        child: Center(
+                            child: Text(
+                          "Done",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+              SizedBox(
+                height: 15,
+              ),
+            ],
           ),
         ),
       ),
-    );
+    ));
   }
 }
