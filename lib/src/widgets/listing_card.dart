@@ -38,7 +38,7 @@ class ListingCard extends StatelessWidget {
               children: [
                 Icon(
                   Icons.access_time_filled,
-                  color: ThemeColor.titleTextColor,
+                  color: ThemeColor.lightblack,
                 ),
                 Text(
                   listing.biddingDurationInWords,
@@ -68,9 +68,9 @@ class ListingCard extends StatelessWidget {
         '${biddingEnded ? "Sold" : "Bid now"}\n${listing.newBidPrice.toString()}';
     int nBids = listing.bids.length;
     bool bidButtonDimmed = biddingEnded;
-    if (isOwner){
+    if (isOwner) {
       bidButtonText =
-          '${biddingEnded ? ( nBids== 0 ? "Not sold" : "Sold") : (nBids == 0 ?"No Bids":"${nBids} Bid")}\n${listing.finalPrice.toInt().toString()}';
+          '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : (nBids == 0 ? "No Bids" : "${nBids} Bid")}\n${listing.finalPrice.toInt().toString()}';
     }
 
     final bidNowButton = Container(
@@ -79,11 +79,12 @@ class ListingCard extends StatelessWidget {
           onTap: onBidClicked,
           child: Ink(
             padding: EdgeInsets.all(10),
-            width: 100,
+            width: 80,
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: bidButtonDimmed ? ThemeColor.lightGrey : ThemeColor.lightBlue,
+              color:
+                  bidButtonDimmed ? ThemeColor.lightGrey : ThemeColor.darkgrey,
             ),
             child: Text(
               bidButtonText,

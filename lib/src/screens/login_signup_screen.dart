@@ -55,6 +55,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
       if (!login) {
         if (passwordController.text == confirmPasswordController.text) {
           try {
+            print("we are not here");
             var result = await myprovider.repository.fireBaseHandler
                 .signup(emailController.text, passwordController.text);
             await registerUser();
