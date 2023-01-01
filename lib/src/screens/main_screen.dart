@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/listing.dart';
+import '../widgets/listing_card.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -22,11 +23,29 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     var allProvider = Provider.of<AllProvider>(context, listen: true);
+    String curUserId = allProvider.getCurrentUserId();
     List<Listing> allListings = allProvider.getAllListingsAsList();
-    
+    List<Listing> shownListings = allListings
+        .where((listing) =>
+            listing.biddingEnded == false && listing.userId != curUserId)
+        .toList();
+    shownListings.sort(
+      (a, b) => a.endBidDate.compareTo(b.endBidDate),
+    );
     return Scaffold(
         appBar: AppBar(
-          title: Text("AutoMobile"),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                fit: BoxFit.contain,
+                height: 32,
+              ),
+              Container(
+                  padding: const EdgeInsets.all(8.0), child: Text('Automobile'))
+            ],
+          ),
           actions: [
             IconButton(
                 onPressed: () {
@@ -44,18 +63,12 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         body: RefreshIndicator(
-          onRefresh: allProvider.fetchListings,
-          child: Column(
-            children: [
-              Text("Hello World!!"),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed('/createListing');
-                  },
-                  child: Text("Create Listing"))
-            ],
-          ),
-        ));
+            onRefresh: allProvider.fetchListings,
+            child: ListView.builder(
+              itemBuilder: (ctx, idx) {
+                return ListingCard(shownListings[idx]);
+              },
+              itemCount: shownListings.length,
+            )));
   }
 }
