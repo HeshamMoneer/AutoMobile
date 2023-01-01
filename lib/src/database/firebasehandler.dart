@@ -54,6 +54,9 @@ class FireBaseHandler {
   Future<String> post(String collectionName, Map<String, dynamic> body) async {
     //Equivalent to put functionality in essence
     try {
+<<<<<<< HEAD
+      print("Hello we are in the post");
+=======
       if (collectionName == "user") {
         await FirebaseFirestore.instance
             .collection(collectionName)
@@ -61,6 +64,7 @@ class FireBaseHandler {
             .set(body);
         return getCurrentUserId();
       }
+>>>>>>> 0bebd88929e5c90a5840d79003bf1bcf35615ec5
       var receivedData =
           await FirebaseFirestore.instance.collection(collectionName).add(body);
       return receivedData.id;
@@ -104,7 +108,11 @@ class FireBaseHandler {
       // await FirebaseFirestore.instance
       //     .collection('user')
       //     .doc(authResult.user!.uid)
+<<<<<<< HEAD
+      //     .set({'email': email});
+=======
       //     .set(body);
+>>>>>>> 0bebd88929e5c90a5840d79003bf1bcf35615ec5
     } catch (e) {
       ErrorHandler(e.toString());
       rethrow;

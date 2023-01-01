@@ -36,7 +36,6 @@ class AllProvider with ChangeNotifier {
 
   Future<String> addUser(User user) async {
     String userId = await repository.post("user", user, user_dto);
-    print(user.phoneNumber + "kjsajkdasjkas");
     user.id = userId;
     users[userId] = user;
     notifyListeners();
