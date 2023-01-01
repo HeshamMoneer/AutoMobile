@@ -42,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
                 'assets/images/logo.png',
                 fit: BoxFit.contain,
                 height: 32,
+                color: Colors.white,
               ),
               Container(
                   padding: const EdgeInsets.all(8.0), child: Text('Automobile'))

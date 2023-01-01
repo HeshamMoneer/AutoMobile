@@ -36,189 +36,231 @@ class ListingDetailScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("Listings")),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 2),
-            height: 150,
-            width: MediaQuery.of(context).size.width,
-            child: Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return Image.network(
-                  listing.imageUrls[index],
-                  fit: BoxFit.fill,
-                );
-              },
-              itemCount: listing!.imageUrls.length,
-              pagination: new SwiperPagination(),
-              control: new SwiperControl(),
-              viewportFraction: 0.8,
-              scale: 0.9,
+      appBar: AppBar(title: Text("Listing Details")),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 2),
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                child: Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        listing.imageUrls[index],
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  },
+                  itemCount: listing!.imageUrls.length,
+                  pagination: new SwiperPagination(),
+                  control: new SwiperControl(),
+                  viewportFraction: 0.8,
+                  scale: 0.7,
+                ),
+              ),
             ),
-          ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+            SizedBox(
+              height: 15,
             ),
-            color: Color(0xFF0079b2),
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-            elevation: 25,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Card(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        width: 85,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.watch_later,
-                              color: Colors.black,
-                            ),
-                            Text(listing.biddingDurationInWords,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(fontSize: 15),
-                                softWrap: true),
-                          ],
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              color: ThemeColor.lightblack,
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+              elevation: 25,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Card(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          width: 100,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.watch_later,
+                                color: Colors.black,
+                              ),
+                              Text(listing.biddingDurationInWords,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 15),
+                                  softWrap: true),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Text(listing.title,
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                      softWrap: true),
-                  listing.bids.length == 0
-                      ? Text("Be the first to bid",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Color.fromARGB(229, 214, 214, 214)))
-                      : Text("Total bids: ${listing.bids.length}",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Color.fromARGB(229, 214, 214, 214))),
-                  Divider(
-                    color: Color.fromARGB(177, 255, 255, 255),
-                  ),
-                  Row(
-                    children: [
-                      Card(
-                          margin: EdgeInsets.only(right: 10),
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                child: Image.network(posterUser.profilePicPath,
-                                    height: 40, width: 40, fit: BoxFit.cover),
-                              ),
-                            ],
-                          )),
-                      Text(
-                        posterUser.firstName + " " + posterUser.lastName,
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
-                  // Row(
-                  //   children: [
-                  //     Text("starting:"),
-                  //     Icon(Icons.monetization_on_rounded),
-                  //     Text(listing.initialPrice.toString())
-                  //   ],
-                  // )
+                    Text(listing.title,
+                        style: AppTheme.titleStyle2, softWrap: true),
+                    listing.bids.length == 0
+                        ? Text("Be the first to bid",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Color.fromARGB(229, 214, 214, 214)))
+                        : Text("Total bids: ${listing.bids.length}",
+                            style: AppTheme.subTitleStyle),
+                    Divider(
+                      color: Color.fromARGB(177, 255, 255, 255),
+                    ),
+                    Row(
+                      children: [
+                        Card(
+                            margin: EdgeInsets.only(right: 10),
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25)),
+                                  child: Image.network(
+                                      posterUser.profilePicPath,
+                                      height: 30,
+                                      width: 30,
+                                      fit: BoxFit.cover),
+                                ),
+                              ],
+                            )),
+                        Text(
+                          posterUser.firstName + " " + posterUser.lastName,
+                          style: AppTheme.subTitleStyle,
+                        )
+                      ],
+                    ),
+                    // Row(
+                    //   children: [
+                    //     Text("starting:"),
+                    //     Icon(Icons.monetization_on_rounded),
+                    //     Text(listing.initialPrice.toString())
+                    //   ],
+                    // )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Description: ",
+                          style: AppTheme.titleStyle,
+                        )),
+                    Text(listing.description,
+                        style: TextStyle(fontSize: 15), softWrap: true),
+                  ],
+                )),
+            Container(
+              margin: EdgeInsets.all(10),
+              color: Color.fromARGB(223, 171, 171, 171).withOpacity(0.1),
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Biddings:", style: AppTheme.titleStyle),
+                      )),
+                  Container(
+                      height: 200,
+                      child: listing.bids.isEmpty
+                          ? Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "No biddings yet !",
+                                style: AppTheme.titleStyle,
+                              ))
+                          : ListView.builder(
+                              itemBuilder: (ctx, index) {
+                                return Card(
+                                  child: ListTile(
+                                    tileColor: Colors.white,
+                                    leading: Text(
+                                      listing
+                                          .bids[listing.bids.length - index - 1]
+                                          .price
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: index == 0
+                                              ? Colors.green
+                                              : Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    title: InkWell(
+                                      onTap: () {
+                                        //go to user page
+                                      },
+                                      child: Text(
+                                        posterUser.firstName +
+                                            " " +
+                                            posterUser.lastName,
+                                        style: AppTheme.titleStyle,
+                                      ),
+                                    ),
+                                    subtitle: Text(DateFormat('dd-MM-yyyy')
+                                        .format(listing
+                                            .bids[
+                                                listing.bids.length - index - 1]
+                                            .creationDate)),
+                                    trailing: IconButton(
+                                        onPressed: () {
+                                          //TODO: Add messaging
+                                          //message action
+                                        },
+                                        icon: Icon(
+                                          Icons.message,
+                                          color: Colors.black,
+                                        )),
+                                  ),
+                                );
+                              },
+                              itemCount: listing.bids.length,
+                            )),
                 ],
               ),
             ),
-          ),
-          Container(
-              margin: EdgeInsets.all(10),
-              child: Text(listing.description,
-                  style: TextStyle(fontSize: 20), softWrap: true)),
-          Container(
-            margin: EdgeInsets.all(10),
-            color: Color.fromARGB(227, 131, 213, 236),
-            child: Column(
-              children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Biddings:", style: AppTheme.h3Style)),
-                Container(
-                    height: 170,
-                    child: listing.bids.isEmpty
-                        ? Align(
-                            alignment: Alignment.center,
-                            child: Text("No biddings yet!"))
-                        : ListView.builder(
-                            itemBuilder: (ctx, index) {
-                              return Card(
-                                child: ListTile(
-                                  leading: Text(
-                                    listing
-                                        .bids[listing.bids.length - index - 1]
-                                        .price
-                                        .toString(),
-                                    style: TextStyle(
-                                        color: index == 0
-                                            ? Colors.green
-                                            : Colors.grey,
-                                        fontSize: 20),
-                                  ),
-                                  title: InkWell(
-                                    onTap: () {
-                                      //go to user page
-                                    },
-                                    child: Text(
-                                      posterUser.firstName +
-                                          " " +
-                                          posterUser.lastName,
-                                    ),
-                                  ),
-                                  subtitle: Text(DateFormat('dd-MM-yyyy')
-                                      .format(listing
-                                          .bids[listing.bids.length - index - 1]
-                                          .creationDate)),
-                                  trailing: IconButton(
-                                      onPressed: () {
-                                        //TODO: Add messaging
-                                        //message action
-                                      },
-                                      icon: Icon(Icons.message)),
-                                ),
-                              );
-                            },
-                            itemCount: listing.bids.length,
-                          )),
-              ],
+            SizedBox(
+              height: 25,
             ),
-          ),
-          Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(children: [
-                Text("Next Bid"),
-                Text(listing.newBidPrice.toString(),
-                    style: TextStyle(fontSize: 20))
-              ]),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20)),
-                onPressed: onBidClicked,
-                child: const Text('Bid Now!'),
-              )
-            ],
-          ))
-        ],
+            Container(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(children: [
+                  Text("Next Bid"),
+                  Text(listing.newBidPrice.toString(),
+                      style: TextStyle(fontSize: 14))
+                ]),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: ThemeColor.lightblack,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textStyle: const TextStyle(fontSize: 20)),
+                  onPressed: onBidClicked,
+                  child: Text('Bid Now !', style: AppTheme.titleStyle2),
+                )
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }
