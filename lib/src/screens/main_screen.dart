@@ -47,7 +47,6 @@ class _MainScreenState extends State<MainScreen> {
                   padding: const EdgeInsets.all(8.0), child: Text('Automobile'))
             ],
           ),
-          backgroundColor: ThemeColor.lightblack,
           actions: [
             IconButton(
                 onPressed: () {
