@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 import 'dart:ui';
 
@@ -27,9 +28,20 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         : myProvider.getUserById(anotherUserId);
 
     final appBar = AppBar(
+      leading: IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.arrow_back),
+      ),
+      actions: [
+        !isMe
+            ? IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.chat_bubble_outline_outlined))
+            : Container()
+      ],
       title: Text("Profile",
           style: AppTheme
-              .titleStyle), //TextStyle(color: ThemeColor.titleTextColor)),
+              .titleStyle2), //TextStyle(color: ThemeColor.titleTextColor)),
     );
 
     final editProfile = SizedBox(
@@ -43,11 +55,100 @@ class _UserProfileScreen extends State<UserProfileScreen> {
           style: AppTheme.subTitleStyle,
         ),
         style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColor.yellowColor,
+            backgroundColor: ThemeColor.lightblack,
             side: BorderSide.none,
             shape: StadiumBorder()),
       ),
-    ); // container
+    );
+
+    final settings = ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+          child: const Icon(Icons.settings, color: ThemeColor.lightblack),
+        ),
+        title: Text("Settings", style: Theme.of(context).textTheme.bodyText1),
+        trailing: Container(
+            width: 30,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey.withOpacity(0.16)),
+            child: GestureDetector(
+              onTap: () {
+                // print("here");
+              },
+              child: const Icon(LineAwesomeIcons.angle_right,
+                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+            )));
+    // container
+
+    final privacy = ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+          child: const Icon(Icons.privacy_tip, color: ThemeColor.lightblack),
+        ),
+        title: Text("Privacy", style: Theme.of(context).textTheme.bodyText1),
+        trailing: Container(
+            width: 30,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey.withOpacity(0.16)),
+            child: GestureDetector(
+              onTap: () {
+                // print("here");
+              },
+              child: const Icon(LineAwesomeIcons.angle_right,
+                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+            )));
+
+    final mybids = ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+          child: const Icon(Icons.post_add, color: ThemeColor.lightblack),
+        ),
+        title: Text("My Bids", style: Theme.of(context).textTheme.bodyText1),
+        trailing: Container(
+            width: 30,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey.withOpacity(0.16)),
+            child: GestureDetector(
+              onTap: () {
+                // print("here");
+              },
+              child: const Icon(LineAwesomeIcons.angle_right,
+                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+            )));
+
+    final logout = ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+          child: const Icon(Icons.logout, color: ThemeColor.lightblack),
+        ),
+        title: Text("Log out", style: Theme.of(context).textTheme.bodyText1),
+        trailing: Container(
+            width: 30,
+            height: 50,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey.withOpacity(0.16)),
+            child: GestureDetector(
+              onTap: () {
+                // print("here");
+              },
+              child: const Icon(LineAwesomeIcons.angle_right,
+                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+            )));
 
     final profileImage = FutureBuilder<User>(
       future: user,
@@ -78,10 +179,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                             height: 35,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: Colors.yellow),
+                                color: ThemeColor.lightblack),
                             child: IconButton(
                               icon: Icon(LineAwesomeIcons.alternate_pencil,
-                                  color: Colors.black, size: 20),
+                                  color: Colors.white, size: 20),
                               onPressed: () {
                                 //TODO: upload new profile picture
                               },
@@ -137,6 +238,13 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                         'Joining Date: ${curUser.joiningDate}',
                         style: AppTheme.h6Style,
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      settings,
+                      privacy,
+                      mybids,
+                      logout
                     ],
                   )
                 ],

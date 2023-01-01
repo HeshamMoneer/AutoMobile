@@ -38,6 +38,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
         notchMargin: 10,
         child: Container(
           height: 60,
+          color: ThemeColor.lightblack,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -56,14 +57,14 @@ class _NavBarScreenState extends State<NavBarScreen> {
                         Icon(
                           Icons.home,
                           color: selectedTabIndex == 0
-                              ? ThemeColor.lightblack
-                              : Colors.grey,
+                              ? ThemeColor.white
+                              : Color.fromARGB(255, 117, 116, 116),
                         ),
                         Text(
                           "Home",
                           style: TextStyle(
                               color: selectedTabIndex == 0
-                                  ? ThemeColor.lightblack
+                                  ? ThemeColor.white
                                   : Colors.grey),
                         )
                       ],
@@ -82,14 +83,14 @@ class _NavBarScreenState extends State<NavBarScreen> {
                         Icon(
                           Icons.inbox,
                           color: selectedTabIndex == 1
-                              ? ThemeColor.lightblack
+                              ? ThemeColor.white
                               : Colors.grey,
                         ),
                         Text(
                           "Inbox",
                           style: TextStyle(
                               color: selectedTabIndex == 1
-                                  ? ThemeColor.lightblack
+                                  ? ThemeColor.white
                                   : Colors.grey),
                         )
                       ],
@@ -113,14 +114,14 @@ class _NavBarScreenState extends State<NavBarScreen> {
                         Icon(
                           Icons.person,
                           color: selectedTabIndex == 2
-                              ? ThemeColor.lightblack
+                              ? ThemeColor.white
                               : Colors.grey,
                         ),
                         Text(
                           "Profile",
                           style: TextStyle(
                               color: selectedTabIndex == 2
-                                  ? ThemeColor.lightblack
+                                  ? ThemeColor.white
                                   : Colors.grey),
                         )
                       ],
@@ -139,14 +140,14 @@ class _NavBarScreenState extends State<NavBarScreen> {
                         Icon(
                           Icons.directions_car_rounded,
                           color: selectedTabIndex == 3
-                              ? ThemeColor.lightblack
+                              ? ThemeColor.white
                               : Colors.grey,
                         ),
                         Text(
                           "My listings",
                           style: TextStyle(
                               color: selectedTabIndex == 3
-                                  ? ThemeColor.lightblack
+                                  ? ThemeColor.white
                                   : Colors.grey),
                         )
                       ],

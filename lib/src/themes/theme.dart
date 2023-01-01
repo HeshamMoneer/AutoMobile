@@ -12,15 +12,21 @@ class AppTheme {
       iconTheme: IconThemeData(color: ThemeColor.iconColor),
       bottomAppBarColor: ThemeColor.background,
       dividerColor: ThemeColor.background,
+      appBarTheme: AppBarTheme(color: ThemeColor.lightblack),
       primaryTextTheme:
           TextTheme(bodyText1: TextStyle(color: ThemeColor.titleTextColor)));
 
   static TextStyle titleStyle = const TextStyle(
+      color: Color.fromARGB(255, 33, 33, 33),
+      fontSize: 16,
+      fontWeight: FontWeight.bold);
+
+  static TextStyle titleStyle2 = const TextStyle(
       color: ThemeColor.titleTextColor,
       fontSize: 16,
       fontWeight: FontWeight.bold);
   static TextStyle subTitleStyle =
-      const TextStyle(color: ThemeColor.subTitleTextColor, fontSize: 12);
+      const TextStyle(color: ThemeColor.white, fontSize: 12);
   static TextStyle bidButtonTextStyle = const TextStyle(
       color: ThemeColor.white, fontSize: 16, fontWeight: FontWeight.bold);
   static TextStyle bidButtonInactiveTextStyle = const TextStyle(
