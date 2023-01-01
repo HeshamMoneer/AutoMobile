@@ -30,11 +30,6 @@ class _LoginSignUpState extends State<LoginSignUp> {
   bool login = true;
 
   Future<void> registerUser() async {
-<<<<<<< HEAD
-    print("we are not here");
-
-=======
->>>>>>> 0bebd88929e5c90a5840d79003bf1bcf35615ec5
     // problem here that the listen not true and when i make it false it's not inserting user into the db only register it
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     var user = User(
