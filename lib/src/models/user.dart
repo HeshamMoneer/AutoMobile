@@ -6,14 +6,24 @@ class User {
   String firstName;
   String lastName;
   String email;
+<<<<<<< HEAD
   String? birthDate;
+=======
+  DateTime? birthDate;
+>>>>>>> UserProfile
   double balance;
   String phoneNumber;
   String profilePicPath;
   bool isMale;
+<<<<<<< HEAD
   String joiningDate;
   List<Bid> bids;
   List<Listing> listings;
+=======
+  DateTime joiningDate;
+  List<Bid>? bids;
+  List<Listing>? listings;
+>>>>>>> UserProfile
   User({
     required this.id,
     required this.firstName,
@@ -26,8 +36,14 @@ class User {
     this.profilePicPath =
         "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
     required this.isMale,
+<<<<<<< HEAD
     List<Bid>? bids,
     List<Listing>? listings,
   })  : bids = bids ?? [],
         listings = listings ?? [];
+=======
+    this.bids,
+    this.listings,
+  });
+>>>>>>> UserProfile
 }
