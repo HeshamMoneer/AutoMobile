@@ -3,8 +3,9 @@ import 'package:AutoMobile/src/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:intl/intl.dart';
-import '';
+import 'package:provider/provider.dart';
 
+import '../provider/provider.dart';
 import '../themes/theme.dart';
 import '../themes/theme_color.dart';
 import '../widgets/make_bidding.dart';
@@ -16,20 +17,22 @@ class ListingDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<AllProvider>(context);
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Listing>;
     final listing = routeArgs['listing'];
     //Query poster from ID
-    final posterUser = User(
-        id: "1",
-        firstName: "Ahmed",
-        lastName: "Atwan",
-        email: "a@leh.com",
-        phoneNumber: "01010",
-        joiningDate: DateTime.now().toString(),
-        isMale: true);
+    // final posterUser = User(
+    //     id: "1",
+    //     firstName: "Ahmed",
+    //     lastName: "Atwan",
+    //     email: "a@leh.com",
+    //     phoneNumber: "01010",
+    //     joiningDate: DateTime.now().toString(),
+    //     isMale: true);
+    final User? posterUser = myProvider.getUserById(listing!.userId) as User?;
     void onBidClicked() {
-      if (!listing!.biddingEnded) {
+      if (!listing.biddingEnded) {
         // TODO: go to bid screen
         showBidBottomSheet(context, listing);
       }
@@ -56,7 +59,7 @@ class ListingDetailScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: listing!.imageUrls.length,
+                  itemCount: listing.imageUrls.length,
                   pagination: new SwiperPagination(),
                   control: new SwiperControl(),
                   viewportFraction: 0.8,
@@ -126,7 +129,7 @@ class ListingDetailScreen extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(25)),
                                   child: Image.network(
-                                      posterUser.profilePicPath,
+                                      posterUser!.profilePicPath,
                                       height: 30,
                                       width: 30,
                                       fit: BoxFit.cover),
@@ -187,6 +190,10 @@ class ListingDetailScreen extends StatelessWidget {
                               ))
                           : ListView.builder(
                               itemBuilder: (ctx, index) {
+                                final User? bidderUser = myProvider.getUserById(
+                                    listing
+                                        .bids[listing.bids.length - index - 1]
+                                        .userId) as User?;
                                 return Card(
                                   child: ListTile(
                                     tileColor: Colors.white,
@@ -207,9 +214,9 @@ class ListingDetailScreen extends StatelessWidget {
                                         //go to user page
                                       },
                                       child: Text(
-                                        posterUser.firstName +
+                                        bidderUser!.firstName +
                                             " " +
-                                            posterUser.lastName,
+                                            bidderUser.lastName,
                                         style: AppTheme.titleStyle,
                                       ),
                                     ),
@@ -242,11 +249,19 @@ class ListingDetailScreen extends StatelessWidget {
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(children: [
-                  Text("Next Bid"),
-                  Text(listing.newBidPrice.toString(),
-                      style: TextStyle(fontSize: 14))
-                ]),
+                listing.biddingEnded
+                    ? listing.bids.length == 0
+                        ? Text("Not Sold")
+                        : Column(children: [
+                            Text("Sold for"),
+                            Text(listing.finalPrice.toString(),
+                                style: TextStyle(fontSize: 14))
+                          ])
+                    : Column(children: [
+                        Text("Next Bid"),
+                        Text(listing.newBidPrice.toString(),
+                            style: TextStyle(fontSize: 14))
+                      ]),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: ThemeColor.lightblack,
@@ -254,7 +269,7 @@ class ListingDetailScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       textStyle: const TextStyle(fontSize: 20)),
-                  onPressed: onBidClicked,
+                  onPressed: listing.biddingEnded ? null : onBidClicked,
                   child: Text('Bid Now !', style: AppTheme.titleStyle2),
                 )
               ],
