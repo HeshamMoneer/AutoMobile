@@ -1,12 +1,10 @@
 import 'package:AutoMobile/src/screens/userProfile_screen.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
-import 'create_listing_screen.dart';
 import 'inbox_screen.dart';
 
 import 'main_screen.dart';
+import 'my_listings_screen.dart';
 
 class NavBarScreen extends StatefulWidget {
   @override
@@ -19,7 +17,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
     MainScreen(),
     InboxScreen(),
     UserProfileScreen(),
-    CreateListingScreen()
+    MyListingsScreen()
   ];
 
   @override
@@ -134,12 +132,12 @@ class _NavBarScreenState extends State<NavBarScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.home,
+                          Icons.directions_car_rounded,
                           color:
                               selectedTabIndex == 3 ? Colors.blue : Colors.grey,
                         ),
                         Text(
-                          "Addd",
+                          "My listings",
                           style: TextStyle(
                               color: selectedTabIndex == 3
                                   ? Colors.blue
