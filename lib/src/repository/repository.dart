@@ -17,7 +17,6 @@ class Repository {
   }
 
   Future<String> post(String collectionName, Object model, DTO dto) async {
-    var user = model as User;
     var body = dto.ModelToJson(model);
     return fireBaseHandler.post(collectionName, body);
   }
