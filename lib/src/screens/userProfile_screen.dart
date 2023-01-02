@@ -1,9 +1,6 @@
-import 'dart:developer';
-import 'dart:ffi';
-import 'dart:ui';
-
 import 'package:AutoMobile/src/models/user.dart';
 import 'package:AutoMobile/src/provider/provider.dart';
+import 'package:AutoMobile/src/screens/my_bids.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +105,12 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             )));
 
     final mybids = ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyBidsScreen()),
+          );
+        },
         leading: Container(
           width: 30,
           height: 30,

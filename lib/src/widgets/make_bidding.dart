@@ -47,9 +47,11 @@ class _MakeBiddingState extends State<MakeBidding> {
             creationDate: DateTime.now());
         await allProvider.addBid(bid);
         Navigator.of(context).pop();
-        Listing updatedListing = await allProvider.getListingById(bid.listingId);
-        Navigator.of(context)
-        .pushReplacementNamed('/listingDetail', arguments: {'listing': updatedListing});
+        Listing updatedListing =
+            await allProvider.getListingById(bid.listingId);
+        if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/listingDetail',
+            arguments: {'listing': updatedListing});
       } catch (e) {
         print(e);
         showErrorDialog(context, body: e.toString());
