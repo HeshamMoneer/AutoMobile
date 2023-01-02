@@ -1,10 +1,10 @@
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/screens/search.dart';
+import 'package:AutoMobile/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/listing.dart';
-import '../themes/theme_color.dart';
 import '../widgets/listing_card.dart';
 
 class MainScreen extends StatefulWidget {
@@ -38,12 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.contain,
-                height: 32,
-                color: Colors.white,
-              ),
+              addLogo(32, false),
               Container(
                   padding: const EdgeInsets.all(8.0), child: Text('Automobile'))
             ],
