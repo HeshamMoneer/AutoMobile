@@ -174,24 +174,6 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                               fit: BoxFit.cover,
                             )),
                       ),
-                      if (isMe)
-                        Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: ThemeColor.lightblack),
-                              child: IconButton(
-                                icon: Icon(LineAwesomeIcons.alternate_pencil,
-                                    color: Colors.white, size: 20),
-                                onPressed: () {
-                                  //TODO: upload new profile picture
-                                },
-                              ),
-                            ))
                     ]),
                     SizedBox(
                       height: 10,
