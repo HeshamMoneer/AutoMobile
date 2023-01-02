@@ -7,10 +7,6 @@ import '../themes/theme_color.dart';
 
 class InboxScreen extends StatelessWidget {
   final appBar = AppBar(
-    leading: IconButton(
-      onPressed: () {},
-      icon: Icon(Icons.arrow_back),
-    ),
     title: Text("Inbox",
         style: AppTheme
             .titleStyle2), //TextStyle(color: ThemeColor.titleTextColor)),

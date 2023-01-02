@@ -154,9 +154,9 @@ class AllProvider with ChangeNotifier {
   //================================================= get by id
 
   Future<Bid> getBidById(String id) async {
-    if (bids.containsKey(id)) {
-      return bids[id]!;
-    }
+    // if (bids.containsKey(id)) {
+    //   return bids[id]!;
+    // }
     var jsonData = await repository.get("bid", id);
     Bid bid = JsonToBid(jsonData);
     bids[bid.id] = bid;
@@ -165,9 +165,9 @@ class AllProvider with ChangeNotifier {
   }
 
   Future<Listing> getListingById(String id) async {
-    if (listings.containsKey(id)) {
-      return listings[id]!;
-    }
+    // if (listings.containsKey(id)) {
+    //   return listings[id]!;
+    // }
     var jsonData = await repository.get("listing", id);
     Listing list = JsonToListing(jsonData);
     listings[list.id] = list;
@@ -176,9 +176,9 @@ class AllProvider with ChangeNotifier {
   }
 
   Future<User> getUserById(String id) async {
-    if (users.containsKey(id)) {
-      return users[id]!;
-    }
+    // if (users.containsKey(id)) {
+    //   return users[id]!;
+    // }
     var jsonData = await repository.get("user", id);
     User user = JsonToUser(jsonData);
     users[user.id] = user;
@@ -212,6 +212,14 @@ class AllProvider with ChangeNotifier {
       bids[element["id"]] = JsonToBid(element);
     });
     notifyListeners();
+  }
+
+  //========================== update
+
+  Future<void> updateCurrentUser(User user) async {
+    await this
+        .repository
+        .patch("user", this.getCurrentUserId(), user, user_dto);
   }
 
   //================================================= getters

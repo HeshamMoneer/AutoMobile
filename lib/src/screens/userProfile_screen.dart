@@ -28,10 +28,6 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         : myProvider.getUserById(anotherUserId);
 
     final appBar = AppBar(
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.arrow_back),
-      ),
       actions: [
         !isMe
             ? IconButton(
@@ -61,14 +57,16 @@ class _UserProfileScreen extends State<UserProfileScreen> {
       ),
     );
 
-    final settings = ListTile(
+    final MyListings = ListTile(
         leading: Container(
           width: 30,
           height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-          child: const Icon(Icons.settings, color: ThemeColor.lightblack),
+          child:
+              const Icon(Icons.post_add_outlined, color: ThemeColor.lightblack),
         ),
-        title: Text("Settings", style: Theme.of(context).textTheme.bodyText1),
+        title:
+            Text("My Listings", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
             width: 30,
             height: 30,
@@ -77,7 +75,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                 color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
-                // print("here");
+                Navigator.of(context).pushNamed('/myListing');
               },
               child: const Icon(LineAwesomeIcons.angle_right,
                   size: 18, color: Color.fromARGB(255, 58, 57, 57)),
@@ -101,7 +99,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                 color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
-                // print("here");
+                Navigator.of(context).pushNamed('/editProfile');
               },
               child: const Icon(LineAwesomeIcons.angle_right,
                   size: 18, color: Color.fromARGB(255, 58, 57, 57)),
@@ -112,7 +110,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
           width: 30,
           height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-          child: const Icon(Icons.post_add, color: ThemeColor.lightblack),
+          child: const Icon(Icons.list_alt, color: ThemeColor.lightblack),
         ),
         title: Text("My Bids", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
@@ -145,7 +143,8 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                 color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
-                // print("here");
+                myProvider.repository.fireBaseHandler.signout().then(
+                    (value) => Navigator.of(context).pushReplacementNamed('/'));
               },
               child: const Icon(LineAwesomeIcons.angle_right,
                   size: 18, color: Color.fromARGB(255, 58, 57, 57)),
@@ -302,7 +301,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                           height: 10,
                         ),
                         if (isMe) profileEdit,
-                        if (isMe) settings,
+                        if (isMe) MyListings,
                         if (isMe) mybids,
                         if (isMe) logout
                       ],
