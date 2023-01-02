@@ -38,6 +38,16 @@ class AppTheme {
   static TextStyle h4Style = const TextStyle(fontSize: 18);
   static TextStyle h5Style = const TextStyle(fontSize: 16);
   static TextStyle h6Style = const TextStyle(fontSize: 14);
+  static var buttonStyleBlack = ElevatedButton.styleFrom(
+      backgroundColor: ThemeColor.lightblack,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ));
+  static var buttonStyleWhite = ElevatedButton.styleFrom(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ));
 
   static List<BoxShadow> shadow = <BoxShadow>[
     BoxShadow(color: Color(0xfff8f8f8), blurRadius: 10, spreadRadius: 15),

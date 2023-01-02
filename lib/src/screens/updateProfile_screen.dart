@@ -104,11 +104,9 @@ class UpdateProfileScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 15,
                               letterSpacing: 2,
-                              color: Colors.black),
+                              color: Color.fromARGB(255, 0, 0, 0)),
                         ),
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 50),
-                        ),
+                        style: AppTheme.buttonStyleWhite,
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -132,10 +130,7 @@ class UpdateProfileScreen extends StatelessWidget {
                               letterSpacing: 2,
                               color: Colors.white),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: ThemeColor.lightblack,
-                          padding: EdgeInsets.symmetric(horizontal: 50),
-                        ),
+                        style: AppTheme.buttonStyleBlack,
                       )
                     ],
                   )

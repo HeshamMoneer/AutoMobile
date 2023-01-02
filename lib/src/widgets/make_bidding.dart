@@ -1,3 +1,5 @@
+import 'package:AutoMobile/src/themes/theme.dart';
+import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:AutoMobile/src/widgets/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -33,8 +35,8 @@ class _MakeBiddingState extends State<MakeBidding> {
     int minBidAmount = widget.listing.newBidPrice;
     int maxBidAmount = minBidAmount + 100 * bidAmountStep;
 
-    void onMakeBidding() async {
-      var allProvider = Provider.of<AllProvider>(context, listen: false);
+    void makeBid() async {
+      var allProvider = Provider.of<AllProvider>(context);
       try {
         setState(() {
           isLoading = true;
@@ -50,7 +52,7 @@ class _MakeBiddingState extends State<MakeBidding> {
         Listing updatedListing =
             await allProvider.getListingById(bid.listingId);
         if (Navigator.of(context).canPop()) Navigator.of(context).pop();
-        Navigator.of(context).pushNamed('/listingDetail',
+        Navigator.of(context).pushReplacementNamed('/listingDetail',
             arguments: {'listing': updatedListing});
       } catch (e) {
         print(e);
@@ -58,9 +60,13 @@ class _MakeBiddingState extends State<MakeBidding> {
       }
     }
 
+    void onMakeBidding() async {
+      showConfirmationDialog(context: context, onConfirm: makeBid);
+    }
+
     return SingleChildScrollView(
         child: SizedBox(
-            height: 200,
+            height: 180,
             child: isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
@@ -75,29 +81,31 @@ class _MakeBiddingState extends State<MakeBidding> {
                         Container(
                             margin: EdgeInsets.only(bottom: 20),
                             child: NumberPicker(
+                              textStyle: TextStyle(color: Colors.black),
                               value: _bidAmount,
                               minValue: minBidAmount,
                               maxValue: maxBidAmount,
                               step: bidAmountStep,
-                              itemHeight: 100,
+                              itemHeight: 70,
                               haptics: true,
                               axis: Axis.horizontal,
                               onChanged: (value) =>
                                   setState(() => _bidAmount = value),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                border:
-                                    Border.all(color: Colors.blue, width: 2),
+                                border: Border.all(
+                                    color: ThemeColor.black, width: 2),
                               ),
                             )),
                         SizedBox(
                           width: MediaQuery.of(context).size.width /
-                              2, // <-- match_parent
+                              3, // <-- match_parent
                           height: 50,
                           child: ElevatedButton(
+                              style: AppTheme.buttonStyleBlack,
                               onPressed: onMakeBidding,
                               child: Text(
-                                "Bid",
+                                "Make a Bid",
                               )),
                         )
                       ],
