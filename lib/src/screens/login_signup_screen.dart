@@ -111,10 +111,15 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 20,
               ),
+              Text(
+                "Automobile",
+                style: GoogleFonts.bebasNeue(fontSize: 50),
+              ),
               addLogo(100, true),
               Text(
                 "Since 2022",
-                style: GoogleFonts.bebasNeue(fontSize: 50),
+                style: GoogleFonts.bebasNeue(
+                    fontSize: 20, fontWeight: FontWeight.normal),
               ),
               SizedBox(
                 height: 10,
@@ -192,10 +197,17 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 10,
               ),
+              Text(
+                "Automobile",
+                style: GoogleFonts.bebasNeue(fontSize: 45),
+                textAlign: TextAlign.center,
+              ),
               addLogo(50, true),
               Text(
                 "Since 2022",
-                style: GoogleFonts.bebasNeue(fontSize: 45),
+                style: GoogleFonts.bebasNeue(
+                    fontSize: 20, fontWeight: FontWeight.normal),
+                textAlign: TextAlign.center,
               ),
               SizedBox(
                 height: 10,
