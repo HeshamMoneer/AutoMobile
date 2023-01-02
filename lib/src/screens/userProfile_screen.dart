@@ -63,18 +63,18 @@ class _UserProfileScreen extends State<UserProfileScreen> {
 
     final settings = ListTile(
         leading: Container(
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
           child: const Icon(Icons.settings, color: ThemeColor.lightblack),
         ),
         title: Text("Settings", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
             width: 30,
-            height: 50,
+            height: 30,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.16)),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
                 // print("here");
@@ -84,20 +84,21 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             )));
     // container
 
-    final privacy = ListTile(
+    final profileEdit = ListTile(
         leading: Container(
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-          child: const Icon(Icons.privacy_tip, color: ThemeColor.lightblack),
+          child: const Icon(Icons.edit_note, color: ThemeColor.lightblack),
         ),
-        title: Text("Privacy", style: Theme.of(context).textTheme.bodyText1),
+        title: Text("Edit My Profile",
+            style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
             width: 30,
-            height: 50,
+            height: 30,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.16)),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
                 // print("here");
@@ -108,18 +109,18 @@ class _UserProfileScreen extends State<UserProfileScreen> {
 
     final mybids = ListTile(
         leading: Container(
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
           child: const Icon(Icons.post_add, color: ThemeColor.lightblack),
         ),
         title: Text("My Bids", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
             width: 30,
-            height: 50,
+            height: 30,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.16)),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
                 // print("here");
@@ -130,18 +131,18 @@ class _UserProfileScreen extends State<UserProfileScreen> {
 
     final logout = ListTile(
         leading: Container(
-          width: 40,
-          height: 40,
+          width: 30,
+          height: 30,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
           child: const Icon(Icons.logout, color: ThemeColor.lightblack),
         ),
         title: Text("Log out", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
             width: 30,
-            height: 50,
+            height: 30,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.grey.withOpacity(0.16)),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
                 // print("here");
@@ -155,100 +156,160 @@ class _UserProfileScreen extends State<UserProfileScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           User? curUser = snapshot.data;
-          return Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Stack(children: [
+          return SingleChildScrollView(
+            child: Container(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Stack(children: [
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              curUser!.profilePicPath,
+                              fit: BoxFit.cover,
+                            )),
+                      ),
+                      if (isMe)
+                        Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 35,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: ThemeColor.lightblack),
+                              child: IconButton(
+                                icon: Icon(LineAwesomeIcons.alternate_pencil,
+                                    color: Colors.white, size: 20),
+                                onPressed: () {
+                                  //TODO: upload new profile picture
+                                },
+                              ),
+                            ))
+                    ]),
                     SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(
-                            curUser!.profilePicPath,
-                            fit: BoxFit.cover,
-                          )),
+                      height: 10,
                     ),
-                    if (isMe)
-                      Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: ThemeColor.lightblack),
-                            child: IconButton(
-                              icon: Icon(LineAwesomeIcons.alternate_pencil,
-                                  color: Colors.white, size: 20),
-                              onPressed: () {
-                                //TODO: upload new profile picture
-                              },
-                            ),
-                          ))
-                  ]),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "${curUser.firstName} ${curUser.lastName}",
-                    style: AppTheme.titleStyle,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '${curUser.email}',
-                    style: AppTheme.titleStyle,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  if (isMe) editProfile,
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Birth Date: ${curUser.birthDate}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Gender: ${curUser.isMale ? "Male" : "Female"}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Phone Number: ${curUser.phoneNumber}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Joining Date: ${curUser.joiningDate}',
-                        style: AppTheme.h6Style,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      settings,
-                      privacy,
-                      mybids,
-                      logout
-                    ],
-                  )
-                ],
-              ));
+                    Text(
+                      "${curUser.firstName} ${curUser.lastName}",
+                      style: AppTheme.titleStyle,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      '${curUser.email}',
+                      style: AppTheme.titleStyle,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // if (isMe) editProfile,
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.date_range_outlined),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Birth Date',
+                                style: AppTheme.titleStyle,
+                              ),
+                              Text(
+                                '${curUser.birthDate}',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ListTile(
+                          leading:
+                              Icon(curUser.isMale ? Icons.male : Icons.female),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Gender',
+                                style: AppTheme.titleStyle,
+                              ),
+                              Text(
+                                '${curUser.isMale ? 'Male' : 'Female'}',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.phone_android),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: AppTheme.titleStyle,
+                              ),
+                              Text(
+                                '${curUser.phoneNumber}',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.calendar_today),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Joining Date',
+                                style: AppTheme.titleStyle,
+                              ),
+                              Text(
+                                '${curUser.joiningDate}',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        if (isMe) profileEdit,
+                        if (isMe) settings,
+                        if (isMe) mybids,
+                        if (isMe) logout
+                      ],
+                    )
+                  ],
+                )),
+          );
         } else if (snapshot.hasError) {
           return ErrorWidget(
               "The user data could not be found!! + ${snapshot.error}");
