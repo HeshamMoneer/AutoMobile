@@ -1,5 +1,6 @@
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
+import 'package:AutoMobile/src/widgets/dialogs.dart';
 import 'package:AutoMobile/src/widgets/make_bidding.dart';
 import 'package:flutter/material.dart';
 import 'package:AutoMobile/src/provider/provider.dart';
@@ -23,6 +24,34 @@ class ListingCard extends StatelessWidget {
         showBidBottomSheet(context, listing);
       }
     }
+
+    void onDeleteListing() async {
+      Navigator.of(context).pop();
+      try {
+        showLoadingDialog(context);
+        await allProvider.deleteListing(listing);
+        Navigator.of(context).pop();
+      } catch (e) {
+        showErrorDialog(context);
+      }
+    }
+
+    final deleteButton = isOwner
+        ? SizedBox(
+            width: 80,
+            child: IconButton(
+              onPressed: () {
+                showConfirmationDialog(
+                    context: context, onConfirm: onDeleteListing);
+              },
+              icon: Icon(
+                Icons.delete,
+                color: Colors.grey,
+              ),
+              // alignment: Alignment.bottomRight,
+              iconSize: 32,
+            ))
+        : Container();
 
     final imageOverlay =
         Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -64,13 +93,18 @@ class ListingCard extends StatelessWidget {
             Positioned.fill(child: Center(child: imageOverlay)),
           ],
         ));
-    String bidButtonText =
-        '${biddingEnded ? "Sold" : "Bid now"}\n${listing.newBidPrice.toString()}';
+
     int nBids = listing.bids.length;
+    String bidButtonText =
+        '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : "Bid now"}';
+    String bidButtonPrice = biddingEnded
+        ? listing.finalPrice.toInt().toString()
+        : listing.newBidPrice.toString();
     bool bidButtonDimmed = biddingEnded;
     if (isOwner) {
       bidButtonText =
-          '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : (nBids == 0 ? "No Bids" : "${nBids} Bid")}\n${listing.finalPrice.toInt().toString()}';
+          '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : "${(nBids == 0 ? "No" : nBids)} Bid${nBids == 1 ? "" : "s"}"}';
+      bidButtonPrice = listing.finalPrice.toInt().toString();
     }
 
     final bidNowButton = Container(
@@ -78,21 +112,35 @@ class ListingCard extends StatelessWidget {
       child: InkWell(
           onTap: onBidClicked,
           child: Ink(
-            padding: EdgeInsets.all(10),
-            width: 80,
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              color:
-                  bidButtonDimmed ? ThemeColor.lightGrey : ThemeColor.darkgrey,
-            ),
-            child: Text(
-              bidButtonText,
-              style: bidButtonDimmed
-                  ? AppTheme.bidButtonInactiveTextStyle
-                  : AppTheme.bidButtonTextStyle,
-            ),
-          )),
+              padding: EdgeInsets.all(10),
+              width: 100,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: bidButtonDimmed
+                    ? ThemeColor.lightGrey
+                    : ThemeColor.darkgrey,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    bidButtonText,
+                    style: bidButtonDimmed
+                        ? AppTheme.bidButtonInactiveTextStyle
+                        : AppTheme.bidButtonTextStyle,
+                  ),
+                  Text(
+                    bidButtonPrice,
+                    style: bidButtonDimmed
+                        ? AppTheme.bidButtonInactiveTextStyle
+                        : AppTheme.bidButtonTextStyle,
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                  ),
+                ],
+              ))),
     );
 
     final detailsCol = Flexible(
@@ -106,7 +154,9 @@ class ListingCard extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-        bidNowButton
+        Row(
+          children: [bidNowButton, deleteButton],
+        )
       ],
     ));
 

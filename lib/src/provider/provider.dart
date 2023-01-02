@@ -46,8 +46,6 @@ class AllProvider with ChangeNotifier {
     String listingId = await repository.post("listing", listing, listing_dto);
     listing.id = listingId;
     listings[listingId] = listing;
-    print(listing.userId);
-    print(getCurrentUserId());
     User user = await getUserById(listing.userId);
     user.listings.add(listing);
     await Future.wait([
@@ -234,7 +232,37 @@ class AllProvider with ChangeNotifier {
     return getAllListings.values.toList();
   }
 
-  // TODO: Deletions and updates are still missing
+  //================================================= deletions
+  Future<void> deleteListing(Listing listing) async {
+    List<Future> futures = [];
+    listing.bids.forEach((bid) =>
+        futures.add(deleteBid(bid, notify: false, deleteFromListing: false)));
+    futures.add(repository.delete("listing", listing.id, listing_dto));
+    listings.remove(listing.id);
+    User user = await getUserById(listing.userId);
+    user.listings.removeWhere((element) => element.id == listing.id);
+    futures.add(repository.patch("user", user.id, user, user_dto));
+    await Future.wait(futures);
+    notifyListeners();
+  }
+
+  Future<void> deleteBid(Bid bid,
+      {bool notify = true, bool deleteFromListing = true}) async {
+    List<Future> futures = [];
+    futures.add(repository.delete("bid", bid.id, bid_dto));
+    bids.remove(bid.id);
+    if (deleteFromListing) {
+      Listing listing = await getListingById(bid.listingId);
+      listing.bids.removeWhere((element) => element.id == bid.id);
+      futures
+          .add(repository.patch("listing", listing.id, listing, listing_dto));
+    }
+    User user = await getUserById(bid.userId);
+    user.bids.removeWhere((element) => element.id == bid.id);
+    futures.add(repository.patch("user", user.id, user, user_dto));
+    await Future.wait(futures);
+    if (notify) notifyListeners();
+  }
 
   // TODO:Define here whatever methods you need to implement for any model
 

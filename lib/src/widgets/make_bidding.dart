@@ -1,5 +1,4 @@
-import 'package:AutoMobile/src/widgets/error_dialog.dart';
-import 'package:AutoMobile/src/widgets/listing_card.dart';
+import 'package:AutoMobile/src/widgets/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -53,7 +52,7 @@ class _MakeBiddingState extends State<MakeBidding> {
         .pushReplacementNamed('/listingDetail', arguments: {'listing': updatedListing});
       } catch (e) {
         print(e);
-        showErrorDialog(context, e.toString());
+        showErrorDialog(context, body: e.toString());
       }
     }
 
