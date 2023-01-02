@@ -21,7 +21,9 @@ class FireBaseHandler {
           (await FirebaseFirestore.instance.collection(collectionName).get())
               .docs;
       List<Map<String, dynamic>> result = receivedData.map((el) {
-        return el.data();
+        Map<String, dynamic> result = el.data();
+        result["id"] = el.reference.id;
+        return result;
       }).toList();
       return result;
     } catch (e) {
