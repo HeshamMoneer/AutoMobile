@@ -42,7 +42,7 @@ dependencies:
   numberpicker: ^2.1.1
   flutter_swiper_null_safety: ^1.0.2
   line_awesome_flutter: ^2.0.0
-  #intl: ^0.18.0
+  intl: ^0.18.0
   google_fonts:
   gender_picker: ^1.1.0
 
@@ -74,8 +74,6 @@ dev_dependencies:
   #flutter_lints: ^2.0.0
 
   #flutter_lints: ^2.0.0
-dependency_overrides:
- intl: any
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
