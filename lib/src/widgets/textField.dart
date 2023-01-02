@@ -4,10 +4,12 @@ class CustomTextField extends StatelessWidget {
   String labelText;
   String placeHolder;
   bool isPassword;
+  TextEditingController controller;
   CustomTextField(
       {required this.labelText,
       required this.placeHolder,
-      required this.isPassword});
+      required this.isPassword,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class CustomTextField extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 30),
       child: TextField(
         obscureText: isPassword ? true : false,
+        controller: this.controller,
         decoration: InputDecoration(
             suffixIcon: isPassword
                 ? IconButton(

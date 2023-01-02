@@ -88,7 +88,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
           creationDate: DateTime.now());
       await allProvider.addListing(listing);
       //TODO: this code executes even if an error is thrown
-      Navigator.of(context).pushReplacementNamed('/mainscreen');
+      Navigator.of(context).pop();
     } catch (e) {
       print(e);
     }
@@ -267,7 +267,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 GestureDetector(
                   onTap: (() {
-                    Navigator.of(context).pushReplacementNamed('/mainscreen');
+                    Navigator.of(context).pop();
                   }),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
