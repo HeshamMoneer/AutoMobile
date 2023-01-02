@@ -1,6 +1,7 @@
-import 'dart:ui';
-
 import 'package:AutoMobile/src/models/user.dart';
+import 'package:AutoMobile/src/widgets/input_field.dart';
+import 'package:AutoMobile/src/widgets/logo.dart';
+import 'package:date_field/date_field.dart';
 import "package:flutter/material.dart";
 import 'package:gender_picker/source/enums.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +10,7 @@ import '../provider/provider.dart';
 import 'package:provider/provider.dart';
 
 import '../repository/errorhandler.dart';
-import 'package:gender_picker/source/gender_picker.dart';
-
+import 'package:intl/intl.dart';
 import '../widgets/GenderPicker.dart';
 
 class LoginSignUp extends StatefulWidget {
@@ -26,11 +26,12 @@ class _LoginSignUpState extends State<LoginSignUp> {
   var phoneNumberController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+  var birthdateController = DateTime.parse("2005-01-01");
+  DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   var userGender = true;
   bool login = true;
 
   Future<void> registerUser() async {
-    // problem here that the listen not true and when i make it false it's not inserting user into the db only register it
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     var user = User(
         id: "",
@@ -38,7 +39,8 @@ class _LoginSignUpState extends State<LoginSignUp> {
         lastName: lastNameController.text,
         email: emailController.text,
         phoneNumber: phoneNumberController.text,
-        joiningDate: DateTime.now().toString(),
+        joiningDate: dateFormat.format(DateTime.now()),
+        birthDate: dateFormat.format(birthdateController),
         isMale: userGender);
     await allProvider.addUser(user);
   }
@@ -55,8 +57,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
       if (!login) {
         if (passwordController.text == confirmPasswordController.text) {
           try {
-            print("we are not here");
-            var result = await myprovider.repository.fireBaseHandler
+            await myprovider.repository.fireBaseHandler
                 .signup(emailController.text, passwordController.text);
             await registerUser();
           } catch (e) {
@@ -66,7 +67,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
           throw ErrorHandler("The passwords do not match");
         }
       } else {
-        var result = await myprovider.repository.fireBaseHandler
+        await myprovider.repository.fireBaseHandler
             .login(emailController.text, passwordController.text);
       }
       Navigator.of(context).pushReplacementNamed('/mainscreen');
@@ -107,16 +108,12 @@ class _LoginSignUpState extends State<LoginSignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.car_rental,
-                size: 100,
-                color: Colors.black,
-              ),
               SizedBox(
                 height: 20,
               ),
+              addLogo(100, true),
               Text(
-                "Hello Again!",
+                "Since 2022",
                 style: GoogleFonts.bebasNeue(fontSize: 50),
               ),
               SizedBox(
@@ -131,43 +128,11 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 50,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Email "),
-                    ),
-                  ),
-                ),
-              ),
+              inputField('Email', emailController),
               SizedBox(
                 height: 15,
               ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none, hintText: "Password "),
-                      ),
-                    ),
-                  )),
+              inputField('Password', passwordController, obscureText: true),
               SizedBox(
                 height: 15,
               ),
@@ -224,16 +189,12 @@ class _LoginSignUpState extends State<LoginSignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.car_rental,
-                size: 50,
-                color: Colors.black,
-              ),
               SizedBox(
                 height: 10,
               ),
+              addLogo(50, true),
               Text(
-                "Hello There",
+                "Since 2022",
                 style: GoogleFonts.bebasNeue(fontSize: 45),
               ),
               SizedBox(
@@ -248,126 +209,54 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: firstNameController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "First Name "),
-                    ),
-                  ),
-                ),
+              inputField("First Name", firstNameController),
+              SizedBox(
+                height: 10,
               ),
+              inputField("Last Name", lastNameController),
+              SizedBox(
+                height: 10,
+              ),
+              inputField("Phone Number", phoneNumberController),
+              SizedBox(
+                height: 10,
+              ),
+              inputField("Email", emailController),
               SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: lastNameController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Last Name "),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: DateTimeField(
+                        decoration: InputDecoration(
+                            border: InputBorder.none, labelText: "Birth Date"),
+                        firstDate: DateTime.parse("1940-01-01"),
+                        lastDate: DateTime.parse("2005-01-01"),
+                        dateFormat: dateFormat,
+                        selectedDate: birthdateController,
+                        mode: DateTimeFieldPickerMode.date,
+                        onDateSelected: (DateTime value) {
+                          setState(() {
+                            birthdateController = value;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: phoneNumberController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Phone Number "),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Email "),
-                    ),
-                  ),
-                ),
-              ),
-              Divider(
-                height: 10,
-              ),
+                  )),
               gender,
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none, hintText: "Password "),
-                      ),
-                    ),
-                  )),
+              inputField("Password", passwordController, obscureText: true),
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        obscureText: true,
-                        controller: confirmPasswordController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Confirm Password "),
-                      ),
-                    ),
-                  )),
+              inputField("Confirm Password", confirmPasswordController,
+                  obscureText: true),
               SizedBox(
                 height: 10,
               ),

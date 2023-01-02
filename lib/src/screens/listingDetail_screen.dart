@@ -220,8 +220,9 @@ class ListingDetailScreen extends StatelessWidget {
                                             .creationDate)),
                                     trailing: IconButton(
                                         onPressed: () {
-                                          //TODO: Add messaging
-                                          //message action
+                                          Navigator.of(context).pushNamed(
+                                              '/inbox/chat',
+                                              arguments: posterUser);
                                         },
                                         icon: Icon(
                                           Icons.message,

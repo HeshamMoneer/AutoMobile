@@ -98,13 +98,8 @@ class FireBaseHandler {
 
   Future<void> signup(String email, String password) async {
     try {
-      //This will need to be extended to include user general info
-      var authResult = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      // await FirebaseFirestore.instance
-      //     .collection('user')
-      //     .doc(authResult.user!.uid)
-      //     .set(body);
     } catch (e) {
       ErrorHandler(e.toString());
       rethrow;
