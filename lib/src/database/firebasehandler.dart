@@ -212,4 +212,10 @@ class FireBaseHandler {
         .putFile(file);
     return snapshot.ref.getDownloadURL();
   }
+
+  Future<String> uploadProfilePic(String userId, File file) async {
+    var snapshot =
+        await FirebaseStorage.instance.ref().child('$userId').putFile(file);
+    return snapshot.ref.getDownloadURL();
+  }
 }

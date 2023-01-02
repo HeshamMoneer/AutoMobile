@@ -1,8 +1,10 @@
-import 'dart:ffi';
+import 'dart:io';
 
 import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:AutoMobile/src/widgets/textField.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../models/user.dart';
 import '../provider/provider.dart';
@@ -11,10 +13,9 @@ import 'package:provider/provider.dart';
 import '../themes/theme.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  //const UpdateProfileScreen({super.key});
-  var firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
-  var phoneNumberController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +64,48 @@ class UpdateProfileScreen extends StatelessWidget {
                                   border:
                                       Border.all(width: 4, color: Colors.white),
                                   color: ThemeColor.lightblack),
-                              child: Icon(
-                                Icons.edit,
-                                color: Color.fromARGB(255, 246, 244, 244),
-                              ),
+                              child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () async {
+                                    final _imagePicker = ImagePicker();
+                                    XFile? image;
+                                    //Check Permissions
+                                    await Permission.photos.request();
+
+                                    var permissionStatus =
+                                        await Permission.photos.status;
+
+                                    if (permissionStatus.isGranted) {
+                                      //Select Image
+                                      image = await _imagePicker.pickImage(
+                                          source: ImageSource.gallery);
+
+                                      if (image != null) {
+                                        var file = File(image.path);
+                                        //Upload to Firebase
+                                        var downloadUrl = await AllProvider()
+                                            .repository
+                                            .fireBaseHandler
+                                            .uploadProfilePic(
+                                                AllProvider()
+                                                    .repository
+                                                    .fireBaseHandler
+                                                    .getCurrentUserId(),
+                                                file);
+                                        curUser.profilePicPath = downloadUrl;
+                                        myProvider.updateCurrentUser(curUser);
+                                      } else {
+                                        print('No Image Path Received');
+                                      }
+                                    } else {
+                                      print(
+                                          'Permission not granted. Try Again with permission access');
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Color.fromARGB(255, 246, 244, 244),
+                                  )),
                             ))
                       ],
                     ),
@@ -77,7 +116,7 @@ class UpdateProfileScreen extends StatelessWidget {
                   CustomTextField(
                       labelText: "First Name",
                       controller: firstNameController,
-                      placeHolder: curUser!.firstName,
+                      placeHolder: curUser.firstName,
                       isPassword: false),
                   CustomTextField(
                       controller: lastNameController,
@@ -149,11 +188,6 @@ class UpdateProfileScreen extends StatelessWidget {
       },
     );
     final appBar = AppBar(
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Icons.arrow_back),
-      ),
-
       title: Text("Edit Profile",
           style: AppTheme
               .titleStyle2), //TextStyle(color: ThemeColor.titleTextColor)),
