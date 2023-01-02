@@ -240,6 +240,11 @@ class AllProvider with ChangeNotifier {
     return getAllListings.values.toList();
   }
 
+  Future<List<User>> getAllUsersAsList() async {
+    await fetchUsers();
+    return getAllUsers.values.toList();
+  }
+
   //================================================= deletions
   Future<void> deleteListing(Listing listing) async {
     List<Future> futures = [];

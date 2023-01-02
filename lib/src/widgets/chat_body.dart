@@ -26,17 +26,21 @@ class ChatBody extends StatelessWidget {
     var allProvider = Provider.of<AllProvider>(context, listen: false);
     String curUserId = allProvider.getCurrentUserId();
     var messagesList = strSnapshot.data!.docs;
-    var lastMessageMap = (messagesList[0].data() as Map<String, dynamic>);
-    Message lastMessage = Message(
-        id: messagesList[0].reference.id,
-        content: lastMessageMap["content"],
-        sentDate: lastMessageMap["sentDate"].toDate(),
-        seen: lastMessageMap["seen"],
-        senderId: lastMessageMap["users"][0]);
-    bool isLastMessageMine = lastMessage.senderId == curUserId;
-    bool isLastMessageSeen = lastMessage.seen;
-    if (!isLastMessageMine && !isLastMessageSeen) {
-      allProvider.markAsSeen(lastMessage.id);
+    bool noMessages = messagesList.length == 0;
+    var lastMessageMap =
+        noMessages ? {} : (messagesList[0].data() as Map<String, dynamic>);
+    Message? lastMessage = noMessages
+        ? null
+        : Message(
+            id: messagesList.length == 0 ? "" : messagesList[0].reference.id,
+            content: lastMessageMap["content"],
+            sentDate: lastMessageMap["sentDate"].toDate(),
+            seen: lastMessageMap["seen"],
+            senderId: lastMessageMap["users"][0]);
+    bool isLastMessageMine = !noMessages && lastMessage!.senderId == curUserId;
+    bool isLastMessageSeen = !noMessages && lastMessage!.seen;
+    if (!noMessages && !isLastMessageMine && !isLastMessageSeen) {
+      allProvider.markAsSeen(lastMessage!.id);
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
