@@ -146,8 +146,8 @@ class _UserProfileScreen extends State<UserProfileScreen> {
                 color: Colors.grey.withOpacity(0.2)),
             child: GestureDetector(
               onTap: () {
-                myProvider.repository.fireBaseHandler.signout().then(
-                    (value) => Navigator.of(context).pushReplacementNamed('/'));
+                myProvider.repository.fireBaseHandler.signout().then((value) =>
+                    Navigator.of(context).pushReplacementNamed('/login'));
               },
               child: const Icon(LineAwesomeIcons.angle_right,
                   size: 18, color: Color.fromARGB(255, 58, 57, 57)),

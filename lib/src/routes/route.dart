@@ -16,7 +16,7 @@ import '../screens/navBarScreeen.dart';
 class Routes {
   static Map<String, WidgetBuilder> getRoutes() {
     return <String, WidgetBuilder>{
-      '/': (ctx) => LoginSignUp(),
+      '/login': (ctx) => LoginSignUp(),
       '/mainscreen': (ctx) => NavBarScreen(),
       '/userProfile': (ctx) => UserProfileScreen(),
       '/listings': (ctx) => ListingsScreen(),

@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
         title: 'AutoMobile',
         theme: AppTheme.lightTheme,
         initialRoute: allProvider.getCurrentUserId() == "" || !staySignedIn
-            ? '/'
+            ? '/login'
             : '/mainscreen',
         routes: Routes.getRoutes(),
       ),
