@@ -59,9 +59,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     getToken();
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('launcher_icon');
+        new AndroidInitializationSettings('ic_stat_logo_white_svg');
     var initialzationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/launcher_icon');
+        AndroidInitializationSettings('@drawable/ic_stat_logo_white_svg');
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
                 channel.id,
                 channel.name,
                 channelDescription: channel.description,
-                color: Colors.blue,
+                color: Colors.black,
               ),
             ));
       }
