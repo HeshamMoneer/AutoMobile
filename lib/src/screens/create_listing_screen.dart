@@ -11,6 +11,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../themes/theme.dart';
+
 class CreateListingScreen extends StatefulWidget {
   @override
   State<CreateListingScreen> createState() => _CreateListingScreenState();
@@ -96,231 +98,226 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text("Create Listing",
+          style: AppTheme
+              .titleStyle2), //TextStyle(color: ThemeColor.titleTextColor)),
+    );
     return Scaffold(
+        appBar: appBar,
         body: SingleChildScrollView(
-      child: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Create Listing",
-                style: GoogleFonts.bebasNeue(fontSize: 50),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: "Title "),
+          child: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none, hintText: "Title "),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        controller: descriptionController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none, hintText: "Description"),
-                        keyboardType: TextInputType.multiline,
-                        minLines: 3,
-                        maxLines: null,
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: DateTimeField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: "End bid date"),
-                        firstDate: DateTime.now(),
-                        selectedDate: endBidDateController,
-                        mode: DateTimeFieldPickerMode.dateAndTime,
-                        onDateSelected: selectEndBidDate,
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextField(
-                        controller: initialPriceController,
-                        decoration: InputDecoration(
-                            border: InputBorder.none, hintText: "Intial price"),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^[0-9]+.?[0-9]*'))
-                        ],
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                            height: 150.0, enableInfiniteScroll: false),
-                        items: imagesFile.map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                  decoration:
-                                      BoxDecoration(color: Colors.blueGrey),
-                                  child: Image.file(i));
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              GestureDetector(
-                onTap: (() {
-                  uploadImage();
-                }),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: GestureDetector(
-                      child: Center(
-                          child: Text(
-                        imagesUrl.isEmpty
-                            ? "Upload image"
-                            : "Upload one more image",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: TextField(
+                            controller: descriptionController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Description"),
+                            keyboardType: TextInputType.multiline,
+                            minLines: 3,
+                            maxLines: null,
+                          ),
+                        ),
                       )),
-                    ),
+                  SizedBox(
+                    height: 15,
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                GestureDetector(
-                  onTap: (() {
-                    Navigator.of(context).pop();
-                  }),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      padding: EdgeInsets.all(30),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: GestureDetector(
-                        child: Center(
-                            child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: DateTimeField(
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelText: "End bid date"),
+                            firstDate: DateTime.now(),
+                            selectedDate: endBidDateController,
+                            mode: DateTimeFieldPickerMode.dateAndTime,
+                            onDateSelected: selectEndBidDate,
+                          ),
+                        ),
+                      )),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: TextField(
+                            controller: initialPriceController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Intial price"),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^[0-9]+.?[0-9]*'))
+                            ],
+                          ),
+                        ),
+                      )),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                                height: 150.0, enableInfiniteScroll: false),
+                            items: imagesFile.map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 5.0),
+                                      decoration:
+                                          BoxDecoration(color: Colors.blueGrey),
+                                      child: Image.file(i));
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      )),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: (() {
+                      uploadImage();
+                    }),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: GestureDetector(
+                          child: Center(
+                              child: Text(
+                            imagesUrl.isEmpty
+                                ? "Upload image"
+                                : "Upload one more image",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          )),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: (() {
-                    createListing();
-                  }),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      padding: EdgeInsets.all(30),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: GestureDetector(
-                        child: Center(
-                            child: Text(
-                          "Done",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )),
-                      ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {}, icon: Icon(Icons.upload_sharp)),
+                        Text("Upload Image"),
+                      ],
                     ),
                   ),
-                )
-              ]),
-              SizedBox(
-                height: 15,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: Colors.white),
+                          ),
+                          style: AppTheme.buttonStyleBlack,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            createListing();
+                          },
+                          child: Text(
+                            "Create",
+                            style: TextStyle(
+                                fontSize: 15,
+                                letterSpacing: 2,
+                                color: Colors.white),
+                          ),
+                          style: AppTheme.buttonStyleBlack,
+                        )
+                      ]),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }
