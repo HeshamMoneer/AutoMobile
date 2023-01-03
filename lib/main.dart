@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
@@ -9,10 +11,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 bool staySignedIn = false;
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
@@ -64,7 +65,26 @@ class _MyAppState extends State<MyApp> {
         AndroidInitializationSettings('@drawable/ic_stat_logo_white_svg');
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (details) {
+        var messageData = jsonDecode(details.payload ?? "{}");
+        print(messageData);
+        if (messageData['type'] == 'chat') {
+          BuildContext? myContext = navigatorKey.currentState?.context;
+          var allProvider = Provider.of<AllProvider>(myContext!, listen: false);
+          allProvider.getUserById(messageData['senderId']).then(
+            (user) {
+              Navigator.pushNamed(
+                myContext,
+                '/inbox/chat',
+                arguments: user,
+              );
+            },
+          );
+        }
+      },
+    );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
@@ -87,27 +107,25 @@ class _MyAppState extends State<MyApp> {
                 channelDescription: channel.description,
                 color: Colors.black,
               ),
-            ));
+            ),
+            payload: "${message.data}");
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title ?? ""),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body ?? "")],
-                  ),
-                ),
-              );
-            });
+      print(message.data);
+      if (message.data['type'] == 'chat') {
+        BuildContext? myContext = navigatorKey.currentState?.context;
+        var allProvider = Provider.of<AllProvider>(myContext!, listen: false);
+        allProvider.getUserById(message.data['senderId']).then(
+          (user) {
+            Navigator.pushNamed(
+              myContext,
+              '/inbox/chat',
+              arguments: user,
+            );
+          },
+        );
       }
     });
   }
@@ -131,6 +149,7 @@ class _MyAppState extends State<MyApp> {
             ? '/login'
             : '/mainscreen',
         routes: Routes.getRoutes(),
+        navigatorKey: navigatorKey,
       ),
     );
   }

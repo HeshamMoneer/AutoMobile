@@ -13,5 +13,9 @@ exports.chatNotification = functions.firestore.document('message/{messageId}').o
     return admin.messaging().sendToTopic(snapshot.data()['users'][1], {notification: {
         title: senderName,
         body: snapshot.data().content
+    },
+    data:{
+        type: 'chat',
+        senderId: senderUser.id
     }});
 });
