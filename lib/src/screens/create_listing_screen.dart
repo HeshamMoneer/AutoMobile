@@ -112,114 +112,92 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                          controller: titleController,
-                          decoration: InputDecoration(
-                              border: InputBorder.none, hintText: "Title "),
-                        ),
-                      ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          labelText: "Title ",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: "Car Title",
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: TextField(
-                            controller: descriptionController,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Description"),
-                            keyboardType: TextInputType.multiline,
-                            minLines: 3,
-                            maxLines: null,
-                          ),
-                        ),
-                      )),
+                    padding: const EdgeInsets.all(20.0),
+                    child: TextField(
+                      controller: descriptionController,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          labelText: "Description ",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: "Car description",
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: DateTimeField(
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                labelText: "End bid date"),
-                            firstDate: DateTime.now(),
-                            selectedDate: endBidDateController,
-                            mode: DateTimeFieldPickerMode.dateAndTime,
-                            onDateSelected: selectEndBidDate,
-                          ),
-                        ),
-                      )),
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: DateTimeField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none, labelText: "End bid date"),
+                      firstDate: DateTime.now(),
+                      selectedDate: endBidDateController,
+                      mode: DateTimeFieldPickerMode.dateAndTime,
+                      onDateSelected: selectEndBidDate,
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: TextField(
-                            controller: initialPriceController,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Intial price"),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^[0-9]+.?[0-9]*'))
-                            ],
-                          ),
-                        ),
-                      )),
+                    padding: const EdgeInsets.all(20.0),
+                    child: TextField(
+                      controller: initialPriceController,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          labelText: "Initial Price",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: "Eg.500 EGP",
+                          hintStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^[0-9]+.?[0-9]*'))
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 15,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Color.fromARGB(223, 171, 171, 171)
+                                .withOpacity(0.1),
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: CarouselSlider(
                             options: CarouselOptions(
                                 height: 150.0, enableInfiniteScroll: false),
@@ -229,9 +207,11 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                                   return Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin:
-                                          EdgeInsets.symmetric(horizontal: 5.0),
-                                      decoration:
-                                          BoxDecoration(color: Colors.blueGrey),
+                                          EdgeInsets.symmetric(horizontal: 0.5),
+                                      decoration: BoxDecoration(
+                                          color:
+                                              Color.fromARGB(223, 171, 171, 171)
+                                                  .withOpacity(0.0)),
                                       child: Image.file(i));
                                 },
                               );
@@ -243,43 +223,28 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                     height: 15,
                   ),
                   GestureDetector(
-                    onTap: (() {
+                    onTap: () {
                       uploadImage();
-                    }),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: GestureDetector(
-                          child: Center(
-                              child: Text(
-                            imagesUrl.isEmpty
-                                ? "Upload image"
-                                : "Upload one more image",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          )),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  GestureDetector(
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                            onPressed: () {}, icon: Icon(Icons.upload_sharp)),
-                        Text("Upload Image"),
+                            onPressed: () {
+                              uploadImage();
+                            },
+                            icon: Icon(Icons.upload_sharp)),
+                        Text(
+                          imagesUrl.isEmpty
+                              ? "Upload image"
+                              : "Upload one more image",
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -289,13 +254,13 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                             Navigator.of(context).pop();
                           },
                           child: Text(
-                            "Save",
+                            "Cancel",
                             style: TextStyle(
                                 fontSize: 15,
                                 letterSpacing: 2,
-                                color: Colors.white),
+                                color: Color.fromARGB(255, 0, 0, 0)),
                           ),
-                          style: AppTheme.buttonStyleBlack,
+                          style: AppTheme.buttonStyleWhite,
                         ),
                         ElevatedButton(
                           onPressed: () {

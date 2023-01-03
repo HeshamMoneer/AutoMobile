@@ -5,11 +5,14 @@ class CustomTextField extends StatelessWidget {
   String placeHolder;
   bool isPassword;
   TextEditingController controller;
-  CustomTextField(
-      {required this.labelText,
-      required this.placeHolder,
-      required this.isPassword,
-      required this.controller});
+  bool isText;
+  CustomTextField({
+    required this.labelText,
+    required this.placeHolder,
+    required this.isPassword,
+    required this.controller,
+    this.isText = false,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -132,7 +132,7 @@ class UpdateProfileScreen extends StatelessWidget {
                     height: 30,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       OutlinedButton(
                         onPressed: () {
