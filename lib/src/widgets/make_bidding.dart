@@ -36,7 +36,8 @@ class _MakeBiddingState extends State<MakeBidding> {
     int maxBidAmount = minBidAmount + 100 * bidAmountStep;
 
     void makeBid() async {
-      var allProvider = Provider.of<AllProvider>(context);
+      Navigator.of(context).pop();  // pop confirmation dialog
+      var allProvider = Provider.of<AllProvider>(context, listen: false);
       try {
         setState(() {
           isLoading = true;
@@ -48,11 +49,11 @@ class _MakeBiddingState extends State<MakeBidding> {
             price: _bidAmount.toDouble(),
             creationDate: DateTime.now());
         await allProvider.addBid(bid);
-        Navigator.of(context).pop();
+        Navigator.of(context).pop();  // pop bid bottomSheet
         Listing updatedListing =
             await allProvider.getListingById(bid.listingId);
         if (Navigator.of(context).canPop()) Navigator.of(context).pop();
-        Navigator.of(context).pushReplacementNamed('/listingDetail',
+        Navigator.of(context).pushNamed('/listingDetail',
             arguments: {'listing': updatedListing});
       } catch (e) {
         print(e);
