@@ -5,12 +5,22 @@ import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../provider/provider.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
 
   void sendMessage(AllProvider allProvider, String to_userId) async {
     allProvider.sendMessage(messageController.text, to_userId);
     messageController.clear();
+    setState(() {});
+  }
+
+  bool emptyMessage() {
+    return messageController.text.length == 0;
   }
 
   @override
@@ -39,14 +49,25 @@ class ChatScreen extends StatelessWidget {
                     hintStyle: TextStyle(
                         color: Colors.white, fontStyle: FontStyle.italic)),
                 controller: messageController,
+                onChanged: (_) {
+                  setState(() {});
+                },
               ),
             )),
             ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: ThemeColor.grey),
-                onPressed: () {
-                  sendMessage(allProvider, otherUser.id);
-                },
-                child: Text("Send"))
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ThemeColor.lightGrey,
+                    disabledBackgroundColor: ThemeColor.grey),
+                onPressed: emptyMessage()
+                    ? null
+                    : () {
+                        sendMessage(allProvider, otherUser.id);
+                      },
+                child: Text(
+                  "Send",
+                  style: TextStyle(
+                      color: emptyMessage() ? Colors.white : Colors.black87),
+                ))
           ]),
         )
       ]),
