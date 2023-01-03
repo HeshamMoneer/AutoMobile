@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:AutoMobile/src/models/user.dart' as ourUser;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FireBaseHandler {
   String getCurrentUserId() {
@@ -103,6 +104,9 @@ class FireBaseHandler {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      var fbm = FirebaseMessaging.instance;
+      String userId = getCurrentUserId();
+      fbm.subscribeToTopic(userId);
     } catch (e) {
       ErrorHandler(e.toString());
       rethrow;
@@ -113,7 +117,10 @@ class FireBaseHandler {
     try {
       var authResult = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return authResult.user!.uid;
+      var fbm = FirebaseMessaging.instance;
+      String userId = authResult.user!.uid;
+      fbm.subscribeToTopic(userId);
+      return userId;
     } catch (e) {
       ErrorHandler(e.toString());
       rethrow;
@@ -122,7 +129,10 @@ class FireBaseHandler {
 
   Future<void> signout() async {
     try {
+      String userId = getCurrentUserId();
       await FirebaseAuth.instance.signOut();
+      var fbm = FirebaseMessaging.instance;
+      fbm.unsubscribeFromTopic(userId);
     } catch (e) {
       ErrorHandler(e.toString());
       rethrow;
