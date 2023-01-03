@@ -5,6 +5,7 @@ import 'package:date_field/date_field.dart';
 import "package:flutter/material.dart";
 import 'package:gender_picker/source/enums.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
   DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   var userGender = true;
   bool login = true;
+  bool staySignedIn = false;
 
   Future<void> registerUser() async {
     var allProvider = Provider.of<AllProvider>(context, listen: false);
@@ -69,6 +71,8 @@ class _LoginSignUpState extends State<LoginSignUp> {
       } else {
         await myprovider.repository.fireBaseHandler
             .login(emailController.text, passwordController.text);
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setBool("staySignedIn", staySignedIn);
       }
       Navigator.of(context).pushReplacementNamed('/mainscreen');
     } catch (e) {
@@ -138,6 +142,28 @@ class _LoginSignUpState extends State<LoginSignUp> {
                 height: 15,
               ),
               inputField('Password', passwordController, obscureText: true),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Row(
+                  children: [
+                    Checkbox(
+                        value: staySignedIn,
+                        onChanged: ((value) {
+                          setState(() {
+                            staySignedIn = value ?? false;
+                          });
+                        })),
+                    Text(
+                      "Stay Signed in",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),

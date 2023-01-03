@@ -12,6 +12,7 @@ import 'package:AutoMobile/src/models/user.dart' as ourUser;
 
 class FireBaseHandler {
   String getCurrentUserId() {
+    if (FirebaseAuth.instance.currentUser == null) return "";
     return FirebaseAuth.instance.currentUser!.uid;
   }
 
