@@ -1,13 +1,17 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+
 admin.initializeApp();
 
-exports.chatNotification = functions.firestore.document('message/{messageId}').onCreate((snapshot, context)=> {
-    const sender = snapshot.data()['users'][0];
-    // const senderName = `${sender.firstName} ${sender.lastName}`;
+exports.chatNotification = functions.firestore.document('message/{messageId}').onCreate(async (snapshot, context)=>  {
     console.log(snapshot.data());
+    const sender = snapshot.data()['users'][0];
+    const db = admin.firestore();
+    const senderUser = await db.doc(`user/${sender}`).get();
+    console.log(senderUser.data());
+    const senderName = `${senderUser.firstName} ${senderUser.lastName}`;
     return admin.messaging().sendToTopic(snapshot.data()['users'][1], {notification: {
-        title: 'senderName',
+        title: senderName,
         body: snapshot.data().content
     }});
 });
