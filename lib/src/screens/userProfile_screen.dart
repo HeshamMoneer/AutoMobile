@@ -33,7 +33,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
       actions: [
         !isMe
             ? IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  user.then((value) => Navigator.of(context)
+                      .pushNamed('/inbox/chat', arguments: value));
+                },
                 icon: Icon(Icons.chat_bubble_outline_outlined))
             : Container()
       ],
