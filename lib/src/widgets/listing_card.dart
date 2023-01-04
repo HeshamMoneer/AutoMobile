@@ -38,7 +38,7 @@ class ListingCard extends StatelessWidget {
 
     final deleteButton = isOwner
         ? SizedBox(
-            width: 80,
+            width: 60,
             child: IconButton(
               onPressed: () {
                 showConfirmationDialog(

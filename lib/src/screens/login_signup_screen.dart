@@ -137,7 +137,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 50,
               ),
-              inputField('Email', emailController),
+              inputField('Email', emailController, isEmail: true),
               SizedBox(
                 height: 15,
               ),
@@ -259,7 +259,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
               SizedBox(
                 height: 10,
               ),
-              inputField("Email", emailController),
+              inputField("Email", emailController, isEmail: true),
               SizedBox(
                 height: 10,
               ),
