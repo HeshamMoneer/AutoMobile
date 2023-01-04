@@ -95,6 +95,10 @@ class _MyAppState extends State<MyApp> {
               );
             },
           );
+        } else if (messageData['type'] == 'bid') {
+          BuildContext? myContext = navigatorKey.currentState?.context;
+          Navigator.of(myContext!).pushNamed('/listingDetail',
+              arguments: {'listingId': messageData['listingId'] as String});
         }
       },
     );
