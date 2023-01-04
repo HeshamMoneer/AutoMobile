@@ -81,7 +81,7 @@ class MySearchDelegate extends SearchDelegate {
                 height: 50,
               ),
               title: Text(cur.title),
-              onTap: () => goToListingDetailsPage(context, cur),
+              onTap: () => goToListingDetailsPage(context, cur.id),
             );
           }
         });
