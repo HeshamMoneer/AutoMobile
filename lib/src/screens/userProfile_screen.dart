@@ -109,18 +109,14 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         ),
         title: Text("My Bids", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.2)),
-            child: GestureDetector(
-              onTap: () {
-                // print("here");
-              },
-              child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
-            )));
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.withOpacity(0.2)),
+          child: const Icon(LineAwesomeIcons.angle_right,
+              size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+        ));
 
     final logout = ListTile(
         onTap: () {
