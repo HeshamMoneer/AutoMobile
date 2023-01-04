@@ -16,6 +16,21 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
+  if (message.data != {}) {
+    flutterLocalNotificationsPlugin.show(
+        message.hashCode,
+        message.data['title'],
+        message.data['body'],
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            color: Colors.black,
+          ),
+        ),
+        payload: jsonEncode(message.data));
+  }
 }
 
 void main() async {
@@ -59,8 +74,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getToken();
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('ic_stat_logo_white_svg');
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat_logo_white_svg');
     var initializationSettings =
@@ -89,17 +102,11 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
+      if (message.data != {}) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
+            message.hashCode,
+            message.data['title'],
+            message.data['body'],
             NotificationDetails(
               android: AndroidNotificationDetails(
                 channel.id,
@@ -108,24 +115,7 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.black,
               ),
             ),
-            payload: "${message.data}");
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print(message.data);
-      if (message.data['type'] == 'chat') {
-        BuildContext? myContext = navigatorKey.currentState?.context;
-        var allProvider = Provider.of<AllProvider>(myContext!, listen: false);
-        allProvider.getUserById(message.data['senderId']).then(
-          (user) {
-            Navigator.pushNamed(
-              myContext,
-              '/inbox/chat',
-              arguments: user,
-            );
-          },
-        );
+            payload: jsonEncode(message.data));
       }
     });
   }
