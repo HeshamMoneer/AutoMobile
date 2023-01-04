@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
@@ -9,12 +11,26 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 bool staySignedIn = false;
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
+  if (message.data != {}) {
+    flutterLocalNotificationsPlugin.show(
+        message.hashCode,
+        message.data['title'],
+        message.data['body'],
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            color: Colors.black,
+          ),
+        ),
+        payload: jsonEncode(message.data));
+  }
 }
 
 void main() async {
@@ -58,28 +74,39 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getToken();
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('ic_stat_logo_white_svg');
     var initialzationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_stat_logo_white_svg');
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (details) {
+        var messageData = jsonDecode(details.payload ?? "{}");
+        print(messageData);
+        if (messageData['type'] == 'chat') {
+          BuildContext? myContext = navigatorKey.currentState?.context;
+          var allProvider = Provider.of<AllProvider>(myContext!, listen: false);
+          allProvider.getUserById(messageData['senderId']).then(
+            (user) {
+              Navigator.pushNamed(
+                myContext,
+                '/inbox/chat',
+                arguments: user,
+              );
+            },
+          );
+        }
+      },
+    );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
+      if (message.data != {}) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
+            message.hashCode,
+            message.data['title'],
+            message.data['body'],
             NotificationDetails(
               android: AndroidNotificationDetails(
                 channel.id,
@@ -87,27 +114,8 @@ class _MyAppState extends State<MyApp> {
                 channelDescription: channel.description,
                 color: Colors.black,
               ),
-            ));
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title ?? ""),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body ?? "")],
-                  ),
-                ),
-              );
-            });
+            ),
+            payload: jsonEncode(message.data));
       }
     });
   }
@@ -131,6 +139,7 @@ class _MyAppState extends State<MyApp> {
             ? '/login'
             : '/mainscreen',
         routes: Routes.getRoutes(),
+        navigatorKey: navigatorKey,
       ),
     );
   }
