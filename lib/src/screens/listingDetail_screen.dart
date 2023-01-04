@@ -1,5 +1,6 @@
 import 'package:AutoMobile/src/models/user.dart';
 import 'package:AutoMobile/src/screens/userProfile_screen.dart';
+import 'package:AutoMobile/src/widgets/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:intl/intl.dart';
@@ -60,6 +61,21 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
       if (!listing.biddingEnded) {
         showBidBottomSheet(context, listing);
       }
+    }
+
+    void onBidDelete(Bid bid) async {
+      Navigator.of(context).pop();
+      try {
+        showLoadingDialog(context);
+        await allProvider.deleteBid(bid);
+        Navigator.of(context).pop();
+      } catch (e) {
+        showErrorDialog(context);
+      }
+    }
+
+    bool isMyBid(bidOwnerId) {
+      return allProvider.getCurrentUserId() == bidOwnerId;
     }
 
     return Scaffold(
@@ -260,12 +276,21 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                                   .format(bid.creationDate)),
                                           trailing: IconButton(
                                               onPressed: () {
-                                                Navigator.of(context).pushNamed(
-                                                    '/inbox/chat',
-                                                    arguments: bidOwner);
+                                                if (!isMyBid(bidOwner.id))
+                                                  Navigator.of(context)
+                                                      .pushNamed('/inbox/chat',
+                                                          arguments: bidOwner);
+                                                else {
+                                                  showConfirmationDialog(
+                                                      context: context,
+                                                      onConfirm: () =>
+                                                          onBidDelete(bid));
+                                                }
                                               },
                                               icon: Icon(
-                                                Icons.message,
+                                                isMyBid(bidOwner.id)
+                                                    ? Icons.delete
+                                                    : Icons.message,
                                                 color: Colors.black,
                                               )),
                                         ),
@@ -290,7 +315,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                       ]),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: ThemeColor.lightblack,
+                            backgroundColor: ThemeColor.lightblack,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
