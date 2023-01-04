@@ -33,6 +33,16 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text('My Listings'),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/createListing');
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ))
+          ],
         ),
         body: RefreshIndicator(
             onRefresh: allProvider.fetchListings,
