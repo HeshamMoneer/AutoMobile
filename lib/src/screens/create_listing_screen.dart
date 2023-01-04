@@ -6,7 +6,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -89,7 +88,6 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
           initialPrice: double.parse(initialPriceController.text),
           creationDate: DateTime.now());
       await allProvider.addListing(listing);
-      //TODO: this code executes even if an error is thrown
       Navigator.of(context).pop();
     } catch (e) {
       print(e);

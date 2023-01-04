@@ -75,7 +75,6 @@ class FireBaseHandler {
   }
 
   Future<void> delete(String collectionName, String documentId) async {
-    //TODO: documentation says that this method won't delete the document subcollections
     try {
       await FirebaseFirestore.instance
           .collection(collectionName)

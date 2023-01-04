@@ -45,23 +45,6 @@ class _UserProfileScreen extends State<UserProfileScreen> {
               .titleStyle2), //TextStyle(color: ThemeColor.titleTextColor)),
     );
 
-    final editProfile = SizedBox(
-      width: 150,
-      child: ElevatedButton(
-        onPressed: () {
-          //TODO: go to the edit profile route
-        },
-        child: Text(
-          "Edit profile",
-          style: AppTheme.subTitleStyle,
-        ),
-        style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColor.lightblack,
-            side: BorderSide.none,
-            shape: StadiumBorder()),
-      ),
-    );
-
     final MyListings = ListTile(
         onTap: () {
           Navigator.push(

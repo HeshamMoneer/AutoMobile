@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  String labelText;
-  String placeHolder;
-  bool isPassword;
-  TextEditingController controller;
-  bool isText;
+  final String labelText;
+  final String placeHolder;
+  final bool isPassword;
+  final TextEditingController controller;
+  final bool isText;
   CustomTextField({
     required this.labelText,
     required this.placeHolder,

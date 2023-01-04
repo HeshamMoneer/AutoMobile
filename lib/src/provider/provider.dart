@@ -276,8 +276,4 @@ class AllProvider with ChangeNotifier {
     await Future.wait(futures);
     if (notify) notifyListeners();
   }
-
-  // TODO:Define here whatever methods you need to implement for any model
-
-  // try to separate methods related to all models in one section as above
 }
