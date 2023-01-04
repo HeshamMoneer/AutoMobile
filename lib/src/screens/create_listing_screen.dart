@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:AutoMobile/src/models/listing.dart';
 import 'package:AutoMobile/src/provider/provider.dart';
+import 'package:AutoMobile/src/widgets/dialogs.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
         var file = File(image.path);
         imagesFile.add(file);
         //Upload to Firebase
+        showLoadingDialog(context);
         var downloadUrl = await AllProvider()
             .repository
             .fireBaseHandler
@@ -65,6 +67,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                 file);
         setState(() {
           imagesUrl.add(downloadUrl);
+          Navigator.of(context).pop();
         });
       } else {
         print('No Image Path Received');
@@ -187,7 +190,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                     height: 15,
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
                         decoration: BoxDecoration(
                             color: Color.fromARGB(223, 171, 171, 171)
@@ -195,7 +198,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                             border: Border.all(color: Colors.white),
                             borderRadius: BorderRadius.circular(12)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: CarouselSlider(
                             options: CarouselOptions(
                                 height: 150.0, enableInfiniteScroll: false),
@@ -205,7 +208,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
                                   return Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin:
-                                          EdgeInsets.symmetric(horizontal: 0.5),
+                                          EdgeInsets.symmetric(horizontal: 10),
                                       decoration: BoxDecoration(
                                           color:
                                               Color.fromARGB(223, 171, 171, 171)

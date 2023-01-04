@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../models/bid.dart';
 import '../models/listing.dart';
+import '../themes/theme_color.dart';
 import '../widgets/dialogs.dart';
 import '../widgets/listing_card.dart';
 
@@ -58,26 +59,41 @@ class _MyBidsScreenState extends State<MyBidsScreen> {
                 bool isLastBid = listing.bids.last.id == bid.id;
                 return Card(
                     child: ListTile(
-                  onTap: () => goToListingDetailsPage(context, listing.id),
-                  tileColor: Colors.white,
+                  onTap: () => goToListingDetailsPage(context, bid.listingId),
+                  tileColor: !listing.biddingEnded
+                      ? Colors.white
+                      : ThemeColor.lightGrey,
                   leading: Image.network(
                     listing.imagesOrDefault[0],
                     fit: BoxFit.cover,
                     width: 50,
                     height: 50,
                   ),
-                  title: Row(children: [
-                    Text(listing.title),
-                    Text(
-                      bid.price.toInt().toString(),
-                      style: TextStyle(
-                          color: isLastBid ? Colors.green : Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    )
-                  ]),
-                  subtitle: Text(DateFormat('dd/MM/yyyy hh:mm a')
-                      .format(bid.creationDate)),
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            listing.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            bid.price.toInt().toString() + " EGP",
+                            style: TextStyle(
+                                color: isLastBid ? Colors.green : Colors.grey,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        )
+                      ]),
+                  subtitle: Text(
+                    DateFormat('dd/MM/yyyy hh:mm a').format(bid.creationDate),
+                    style: TextStyle(fontSize: 12),
+                  ),
                   trailing: IconButton(
                       onPressed: () => showConfirmationDialog(
                           context: context, onConfirm: () => onBidDelete(bid)),

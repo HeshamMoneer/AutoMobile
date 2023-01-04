@@ -37,7 +37,7 @@ class _MakeBiddingState extends State<MakeBidding> {
     int maxBidAmount = minBidAmount + 100 * bidAmountStep;
 
     void makeBid() async {
-      Navigator.of(context).pop();  // pop confirmation dialog
+      Navigator.of(context).pop(); // pop confirmation dialog
       var allProvider = Provider.of<AllProvider>(context, listen: false);
       try {
         setState(() {
@@ -50,7 +50,7 @@ class _MakeBiddingState extends State<MakeBidding> {
             price: _bidAmount.toDouble(),
             creationDate: DateTime.now());
         await allProvider.addBid(bid);
-        Navigator.of(context).pop();  // pop bid bottomSheet
+        Navigator.of(context).pop(); // pop bid bottomSheet
         if (Navigator.of(context).canPop()) Navigator.of(context).pop();
         goToListingDetailsPage(context, bid.listingId);
       } catch (e) {
@@ -60,7 +60,11 @@ class _MakeBiddingState extends State<MakeBidding> {
     }
 
     void onMakeBidding() async {
-      showConfirmationDialog(context: context, onConfirm: makeBid, title: 'Confirm the bid', body: 'Do you really want to make a bid with $_bidAmount?');
+      showConfirmationDialog(
+          context: context,
+          onConfirm: makeBid,
+          title: 'Confirm the bid',
+          body: 'Do you really want to make a bid with $_bidAmount?');
     }
 
     return SingleChildScrollView(
@@ -68,7 +72,9 @@ class _MakeBiddingState extends State<MakeBidding> {
             height: 180,
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: ThemeColor.lightblack,),
+                    child: CircularProgressIndicator(
+                      color: ThemeColor.lightblack,
+                    ),
                   )
                 : Container(
                     margin: EdgeInsets.only(
@@ -86,6 +92,8 @@ class _MakeBiddingState extends State<MakeBidding> {
                               maxValue: maxBidAmount,
                               step: bidAmountStep,
                               itemHeight: 70,
+                              itemWidth:
+                                  MediaQuery.of(context).size.width / 3.2,
                               haptics: true,
                               axis: Axis.horizontal,
                               onChanged: (value) =>

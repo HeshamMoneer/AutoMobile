@@ -54,8 +54,26 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
     var allProvider = Provider.of<AllProvider>(context, listen: true);
     Map<String, Listing> listings = allProvider.getAllListings;
     Map<String, User> users = allProvider.getAllUsers;
+    ;
+    if (listings[listingId] == null) {
+      return Scaffold(
+          appBar: AppBar(title: Text("Listing Details")),
+          body: Center(
+            child: Container(
+              child: Text(
+                "This Listing was deleted or expired",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: ThemeColor.lightblack),
+              ),
+            ),
+          ));
+    }
     Listing listing = listings[listingId]!;
-    User listingOwner = users[listing.userId]!;
+
+    User listingOwner = users[listing!.userId]!;
+    bool isMyListing = listingOwner!.id == allProvider.getCurrentUserId();
 
     void onBidClicked() {
       if (!listing.biddingEnded) {
@@ -251,7 +269,8 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                         child: ListTile(
                                           tileColor: Colors.white,
                                           leading: Text(
-                                            bid.price.toString(),
+                                            bid.price.toInt().toString() +
+                                                " EGP",
                                             style: TextStyle(
                                                 color: index == 0
                                                     ? Colors.green
@@ -305,26 +324,87 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                     height: 25,
                   ),
                   Container(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(children: [
-                        Text("Next Bid"),
-                        Text(listing.newBidPrice.toString(),
-                            style: TextStyle(fontSize: 14))
-                      ]),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeColor.lightblack,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            textStyle: const TextStyle(fontSize: 20)),
-                        onPressed: onBidClicked,
-                        child: Text('Bid Now !', style: AppTheme.titleStyle2),
-                      )
-                    ],
-                  ))
+                    child: !isMyListing
+                        ? Row(
+                            mainAxisAlignment: listing.biddingEnded
+                                ? MainAxisAlignment.center
+                                : MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(children: [
+                                !listing.biddingEnded
+                                    ? Text("Next Bid")
+                                    : Text(
+                                        "Bidding time has expired !",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                      ),
+                                !listing.biddingEnded
+                                    ? Text(listing.newBidPrice.toString(),
+                                        style: TextStyle(fontSize: 14))
+                                    : ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Color.fromARGB(255, 92, 90, 90),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            textStyle: TextStyle(
+                                                fontSize: 20,
+                                                color: ThemeColor.lightblack)),
+                                        onPressed: null,
+                                        child: Text(
+                                            listing.bids.length != 0
+                                                ? 'Sold with price ${listing.bids[listing.bids.length - 1].price.toInt()} EGP'
+                                                : '',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green)),
+                                      ),
+                              ]),
+                              !listing.biddingEnded
+                                  ? ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ThemeColor.lightblack,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          textStyle:
+                                              const TextStyle(fontSize: 20)),
+                                      onPressed: onBidClicked,
+                                      child: Text('Bid Now !',
+                                          style: AppTheme.titleStyle2),
+                                    )
+                                  : Container()
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                                !listing.biddingEnded
+                                    ? Container()
+                                    : listing.biddingEnded &&
+                                            listing.bids.length == 0
+                                        ? Text(
+                                            "Not Sold !",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 4, 4, 4)),
+                                          )
+                                        : Text(
+                                            listing.bids.length != 0
+                                                ? 'Sold with price ${listing.bids[listing.bids.length - 1].price.toInt()} EGP'
+                                                : '',
+                                            style: AppTheme.titleStyle2)
+                              ]),
+                  )
                 ],
               ),
             ),

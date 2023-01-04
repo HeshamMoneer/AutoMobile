@@ -33,7 +33,7 @@ class ChatUser extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
             child: CircleAvatar(
               backgroundImage: NetworkImage(snapshot.data!.profilePicPath),
-              radius: 40,
+              radius: 30,
               backgroundColor: Colors.transparent,
             ),
           );
@@ -53,7 +53,7 @@ class ChatUser extends StatelessWidget {
                       Text(
                         username,
                         style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
                       Text(

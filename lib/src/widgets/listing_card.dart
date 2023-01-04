@@ -98,13 +98,13 @@ class ListingCard extends StatelessWidget {
     String bidButtonText =
         '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : "Bid now"}';
     String bidButtonPrice = biddingEnded
-        ? listing.finalPrice.toInt().toString()
-        : listing.newBidPrice.toString();
+        ? listing.finalPrice.toInt().toString() + " EGP"
+        : listing.newBidPrice.toString() + " EGP";
     bool bidButtonDimmed = biddingEnded;
     if (isOwner) {
       bidButtonText =
           '${biddingEnded ? (nBids == 0 ? "Not sold" : "Sold") : "${(nBids == 0 ? "No" : nBids)} Bid${nBids == 1 ? "" : "s"}"}';
-      bidButtonPrice = listing.finalPrice.toInt().toString();
+      bidButtonPrice = listing.finalPrice.toInt().toString() + " EGP";
     }
 
     final bidNowButton = Container(
@@ -112,9 +112,9 @@ class ListingCard extends StatelessWidget {
       child: InkWell(
           onTap: onBidClicked,
           child: Ink(
-              padding: EdgeInsets.all(10),
-              width: 100,
-              height: 60,
+              padding: EdgeInsets.all(5),
+              width: 130,
+              height: 70,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 color: bidButtonDimmed
@@ -164,8 +164,22 @@ class ListingCard extends StatelessWidget {
         onTap: () => goToListingDetailsPage(context, listing.id),
         child: Container(
           margin: EdgeInsets.all(10),
-          child: Row(
-            children: [imageStack, detailsCol],
+          child: Column(
+            children: [
+              Row(
+                children: [imageStack, detailsCol],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(
+                color: Colors.grey,
+                height: 10,
+                thickness: 2,
+                indent: 20,
+                endIndent: 20,
+              ),
+            ],
           ),
         ));
   }

@@ -28,7 +28,7 @@ class _MyListingsScreenState extends State<MyListingsScreen> {
         allListings.where((listing) => listing.userId == curUserId).toList();
     shownListings.sort((a, b) {
       if (a.biddingEnded != b.biddingEnded) return a.biddingEnded ? 1 : -1;
-      return a.endBidDate.compareTo(b.endBidDate);
+      return a.endBidDate.compareTo(b.endBidDate) * (a.biddingEnded ? -1 : 1);
     });
     return Scaffold(
         appBar: AppBar(

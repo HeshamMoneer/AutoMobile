@@ -51,19 +51,15 @@ class _MainScreenState extends State<MainScreen> {
                       delegate: MySearchDelegate(allListings));
                 },
                 icon: Icon(Icons.search)),
-            IconButton(
-                onPressed: () {
-                  allProvider.repository.fireBaseHandler.signout();
-                  Navigator.of(context).pushReplacementNamed('/login');
-                },
-                icon: Icon(Icons.logout_rounded)),
           ],
         ),
         body: RefreshIndicator(
             onRefresh: allProvider.fetchListings,
             child: ListView.builder(
               itemBuilder: (ctx, idx) {
-                return ListingCard(shownListings[idx]);
+                return ListingCard(
+                  shownListings[idx],
+                );
               },
               itemCount: shownListings.length,
             )));
