@@ -1,6 +1,7 @@
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:AutoMobile/src/widgets/dialogs.dart';
+import 'package:AutoMobile/src/widgets/listing_card.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -50,11 +51,8 @@ class _MakeBiddingState extends State<MakeBidding> {
             creationDate: DateTime.now());
         await allProvider.addBid(bid);
         Navigator.of(context).pop();  // pop bid bottomSheet
-        Listing updatedListing =
-            await allProvider.getListingById(bid.listingId);
         if (Navigator.of(context).canPop()) Navigator.of(context).pop();
-        Navigator.of(context).pushNamed('/listingDetail',
-            arguments: {'listing': updatedListing});
+        goToListingDetailsPage(context, bid.listingId);
       } catch (e) {
         print(e);
         showErrorDialog(context, body: e.toString());
@@ -62,7 +60,7 @@ class _MakeBiddingState extends State<MakeBidding> {
     }
 
     void onMakeBidding() async {
-      showConfirmationDialog(context: context, onConfirm: makeBid);
+      showConfirmationDialog(context: context, onConfirm: makeBid, title: 'Confirm the bid', body: 'Do you really want to make a bid with $_bidAmount?');
     }
 
     return SingleChildScrollView(
@@ -70,7 +68,7 @@ class _MakeBiddingState extends State<MakeBidding> {
             height: 180,
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: ThemeColor.lightblack,),
                   )
                 : Container(
                     margin: EdgeInsets.only(

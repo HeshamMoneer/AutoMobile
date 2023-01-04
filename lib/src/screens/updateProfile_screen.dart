@@ -27,87 +27,92 @@ class UpdateProfileScreen extends StatelessWidget {
         if (snapshot.hasData) {
           User? curUser = snapshot.data;
           return Container(
-            padding: EdgeInsets.only(left: 15, top: 20, right: 15),
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
               child: ListView(
                 children: [
-                  Center(
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: 130,
-                          height: 130,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 4, color: Colors.white),
-                              boxShadow: [
-                                BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1))
-                              ],
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(curUser!.profilePicPath),
-                                  fit: BoxFit.cover)),
-                        ),
-                        Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border:
-                                      Border.all(width: 4, color: Colors.white),
-                                  color: ThemeColor.lightblack),
-                              child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  onPressed: () async {
-                                    final _imagePicker = ImagePicker();
-                                    XFile? image;
-                                    //Check Permissions
-                                    await Permission.photos.request();
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: 130,
+                            height: 130,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 4, color: Colors.white),
+                                boxShadow: [
+                                  BoxShadow(
+                                      spreadRadius: 2,
+                                      blurRadius: 10,
+                                      color: Colors.black.withOpacity(0.1))
+                                ],
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage(curUser!.profilePicPath),
+                                    fit: BoxFit.cover)),
+                          ),
+                          Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        width: 4, color: Colors.white),
+                                    color: ThemeColor.lightblack),
+                                child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () async {
+                                      final _imagePicker = ImagePicker();
+                                      XFile? image;
+                                      //Check Permissions
+                                      await Permission.photos.request();
 
-                                    var permissionStatus =
-                                        await Permission.photos.status;
+                                      var permissionStatus =
+                                          await Permission.photos.status;
 
-                                    if (permissionStatus.isGranted) {
-                                      //Select Image
-                                      image = await _imagePicker.pickImage(
-                                          source: ImageSource.gallery);
+                                      if (permissionStatus.isGranted) {
+                                        //Select Image
+                                        image = await _imagePicker.pickImage(
+                                            source: ImageSource.gallery);
 
-                                      if (image != null) {
-                                        var file = File(image.path);
-                                        //Upload to Firebase
-                                        var downloadUrl = await AllProvider()
-                                            .repository
-                                            .fireBaseHandler
-                                            .uploadProfilePic(
-                                                AllProvider()
-                                                    .repository
-                                                    .fireBaseHandler
-                                                    .getCurrentUserId(),
-                                                file);
-                                        curUser.profilePicPath = downloadUrl;
-                                        myProvider.updateCurrentUser(curUser);
+                                        if (image != null) {
+                                          var file = File(image.path);
+                                          //Upload to Firebase
+                                          var downloadUrl = await AllProvider()
+                                              .repository
+                                              .fireBaseHandler
+                                              .uploadProfilePic(
+                                                  AllProvider()
+                                                      .repository
+                                                      .fireBaseHandler
+                                                      .getCurrentUserId(),
+                                                  file);
+                                          curUser.profilePicPath = downloadUrl;
+                                          myProvider.updateCurrentUser(curUser);
+                                        } else {
+                                          print('No Image Path Received');
+                                        }
                                       } else {
-                                        print('No Image Path Received');
+                                        print(
+                                            'Permission not granted. Try Again with permission access');
                                       }
-                                    } else {
-                                      print(
-                                          'Permission not granted. Try Again with permission access');
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: Color.fromARGB(255, 246, 244, 244),
-                                  )),
-                            ))
-                      ],
+                                    },
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Color.fromARGB(255, 246, 244, 244),
+                                    )),
+                              ))
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(

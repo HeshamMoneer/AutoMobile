@@ -161,7 +161,7 @@ class ListingCard extends StatelessWidget {
     ));
 
     return InkWell(
-        onTap: () => goToListingDetailsPage(context, listing),
+        onTap: () => goToListingDetailsPage(context, listing.id),
         child: Container(
           margin: EdgeInsets.all(10),
           child: Row(
@@ -171,7 +171,7 @@ class ListingCard extends StatelessWidget {
   }
 }
 
-void goToListingDetailsPage(BuildContext myContext, Listing listing) {
+void goToListingDetailsPage(BuildContext myContext, String listingId) {
   Navigator.of(myContext)
-      .pushNamed('/listingDetail', arguments: {'listing': listing});
+      .pushNamed('/listingDetail', arguments: {'listingId': listingId});
 }

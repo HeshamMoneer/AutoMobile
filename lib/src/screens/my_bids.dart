@@ -57,8 +57,8 @@ class _MyBidsScreenState extends State<MyBidsScreen> {
                 Listing listing = allListings[bid.listingId]!;
                 bool isLastBid = listing.bids.last.id == bid.id;
                 return Card(
-                child: ListTile(
-                  onTap: () => goToListingDetailsPage(context, listing),
+                    child: ListTile(
+                  onTap: () => goToListingDetailsPage(context, listing.id),
                   tileColor: Colors.white,
                   leading: Image.network(
                     listing.imagesOrDefault[0],
@@ -66,13 +66,16 @@ class _MyBidsScreenState extends State<MyBidsScreen> {
                     width: 50,
                     height: 50,
                   ),
-                  title: Text(
-                    bid.price.toInt().toString(),
-                    style: TextStyle(
-                        color: isLastBid ? Colors.green : Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
+                  title: Row(children: [
+                    Text(listing.title),
+                    Text(
+                      bid.price.toInt().toString(),
+                      style: TextStyle(
+                          color: isLastBid ? Colors.green : Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    )
+                  ]),
                   subtitle: Text(DateFormat('dd/MM/yyyy hh:mm a')
                       .format(bid.creationDate)),
                   trailing: IconButton(

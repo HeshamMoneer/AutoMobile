@@ -1,6 +1,7 @@
 import 'package:AutoMobile/src/models/user.dart';
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/screens/my_bids.dart';
+import 'package:AutoMobile/src/screens/my_listings_screen.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:AutoMobile/src/themes/theme_color.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,20 @@ class UserProfileScreen extends StatefulWidget {
   State<UserProfileScreen> createState() => _UserProfileScreen();
 }
 
+void goToUserProfile(BuildContext myContext, String userId) {
+  Navigator.of(myContext)
+      .pushNamed('/userProfile', arguments: {'userId': userId});
+}
+
 class _UserProfileScreen extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<AllProvider>(context);
-    String? anotherUserId =
-        ModalRoute.of(context)!.settings.arguments as String?;
-    bool isMe = anotherUserId == null;
-    Future<User> user = isMe
-        ? myProvider.getCurrentUser()
-        : myProvider.getUserById(anotherUserId);
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+    String userId = routeArgs?['userId'] ?? myProvider.getCurrentUserId();
+    bool isMe = (userId == myProvider.getCurrentUserId());
+    Future<User> user = myProvider.getUserById(userId);
 
     final appBar = AppBar(
       actions: [
@@ -55,6 +60,12 @@ class _UserProfileScreen extends State<UserProfileScreen> {
     );
 
     final MyListings = ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyListingsScreen()),
+          );
+        },
         leading: Container(
           width: 30,
           height: 30,
@@ -65,21 +76,20 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         title:
             Text("My Listings", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.2)),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/myListing');
-              },
-              child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
-            )));
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.withOpacity(0.2)),
+          child: const Icon(LineAwesomeIcons.angle_right,
+              size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+        ));
     // container
 
     final profileEdit = ListTile(
+        onTap: () {
+          Navigator.of(context).pushNamed('/editProfile');
+        },
         leading: Container(
           width: 30,
           height: 30,
@@ -89,18 +99,14 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         title: Text("Edit My Profile",
             style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.2)),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/editProfile');
-              },
-              child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
-            )));
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.withOpacity(0.2)),
+          child: const Icon(LineAwesomeIcons.angle_right,
+              size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+        ));
 
     final mybids = ListTile(
         onTap: () {
@@ -131,6 +137,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             )));
 
     final logout = ListTile(
+        onTap: () {
+          myProvider.repository.fireBaseHandler.signout().then(
+              (value) => Navigator.of(context).pushReplacementNamed('/login'));
+        },
         leading: Container(
           width: 30,
           height: 30,
@@ -139,19 +149,14 @@ class _UserProfileScreen extends State<UserProfileScreen> {
         ),
         title: Text("Log out", style: Theme.of(context).textTheme.bodyText1),
         trailing: Container(
-            width: 30,
-            height: 30,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.2)),
-            child: GestureDetector(
-              onTap: () {
-                myProvider.repository.fireBaseHandler.signout().then((value) =>
-                    Navigator.of(context).pushReplacementNamed('/login'));
-              },
-              child: const Icon(LineAwesomeIcons.angle_right,
-                  size: 18, color: Color.fromARGB(255, 58, 57, 57)),
-            )));
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.withOpacity(0.2)),
+          child: const Icon(LineAwesomeIcons.angle_right,
+              size: 18, color: Color.fromARGB(255, 58, 57, 57)),
+        ));
 
     final profileImage = FutureBuilder<User>(
       future: user,
@@ -307,7 +312,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
 
     return Scaffold(
       appBar: appBar,
-      body: Center(child: profileImage),
+      body: profileImage,
     );
   }
 }
