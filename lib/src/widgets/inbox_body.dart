@@ -19,8 +19,10 @@ class InboxBody extends StatelessWidget {
     HashSet<String> finishedUsers = HashSet<String>();
     for (QueryDocumentSnapshot message in allMessages) {
       Map<String, dynamic> messageMap = message.data() as Map<String, dynamic>;
+      List<dynamic> myIdRemoved =
+          messageMap["users"].where((e) => e != currentUserId).toList();
       String otherUserId =
-          messageMap["users"].where((e) => e != currentUserId).toList()[0];
+          myIdRemoved.length == 0 ? currentUserId : myIdRemoved[0];
       if (!finishedUsers.contains(otherUserId)) {
         finishedUsers.add(otherUserId);
         result.add(Chat(
