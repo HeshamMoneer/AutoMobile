@@ -106,7 +106,16 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
-      if (message.data != {}) {
+      String? currentRoute;
+      navigatorKey.currentState?.popUntil((route) {
+        currentRoute = route.settings.name;
+        return true;
+      });
+
+      bool dontShowNotification =
+          message.data['type'] == 'chat' && currentRoute!.contains('chat');
+
+      if (message.data != {} && !dontShowNotification) {
         flutterLocalNotificationsPlugin.show(
             message.hashCode,
             message.data['title'],
