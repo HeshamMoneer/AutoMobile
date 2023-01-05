@@ -9,11 +9,11 @@ import 'my_listings_screen.dart';
 
 class NavBarScreen extends StatefulWidget {
   @override
-  State<NavBarScreen> createState() => _NavBarScreenState();
+  State<NavBarScreen> createState() => NavBarScreenState();
 }
 
-class _NavBarScreenState extends State<NavBarScreen> {
-  var selectedTabIndex = 0;
+class NavBarScreenState extends State<NavBarScreen> {
+  static var selectedTabIndex = 0;
   final List<Widget> myPages = [
     MainScreen(),
     InboxScreen(),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:AutoMobile/src/provider/provider.dart';
 import 'package:AutoMobile/src/routes/route.dart';
+import 'package:AutoMobile/src/screens/navBarScreeen.dart';
 import 'package:AutoMobile/src/themes/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -112,8 +113,9 @@ class _MyAppState extends State<MyApp> {
         return true;
       });
 
-      bool dontShowNotification =
-          message.data['type'] == 'chat' && currentRoute!.contains('chat');
+      bool dontShowNotification = message.data['type'] == 'chat' &&
+          (currentRoute!.contains('chat') ||
+              NavBarScreenState.selectedTabIndex == 1);
 
       if (message.data != {} && !dontShowNotification) {
         flutterLocalNotificationsPlugin.show(
