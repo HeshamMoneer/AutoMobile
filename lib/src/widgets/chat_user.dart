@@ -61,7 +61,20 @@ class ChatUser extends StatelessWidget {
                         textAlign: TextAlign.left,
                       ),
                     ],
-                  )
+                  ),
+                  Spacer(),
+                  if (!curChat.lastMessage.seen)
+                    curChat.lastMessage.senderId == curUserId
+                        ? Icon(
+                            Icons.remove_red_eye_outlined,
+                            color: Colors.black26,
+                          )
+                        : Icon(
+                            Icons.circle,
+                            color: Colors.black45,
+                          )
+                  else if (curChat.lastMessage.senderId == curUserId)
+                    Icon(Icons.remove_red_eye)
                 ]),
               ));
         } else if (snapshot.hasError) {
