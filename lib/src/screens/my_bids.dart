@@ -41,6 +41,7 @@ class _MyBidsScreenState extends State<MyBidsScreen> {
         await allProvider.deleteBid(bid);
         Navigator.of(context).pop();
       } catch (e) {
+        Navigator.of(context).pop();
         showErrorDialog(context);
       }
     }

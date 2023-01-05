@@ -72,8 +72,8 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
     }
     Listing listing = listings[listingId]!;
 
-    User listingOwner = users[listing!.userId]!;
-    bool isMyListing = listingOwner!.id == allProvider.getCurrentUserId();
+    User listingOwner = users[listing.userId]!;
+    bool isMyListing = listingOwner.id == allProvider.getCurrentUserId();
 
     void onBidClicked() {
       if (!listing.biddingEnded) {

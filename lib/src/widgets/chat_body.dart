@@ -56,7 +56,9 @@ class ChatBody extends StatelessWidget {
                   sentDate: curMessageMap["sentDate"].toDate(),
                   seen: curMessageMap["seen"],
                   senderId: curMessageMap["users"][0]);
-              return ChatMessage(curMessage: curMessage);
+              return ChatMessage(
+                  curMessage: curMessage,
+                  messageId: messagesList[index].reference.id);
             }),
             itemCount: messagesList.length,
             reverse: true,

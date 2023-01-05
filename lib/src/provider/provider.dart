@@ -87,6 +87,10 @@ class AllProvider with ChangeNotifier {
         .patch("message", messageId, {"seen": true});
   }
 
+  Future<void> deleteMessage(String messageId) async {
+    await repository.fireBaseHandler.delete("message", messageId);
+  }
+
   //========================================================= converting json to model
 
   User JsonToUser(Map<String, dynamic> user) {
