@@ -1,4 +1,5 @@
 import 'package:AutoMobile/src/models/user.dart';
+import 'package:AutoMobile/src/screens/navBarScreeen.dart';
 import 'package:AutoMobile/src/widgets/input_field.dart';
 import 'package:AutoMobile/src/widgets/logo.dart';
 import 'package:date_field/date_field.dart';
@@ -54,6 +55,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
   }
 
   Future<void> loginORsignup() async {
+    NavBarScreenState.selectedTabIndex = 0;
     final myprovider = Provider.of<AllProvider>(context, listen: false);
     try {
       if (!login) {
@@ -63,7 +65,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
                 .signup(emailController.text, passwordController.text);
             await registerUser();
           } catch (e) {
-            throw ErrorHandler(e.toString());
+            throw ErrorHandler(e.toString().split("] ")[1]);
           }
         } else {
           throw ErrorHandler("The passwords do not match");
@@ -76,7 +78,7 @@ class _LoginSignUpState extends State<LoginSignUp> {
       }
       Navigator.of(context).pushReplacementNamed('/mainscreen');
     } catch (e) {
-      print(e);
+      throw ErrorHandler(e.toString().split("] ")[1]);
     }
   }
 

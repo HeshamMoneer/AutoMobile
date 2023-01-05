@@ -107,7 +107,6 @@ class FireBaseHandler {
       String userId = getCurrentUserId();
       fbm.subscribeToTopic(userId);
     } catch (e) {
-      ErrorHandler(e.toString());
       rethrow;
     }
   }
@@ -121,7 +120,6 @@ class FireBaseHandler {
       fbm.subscribeToTopic(userId);
       return userId;
     } catch (e) {
-      ErrorHandler(e.toString());
       rethrow;
     }
   }
