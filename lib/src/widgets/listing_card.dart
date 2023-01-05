@@ -38,7 +38,7 @@ class ListingCard extends StatelessWidget {
 
     final deleteButton = isOwner
         ? SizedBox(
-            width: 60,
+            width: 40,
             child: IconButton(
               onPressed: () {
                 showConfirmationDialog(
@@ -113,7 +113,7 @@ class ListingCard extends StatelessWidget {
           onTap: onBidClicked,
           child: Ink(
               padding: EdgeInsets.all(5),
-              width: 130,
+              width: 110,
               height: 70,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -130,6 +130,7 @@ class ListingCard extends StatelessWidget {
                     style: bidButtonDimmed
                         ? AppTheme.bidButtonInactiveTextStyle
                         : AppTheme.bidButtonTextStyle,
+                    overflow: TextOverflow.fade,
                   ),
                   Text(
                     bidButtonPrice,
