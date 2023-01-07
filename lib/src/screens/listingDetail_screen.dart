@@ -264,6 +264,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                     itemBuilder: (ctx, index) {
                                       Bid bid = listing.bids[
                                           listing.bids.length - index - 1];
+                                      bool isLast = index == 0;
                                       User bidOwner = users[bid.userId]!;
                                       return Card(
                                         child: ListTile(
@@ -299,7 +300,7 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                                   Navigator.of(context)
                                                       .pushNamed('/inbox/chat',
                                                           arguments: bidOwner);
-                                                else {
+                                                else if (!isLast) {
                                                   showConfirmationDialog(
                                                       context: context,
                                                       onConfirm: () =>
@@ -307,9 +308,12 @@ class _ListingDetailScreenState extends State<ListingDetailScreen> {
                                                 }
                                               },
                                               icon: Icon(
-                                                isMyBid(bidOwner.id)
-                                                    ? Icons.delete
-                                                    : Icons.message,
+                                                !isMyBid(bidOwner.id)
+                                                    ? Icons.message
+                                                    : !isLast
+                                                        ? Icons.delete
+                                                        : Icons
+                                                            .do_not_disturb_on_total_silence_outlined,
                                                 color: Colors.black,
                                               )),
                                         ),
