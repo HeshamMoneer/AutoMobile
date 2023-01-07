@@ -155,6 +155,7 @@ class _MyAppState extends State<MyApp> {
             : '/mainscreen',
         routes: Routes.getRoutes(),
         navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
