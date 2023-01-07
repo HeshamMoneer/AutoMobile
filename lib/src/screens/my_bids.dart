@@ -96,10 +96,15 @@ class _MyBidsScreenState extends State<MyBidsScreen> {
                     style: TextStyle(fontSize: 12),
                   ),
                   trailing: IconButton(
-                      onPressed: () => showConfirmationDialog(
-                          context: context, onConfirm: () => onBidDelete(bid)),
+                      onPressed: () => !isLastBid
+                          ? showConfirmationDialog(
+                              context: context,
+                              onConfirm: () => onBidDelete(bid))
+                          : null,
                       icon: Icon(
-                        Icons.delete,
+                        !isLastBid
+                            ? Icons.delete
+                            : Icons.do_not_disturb_on_total_silence_outlined,
                         color: Colors.black,
                       )),
                 ));
